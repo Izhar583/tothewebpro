@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Tech-inspired landing (cool slate + blue + indigo mesh) */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      ellipse 120% 90% at 0% -10%,
+      rgba(186, 230, 253, 0.5),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 100% 80% at 100% 0%,
+      rgba(199, 210, 254, 0.4),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse 90% 70% at 50% 110%,
+      rgba(224, 231, 255, 0.4),
+      transparent 50%
+    );
+  /* scroll on mobile — background-attachment:fixed triggers full-repaint
+     on every scroll frame in Chrome Android / iOS Safari, hurting INP.
+     Only activate fixed attachment on large screens where GPU compositing
+     handles it without repaints. */
+  background-attachment: scroll;
+}
+
+@media (min-width: 1024px) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply rounded-card border border-white/60 bg-white/70 shadow-lg shadow-teal-900/5 backdrop-blur-md;
+  }
+
+  .glass-card {
+    @apply rounded-card border border-white/50 bg-white/75 shadow-md shadow-teal-900/5 backdrop-blur-sm;
+  }
+}
