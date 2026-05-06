@@ -38,18 +38,14 @@ export default function ToolPage({ params }: ToolPageProps) {
     notFound();
   }
 
-  // After notFound() throws, TypeScript still sees tool as ToolDefinition | undefined.
-  // The explicit cast tells the compiler this branch is unreachable.
-  const resolvedTool = tool!;
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: resolvedTool.name,
-    url: `https://tothewebpro.com/tools/${resolvedTool.slug}`,
+    name: tool.name,
+    url: `https://tothewebpro.com/tools/${tool.slug}`,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web Browser",
-    description: resolvedTool.schemaDescription,
+    description: tool.schemaDescription,
     offers: {
       "@type": "Offer",
       price: "0",
@@ -60,8 +56,8 @@ export default function ToolPage({ params }: ToolPageProps) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <ToolPageLayout tool={resolvedTool}>
-        <ToolRenderer slug={resolvedTool.slug} />
+      <ToolPageLayout tool={tool}>
+        <ToolRenderer slug={params.slug} />
       </ToolPageLayout>
     </>
   );

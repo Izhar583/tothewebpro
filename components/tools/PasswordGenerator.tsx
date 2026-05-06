@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePasswordGenerator } from "@/hooks/usePasswordGenerator";
+import { copyToClipboard } from "@/lib/clipboard";
 
 export function PasswordGenerator() {
   const {
@@ -28,25 +29,11 @@ export function PasswordGenerator() {
 
   async function copy() {
     if (!password) return;
-    try {
-      await navigator.clipboard.writeText(password);
-    } catch {
-      // Fallback for HTTP / iframe / old Safari
-      const el = document.createElement("textarea");
-      el.value = password;
-      el.style.position = "fixed";
-      el.style.opacity = "0";
-      document.body.appendChild(el);
-      el.focus();
-      el.select();
-      try {
-        document.execCommand("copy");
-      } finally {
-        document.body.removeChild(el);
-      }
+    const ok = await copyToClipboard(password);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   }
 
   return (

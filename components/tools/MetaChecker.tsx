@@ -8,6 +8,8 @@ import {
 } from "@/lib/metaScore";
 import { useMetaChecker } from "@/hooks/useMetaChecker";
 import { Spinner } from "@/components/ui/Spinner";
+import { copyToClipboard } from "@/lib/clipboard";
+import { X } from "lucide-react";
 
 type SerpVariant = "desktop" | "mobile";
 
@@ -39,9 +41,11 @@ export function MetaChecker() {
 
   useEffect(() => {
     if (!urlParam) return;
+    if (processedUrl.current === urlParam) return;
+
     setMode("url");
     setUrlInput(urlParam);
-    if (processedUrl.current === urlParam) return;
+    
     void (async () => {
       const ok = await fetchMeta(urlParam);
       if (ok) {
@@ -81,56 +85,66 @@ export function MetaChecker() {
 
   async function copyField(field: "title" | "description") {
     const value = field === "title" ? title : description;
-    try {
-      await navigator.clipboard.writeText(value);
-    } catch {
-      // Fallback for HTTP / iframe / old Safari where clipboard API is blocked
-      const el = document.createElement("textarea");
-      el.value = value;
-      el.style.position = "fixed";
-      el.style.opacity = "0";
-      document.body.appendChild(el);
-      el.focus();
-      el.select();
-      try {
-        document.execCommand("copy");
-      } finally {
-        document.body.removeChild(el);
-      }
+    const ok = await copyToClipboard(value);
+    if (ok) {
+      setCopied(field);
+      setTimeout(() => setCopied(null), 2000);
     }
-    setCopied(field);
-    setTimeout(() => setCopied(null), 2000);
+  }
+
+  function onClear() {
+    setTitle("");
+    setDescription("");
+    setError(null);
+    if (mode === "url") {
+      setUrlInput("");
+      processedUrl.current = null;
+      router.push("/tools/meta-title-description-checker");
+    }
   }
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => setMode("text")}
-          className={`rounded-input px-4 py-2 text-sm font-medium ${
-            mode === "text"
-              ? "bg-primary text-white"
-              : "border border-slate-200 bg-white text-navy"
-          }`}
-          aria-pressed={mode === "text"}
-          aria-label="Manual text input mode"
-        >
-          Manual input
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode("url")}
-          className={`rounded-input px-4 py-2 text-sm font-medium ${
-            mode === "url"
-              ? "bg-primary text-white"
-              : "border border-slate-200 bg-white text-navy"
-          }`}
-          aria-pressed={mode === "url"}
-          aria-label="Fetch from URL mode"
-        >
-          Fetch from URL
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setMode("text")}
+            className={`rounded-input px-4 py-2 text-sm font-medium transition-all ${
+              mode === "text"
+                ? "bg-primary text-white shadow-md shadow-primary/20"
+                : "border border-slate-200 bg-white text-navy hover:bg-slate-50"
+            }`}
+            aria-pressed={mode === "text"}
+            aria-label="Manual text input mode"
+          >
+            Manual input
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("url")}
+            className={`rounded-input px-4 py-2 text-sm font-medium transition-all ${
+              mode === "url"
+                ? "bg-primary text-white shadow-md shadow-primary/20"
+                : "border border-slate-200 bg-white text-navy hover:bg-slate-50"
+            }`}
+            aria-pressed={mode === "url"}
+            aria-label="Fetch from URL mode"
+          >
+            Fetch from URL
+          </button>
+        </div>
+
+        {(title || description || urlInput) && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="flex items-center gap-1.5 text-sm font-semibold text-body hover:text-error transition-colors"
+          >
+            <X className="h-4 w-4" />
+            Clear all
+          </button>
+        )}
       </div>
 
       {mode === "url" ? (
@@ -167,42 +181,46 @@ export function MetaChecker() {
         </div>
       ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <label htmlFor="meta-title" className="text-sm font-medium text-navy">
-              Meta title
-            </label>
-            <span
-              className={`text-sm font-semibold ${titleCharClass(title.length)}`}
-            >
-              {title.length} chars · {titleScore.score}/100
-            </span>
+      <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <label htmlFor="meta-title" className="text-sm font-medium text-navy">
+                Meta title
+              </label>
+              <span
+                className={`text-sm font-semibold ${titleCharClass(title.length)}`}
+              >
+                {title.length} chars · {titleScore.score}/100
+              </span>
+            </div>
+            <textarea
+              id="meta-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              rows={2}
+              className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+              placeholder="Enter page title..."
+            />
+            <p className="text-xs text-body/80">{titleScore.message}</p>
           </div>
-          <textarea
-            id="meta-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            rows={2}
-            className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
-          />
-          <p className="text-sm text-body">{titleScore.message}</p>
-          <button
-            type="button"
-            onClick={() => void copyField("title")}
-            className="rounded-input border border-slate-200 px-3 py-1.5 text-xs font-semibold text-primary"
-            aria-label="Copy meta title to clipboard"
-          >
-            {copied === "title" ? "Copied" : "Copy title"}
-          </button>
+          <div className="space-y-1.5">
+            <label htmlFor="display-url" className="text-sm font-medium text-navy">
+              Display URL (for preview)
+            </label>
+            <input
+              id="display-url"
+              type="text"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+              placeholder="www.example.com/page-path"
+            />
+          </div>
         </div>
-
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-2">
-            <label
-              htmlFor="meta-description"
-              className="text-sm font-medium text-navy"
-            >
+            <label htmlFor="meta-desc" className="text-sm font-medium text-navy">
               Meta description
             </label>
             <span
@@ -212,13 +230,24 @@ export function MetaChecker() {
             </span>
           </div>
           <textarea
-            id="meta-description"
+            id="meta-desc"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            rows={5}
+            rows={3}
             className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+            placeholder="Enter meta description..."
           />
-          <p className="text-sm text-body">{descriptionScore.message}</p>
+          <p className="text-xs text-body/80">{descriptionScore.message}</p>
+        </div>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => void copyField("title")}
+            className="rounded-input border border-slate-200 px-3 py-1.5 text-xs font-semibold text-primary"
+            aria-label="Copy meta title to clipboard"
+          >
+            {copied === "title" ? "Copied" : "Copy title"}
+          </button>
           <button
             type="button"
             onClick={() => void copyField("description")}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useCaseConverter, type CaseOutputs } from "@/hooks/useCaseConverter";
+import { copyToClipboard } from "@/lib/clipboard";
+import { X } from "lucide-react";
 
 const LABELS: { key: keyof CaseOutputs; label: string }[] =
   [
@@ -19,10 +21,22 @@ export function CaseConverter() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <label htmlFor="case-input" className="text-sm font-medium text-navy">
-          Input
-        </label>
+      <div className="relative">
+        <div className="flex items-center justify-between gap-2">
+          <label htmlFor="case-input" className="text-sm font-medium text-navy">
+            Input
+          </label>
+          {input && (
+            <button
+              type="button"
+              onClick={() => setInput("")}
+              className="flex items-center gap-1.5 text-xs font-semibold text-body hover:text-error transition-colors"
+            >
+              <X className="h-3.5 w-3.5" />
+              Clear
+            </button>
+          )}
+        </div>
         <textarea
           id="case-input"
           value={input}
@@ -57,7 +71,7 @@ function OutputBox({
   copyLabel: string;
 }) {
   async function copy() {
-    await navigator.clipboard.writeText(value);
+    await copyToClipboard(value);
   }
 
   return (

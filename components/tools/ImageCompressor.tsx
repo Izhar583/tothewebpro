@@ -5,9 +5,10 @@ import { useDropzone } from "react-dropzone";
 import JSZip from "jszip";
 import { useImageCompressor } from "@/hooks/useImageCompressor";
 import { Spinner } from "@/components/ui/Spinner";
+import { X } from "lucide-react";
 
 export function ImageCompressor() {
-  const { quality, setQuality, items, processing, addFiles, recompressAll } =
+  const { quality, setQuality, items, processing, addFiles, recompressAll, reset } =
     useImageCompressor();
   const itemsCountRef = useRef(0);
   itemsCountRef.current = items.length;
@@ -73,6 +74,19 @@ export function ImageCompressor() {
           JPG, PNG, WebP, or GIF — up to 20 files per batch.
         </p>
       </div>
+
+      {items.length > 0 && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={reset}
+            className="flex items-center gap-1.5 text-sm font-semibold text-body transition-colors hover:text-error"
+          >
+            <X className="h-4 w-4" />
+            Clear / Reset
+          </button>
+        </div>
+      )}
 
       {processing ? <Spinner label="Compressing images…" /> : null}
 

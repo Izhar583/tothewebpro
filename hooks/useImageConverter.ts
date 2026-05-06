@@ -75,6 +75,15 @@ export function useImageConverter() {
     a.click();
   }, [format, previewUrl]);
 
+  const reset = useCallback(() => {
+    revoke(sourceUrl);
+    revoke(previewUrl);
+    setSourceUrl(null);
+    setPreviewUrl(null);
+    setFileName("");
+    fileRef.current = null;
+  }, [previewUrl, revoke, sourceUrl]);
+
   return {
     sourceUrl,
     previewUrl,
@@ -87,5 +96,6 @@ export function useImageConverter() {
     loadFile,
     convert,
     download,
+    reset,
   };
 }

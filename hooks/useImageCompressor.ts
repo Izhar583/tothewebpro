@@ -85,6 +85,11 @@ export function useImageCompressor() {
     }
   }, [compressFile]);
 
+  const reset = useCallback(() => {
+    items.forEach((p) => URL.revokeObjectURL(p.previewUrl));
+    setItems([]);
+  }, [items]);
+
   return {
     quality,
     setQuality,
@@ -92,5 +97,6 @@ export function useImageCompressor() {
     processing,
     addFiles,
     recompressAll,
+    reset,
   };
 }

@@ -7,7 +7,6 @@ import { Spinner } from "@/components/ui/Spinner";
 import { TOOL_BY_SLUG } from "@/lib/tools-data";
 
 // Each tool is loaded dynamically so only the active tool's bundle is fetched.
-// This significantly reduces TTI on tool pages and the homepage.
 const CaseConverter = dynamic(
   () => import("@/components/tools/CaseConverter").then((m) => m.CaseConverter),
   { loading: () => <Spinner label="Loading tool…" /> },
@@ -35,7 +34,10 @@ const ImageResizer = dynamic(
 );
 const MetaChecker = dynamic(
   () => import("@/components/tools/MetaChecker").then((m) => m.MetaChecker),
-  { loading: () => <Spinner label="Loading tool…" /> },
+  {
+    loading: () => <Spinner label="Loading tool…" />,
+    ssr: false,
+  },
 );
 const PasswordGenerator = dynamic(
   () =>

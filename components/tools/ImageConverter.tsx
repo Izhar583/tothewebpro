@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useImageConverter } from "@/hooks/useImageConverter";
 import { Spinner } from "@/components/ui/Spinner";
+import { X } from "lucide-react";
 
 export function ImageConverter() {
   const {
@@ -18,6 +19,7 @@ export function ImageConverter() {
     loadFile,
     convert,
     download,
+    reset,
   } = useImageConverter();
 
   const onDrop = useCallback(
@@ -49,10 +51,23 @@ export function ImageConverter() {
       >
         <input {...getInputProps()} aria-label="Upload image to convert" />
         <p className="font-semibold text-navy">
-          {isDragActive ? "Drop image…" : "Drop an image or click to upload"}
+          {isDragActive ? "Drop image…" : "Drop an image here or click to upload"}
         </p>
-        <p className="mt-1 text-sm text-body">PNG, JPG, or WebP</p>
+        <p className="mt-1 text-sm text-body">JPG, PNG, or WebP</p>
       </div>
+
+      {sourceUrl && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={reset}
+            className="flex items-center gap-1.5 text-sm font-semibold text-body hover:text-error transition-colors"
+          >
+            <X className="h-4 w-4" />
+            Clear / Reset
+          </button>
+        </div>
+      )}
 
       {fileName ? (
         <p className="text-sm text-body">

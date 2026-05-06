@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useImageResizer } from "@/hooks/useImageResizer";
 import { Spinner } from "@/components/ui/Spinner";
+import { X } from "lucide-react";
 
 const PRESETS: { label: string; w: number; h: number }[] = [
   { label: "1920×1080", w: 1920, h: 1080 },
@@ -27,6 +28,7 @@ export function ImageResizer() {
     setOutputMime,
     renderPreview,
     download,
+    reset,
   } = useImageResizer();
 
   const onDrop = useCallback(
@@ -62,6 +64,19 @@ export function ImageResizer() {
         </p>
         <p className="mt-1 text-sm text-body">JPG, PNG, or WebP</p>
       </div>
+
+      {state.src && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={reset}
+            className="flex items-center gap-1.5 text-sm font-semibold text-body hover:text-error transition-colors"
+          >
+            <X className="h-4 w-4" />
+            Clear / Reset
+          </button>
+        </div>
+      )}
 
       {busy ? <Spinner label="Processing image…" /> : null}
 

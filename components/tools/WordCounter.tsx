@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useWordCounter } from "@/hooks/useWordCounter";
+import { X } from "lucide-react";
 
 export function WordCounter() {
   const { text, setText, stats, loadTextFile } = useWordCounter();
@@ -23,9 +24,21 @@ export function WordCounter() {
 
   return (
     <div className="space-y-6">
-      <label htmlFor="word-counter-input" className="sr-only">
-        Text to analyse
-      </label>
+      <div className="flex items-center justify-between gap-2">
+        <label htmlFor="word-counter-input" className="text-sm font-medium text-navy">
+          Text to analyse
+        </label>
+        {text && (
+          <button
+            type="button"
+            onClick={() => setText("")}
+            className="flex items-center gap-1.5 text-xs font-semibold text-body hover:text-error transition-colors"
+          >
+            <X className="h-3.5 w-3.5" />
+            Clear
+          </button>
+        )}
+      </div>
       <textarea
         id="word-counter-input"
         value={text}

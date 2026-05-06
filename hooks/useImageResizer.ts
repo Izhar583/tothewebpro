@@ -172,6 +172,24 @@ export function useImageResizer() {
     a.click();
   }, [state.outputMime, state.previewUrl, state.height, state.width]);
 
+  const reset = useCallback(() => {
+    if (urlsRef.current.src) URL.revokeObjectURL(urlsRef.current.src);
+    if (urlsRef.current.preview) URL.revokeObjectURL(urlsRef.current.preview);
+    urlsRef.current = { src: null, preview: null };
+    fileRef.current = null;
+    setState({
+      src: null,
+      naturalW: 0,
+      naturalH: 0,
+      fileSize: 0,
+      width: 0,
+      height: 0,
+      aspectLocked: true,
+      previewUrl: null,
+      outputMime: "image/png",
+    });
+  }, []);
+
   return {
     state,
     busy,
@@ -183,5 +201,6 @@ export function useImageResizer() {
     setOutputMime,
     renderPreview,
     download,
+    reset,
   };
 }

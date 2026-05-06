@@ -1,6 +1,7 @@
 "use client";
 
 import { useCharacterCounter } from "@/hooks/useCharacterCounter";
+import { X } from "lucide-react";
 
 export function CharacterCounter() {
   const { text, setText, stats } = useCharacterCounter();
@@ -8,9 +9,21 @@ export function CharacterCounter() {
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="char-input" className="text-sm font-medium text-navy">
-          Your text
-        </label>
+        <div className="flex items-center justify-between gap-2">
+          <label htmlFor="char-input" className="text-sm font-medium text-navy">
+            Your text
+          </label>
+          {text && (
+            <button
+              type="button"
+              onClick={() => setText("")}
+              className="flex items-center gap-1.5 text-xs font-semibold text-body hover:text-error transition-colors"
+            >
+              <X className="h-3.5 w-3.5" />
+              Clear
+            </button>
+          )}
+        </div>
         <textarea
           id="char-input"
           value={text}
