@@ -7,69 +7,72 @@ export const TOOLS: ToolDefinition[] = [
     slug: "meta-title-description-checker",
     name: "Meta Title & Description Checker",
     shortDescription:
-      "Fetch or paste titles and descriptions, see live SERP previews, scores, and character guidance.",
+      "Fetch or write titles and descriptions, see a live pixel-accurate SERP preview, scores, and character guidance.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "🔎",
     schemaDescription:
-      "Free meta title and description checker with Google-style SERP preview, scoring, and URL fetch.",
+      "Free meta title and description checker with Google-style SERP preview, pixel-width scoring, character counts, and URL fetch.",
     metaTitle:
-      "Free Meta Title & Description Checker | ToTheWebPro",
+      "Meta Title Checker — Preview Your Title in Google Search Results | ToTheWebPro",
     metaDescription:
-      "Check your meta title and description for SEO. Live Google-style preview, character counts, scores, and URL fetch — free in your browser.",
+      "Write meta titles that work. Get a real-time pixel-width simulation that mirrors how Google renders titles in the SERP — catch truncation before your client does.",
     howToUseParagraphs: [
       paragraph(
-        "The Meta Title & Description Checker helps you tune how your page appears in Google. ",
-        "Strong titles and descriptions improve click-through rate, support your target keywords, and reduce unwanted rewrites in search results. ",
-        "This tool is built for SEO executives, content strategists, and developers who need fast feedback without installing software.",
+        "A meta title is the first piece of copy your potential visitor reads in the SERP. ",
+        "If it truncates at 'The Complete Guide to Optim...' you've already lost the click. ",
+        "This tool simulates how Google renders your title tag down to the pixel-width, ",
+        "so you can catch truncation before it hurts your click-through rate.",
       ),
       paragraph(
-        "Start by choosing your input mode. In manual mode, paste the title and meta description you plan to publish. ",
-        "In URL mode, enter a public page address and select Fetch; our server retrieves the HTML, parses the title and description tags, and fills the fields for you. ",
-        "URL fetching runs on the server to avoid browser CORS limits, and each successful fetch updates the address bar so you can bookmark or share the exact check.",
+        "Choose your input mode: in manual mode, paste the title and description you plan to publish. ",
+        "In URL mode, enter a public page address and click Fetch — the tool retrieves the HTML, ",
+        "parses the title and description tags, and fills the fields for you. ",
+        "URL fetching runs server-side to avoid browser CORS limits.",
       ),
       paragraph(
-        "Watch the live SERP preview while you edit. Toggle desktop and mobile to compare layouts: mobile snippets are narrower, so shorter lines often perform better. ",
-        "Character counters use green, amber, and red states aligned with common SEO working ranges so you can spot issues instantly. ",
-        "Scores out of 100 summarise title and description length quality, and the recommendation line explains whether to expand, trim, or keep your copy.",
+        "Watch the live SERP preview while you edit. Toggle desktop and mobile to compare layouts. ",
+        "Google's display limit is approximately 600px — the pixel counter shows exactly where you stand. ",
+        "Scores out of 100 summarise title and description length quality, ",
+        "and the recommendation line explains whether to expand, trim, or keep your copy.",
       ),
       paragraph(
-        "Use the copy buttons to move polished text into your CMS or spreadsheet. Pair this workflow with your canonical URL and on-page H1 to keep messaging consistent. ",
+        "Use the copy buttons to move polished text into your CMS or spreadsheet. ",
         "Re-check after template changes, A/B tests, or internationalisation updates. ",
-        "ToTheWebPro keeps the interface minimal so you can iterate quickly and ship snippets that earn clicks in competitive UK and US SERPs.",
+        "Pair this workflow with your canonical URL and on-page H1 to keep messaging consistent across surfaces.",
       ),
     ],
     faqs: [
       {
+        question: "How long should a meta title be?",
+        answer:
+          "Google's SERP display limit is approximately 600px, which fits roughly 50–60 characters in most fonts. Because pixel width — not character count — determines truncation, use the pixel counter in this tool for an accurate read.",
+      },
+      {
+        question: "Does Google rewrite meta titles?",
+        answer:
+          "Yes. Google may substitute alternatives from your on-page content, especially if your title is too long, keyword-stuffed, or mismatches the page content. This tool helps you present the strongest candidate title and reduce the chance of an unwanted rewrite.",
+      },
+      {
+        question: "What happens if my title is too long for Google?",
+        answer:
+          "Google truncates it mid-sentence, often cutting off your brand name or key differentiator. The live preview shows exactly where the cut will happen so you can adjust before publishing.",
+      },
+      {
         question: "What is a meta title?",
         answer:
-          "The meta title is the HTML title element and primary blue link text Google usually shows. It should describe the page accurately and include the main keyword near the front.",
+          "The meta title is the HTML title element and primary blue link text Google usually shows in search results. It should describe the page accurately and include the main keyword near the front.",
       },
       {
-        question: "How long should a meta description be?",
+        question: "Will Google always show my description?",
         answer:
-          "A practical target is roughly 120–160 characters on desktop, with shorter lines often safer on mobile. Google may rewrite descriptions, but a strong default improves relevance signals.",
-      },
-      {
-        question: "Why fetch meta tags from a URL?",
-        answer:
-          "Fetching saves time when auditing live pages, competitor snippets, or staging environments. It also reduces copy-paste errors when you validate production HTML.",
-      },
-      {
-        question: "Will Google always show my title and description?",
-        answer:
-          "No. Google may substitute alternatives from on-page content. This tool helps you present the best candidate snippet and spot truncation risk early.",
-      },
-      {
-        question: "Is my search data stored?",
-        answer:
-          "URL fetch requests are processed to return meta information only. Do not submit private URLs or credentials. Review our Privacy Policy for retention and cookies.",
+          "No. Google may substitute alternatives from on-page content. This tool helps you present the best candidate snippet and spot truncation risk before it reaches the SERP.",
       },
       {
         question: "Can I use this for localised pages?",
         answer:
-          "Yes. Check each language variant separately and align titles with hreflang and local keyword intent for UK, US, and other English markets.",
+          "Yes. Check each language variant separately and align titles with hreflang and local keyword intent for UK, US, and other markets.",
       },
     ],
     relatedSlugs: ["word-counter", "character-counter", "case-converter"],
