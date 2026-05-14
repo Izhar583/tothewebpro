@@ -14,11 +14,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tothewebpro.com"),
   title: {
-    default: "ToTheWebPro — Free SEO, Text & Image Tools",
+    default: "ToTheWebPro | Free SEO, Text & Image Tools",
     template: "%s | ToTheWebPro",
   },
   description:
-    "Free online tools for SEO, text, and images. Fast, privacy-conscious utilities built for marketers and developers.",
+    "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
   alternates: {
     canonical: "https://tothewebpro.com",
     languages: {
@@ -30,12 +30,15 @@ export const metadata: Metadata = {
     locale: "en_GB",
     type: "website",
     siteName: "ToTheWebPro",
+    title: "ToTheWebPro | Free SEO, Text & Image Tools",
+    description:
+      "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
     images: [
       {
         url: "/og-default.png", // Add a 1200×630 PNG to /public/og-default.png
         width: 1200,
         height: 630,
-        alt: "ToTheWebPro — Free SEO, Text & Image Tools",
+        alt: "ToTheWebPro | Free SEO, Text & Image Tools",
       },
     ],
   },
@@ -43,6 +46,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@tothewebpro",
     creator: "@tothewebpro",
+    title: "ToTheWebPro | Free SEO, Text & Image Tools",
+    description:
+      "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
     images: ["/og-default.png"],
   },
 };

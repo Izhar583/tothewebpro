@@ -35,16 +35,16 @@ const CATEGORIES = [
 
 const WHY = [
   {
-    title: "No waiting, no installs",
-    body: "Every tool runs in your browser tab. Paste your text, drop an image, or enter a URL — results are instant because there's no round-trip to a processing server.",
+    title: "Speed",
+    body: "Results in milliseconds, not after a progress bar you didn't ask for.",
   },
   {
-    title: "Your files stay on your device",
-    body: "Image compression, resizing, and format conversion happen using your own CPU via browser APIs. We never see your uploads, which matters when handling client work or pre-release assets.",
+    title: "Accuracy",
+    body: "Output you can trust, especially when it feeds into a client deliverable.",
   },
   {
-    title: "Free to use, honestly monetised",
-    body: "Core tools are free and stay free. We run unobtrusive display ads — no popups, no paywalls, no bait-and-switch. If you find the tools useful, the ads are how we keep the lights on.",
+    title: "Clarity",
+    body: "Instructions you won't need to re-read. Interfaces that get out of your way.",
   },
 ];
 
@@ -69,11 +69,13 @@ export default function HomePage() {
               ToTheWebPro
             </p>
             <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-navy md:text-5xl">
-              Free Online Tools for SEO, Text &amp; Images
+              The Utility Belt Every SEO Pro and Developer Actually Needs
             </h1>
             <p className="mt-4 max-w-2xl text-lg font-medium text-body/80">
-              Professional-grade utilities for SEO executives, writers, developers,
-              and marketers—without clutter, popups, or paywalls on core features.
+              Stop wrestling with bloated software just to check a meta title or compress a PNG.
+              ToTheWebPro gives you sharp, fast, no-nonsense tools — built for people who care about
+              performance, precision, and getting things done without the friction.
+              No accounts. No paywalls. No distractions.
             </p>
             <form
               className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
@@ -176,7 +178,11 @@ export default function HomePage() {
 
       <section className="mt-12 border-t border-slate-100 bg-white/40 py-20 backdrop-blur-sm">
         <div className="mx-auto max-w-6xl px-6">
-          <h2 className="text-3xl font-bold text-navy text-center">Why professionals choose ToTheWebPro</h2>
+          <h2 className="text-3xl font-bold text-navy text-center">Built for the People Who Build the Web</h2>
+          <p className="mt-4 text-center text-body/70 max-w-2xl mx-auto">
+            Whether you&apos;re auditing a client&apos;s SERP snippet, optimizing images for a Core Web Vitals report,
+            or counting characters before a deadline — you need tools that respect your time.
+          </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {WHY.map((item) => (
               <div
@@ -189,6 +195,21 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-100 bg-gradient-to-br from-primary/5 via-white to-sky-50/40 py-20">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <h2 className="text-3xl font-bold text-navy">The Right Tool Is Already Waiting</h2>
+          <p className="mt-4 text-body/70 max-w-xl mx-auto">
+            Technical work deserves technical precision. Open any tool, run your task, move on. That&apos;s the whole deal.
+          </p>
+          <Link
+            href="/tools"
+            className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-lift transition hover:bg-primary-dark active:scale-95"
+          >
+            Browse All Tools →
+          </Link>
         </div>
       </section>
     </div>
