@@ -78,58 +78,60 @@ export const TOOLS: ToolDefinition[] = [
     slug: "word-counter",
     name: "Word Counter",
     shortDescription:
-      "Count words, characters, sentences, and reading time with keyword-style frequency insights.",
+      "Count words, characters, sentences, and reading time with keyword frequency insights — real-time, in your browser.",
     category: "text",
     categoryLabel: "Text Tools",
     categoryPath: "/text-tools",
     icon: "📝",
     schemaDescription:
-      "Free online word counter with reading time, speaking time, and top word frequency table.",
-    metaTitle: "Free Word Counter & Reading Time | ToTheWebPro",
+      "Free word counter with real-time word, character, sentence, and paragraph counts, reading time, speaking time, and keyword frequency table.",
+    metaTitle: "Word Counter — Count Words, Characters, and Reading Time | ToTheWebPro",
     metaDescription:
-      "Count words, characters, sentences, paragraphs, and lines. See reading and speaking time plus top words — fast, free, private.",
+      "Count words, characters, sentences, and reading time instantly. Built for SEO page targets, content briefs, and copy QA — free, private, no account needed.",
     howToUseParagraphs: [
       paragraph(
-        "The Word Counter gives editors and SEOs immediate statistics for drafts, briefs, and published articles. ",
-        "Paste content from Google Docs, CMS fields, or email, or upload a plain text file to populate the editor. ",
-        "Counts refresh in real time so you can trim fluff, hit brief targets, or verify deliverable length before hand-off.",
+        "Every piece of content you publish has a performance context — SEO page targets, ",
+        "social character limits, meta descriptions, email subject lines. ",
+        "Paste content from your CMS, Google Docs, or email to see word count, character count, ",
+        "reading time, and sentence density update in real time.",
       ),
       paragraph(
-        "Below the editor you will see cards for words, characters with and without spaces, sentences, paragraphs, and line breaks. ",
-        "Reading time assumes roughly two hundred words per minute, while speaking time assumes about one hundred thirty words per minute—useful for scripts and webinars. ",
-        "The top words table ignores common stop words so you can spot accidental repetition or missing topical coverage.",
+        "Below the editor you will see cards for words, characters with and without spaces, ",
+        "sentences, paragraphs, and line breaks. ",
+        "Reading time assumes roughly 200 words per minute; speaking time assumes 130 — useful for scripts and webinars. ",
+        "The top words table filters stop words so you can spot accidental repetition or gaps in topical coverage.",
       ),
       paragraph(
-        "Pair this tool with your editorial guidelines: set minimum depth for pillar pages, cap intro length for news posts, or balance head terms with supporting phrases. ",
-        "For SEO, compare word count against intent—some queries need concise answers, while others reward comprehensive guides. ",
-        "Everything runs in your session without server-side text storage, keeping client copy under your control.",
+        "Pair this tool with your editorial guidelines: set minimum depth for pillar pages, ",
+        "cap intro length for news posts, or check character counts against social platform limits. ",
+        "Everything runs in your session without server-side storage — client copy stays under your control.",
       ),
     ],
     faqs: [
       {
+        question: "How many words should a blog post be for SEO?",
+        answer:
+          "There is no universal target. Content length should match search intent — some queries need concise 300-word answers, others reward comprehensive 2,000-word guides. Focus on topical coverage and depth rather than hitting an arbitrary word count.",
+      },
+      {
+        question: "What is the character limit for a meta description?",
+        answer:
+          "A practical target is 120–160 characters on desktop. Mobile snippets are narrower, so shorter often performs better. Google may rewrite descriptions regardless, but a strong default improves relevance signals.",
+      },
+      {
+        question: "Does word count affect Google rankings?",
+        answer:
+          "Not directly. Word count correlates with ranking on competitive queries because longer content tends to cover more sub-topics. The underlying driver is topical depth and information quality, not character volume.",
+      },
+      {
         question: "How accurate is reading time?",
         answer:
-          "It is an estimate based on average adult reading speed. Dense technical content may read slower; skim-friendly lists may read faster.",
+          "It is an estimate based on average adult reading speed of around 200 words per minute. Dense technical content may read slower; skim-friendly list posts may read faster.",
       },
       {
-        question: "Which file types are supported?",
+        question: "Does this check grammar or spelling?",
         answer:
-          "Upload .txt files for quick imports. Rich formats like PDF are not parsed here—paste extracted text instead.",
-      },
-      {
-        question: "Why are some words excluded from frequency?",
-        answer:
-          "Stop words such as “the” and “and” are filtered so you can focus on meaningful terms and avoid noisy tables.",
-      },
-      {
-        question: "Does this check grammar?",
-        answer:
-          "No. It focuses on quantitative stats. Use a dedicated grammar tool alongside this counter.",
-      },
-      {
-        question: "Can I count selected text only?",
-        answer:
-          "Yes. Paste only the excerpt you need; the stats always reflect the full textarea contents.",
+          "No. The tool focuses on quantitative statistics. Use a dedicated grammar checker alongside this counter for copy quality review.",
       },
     ],
     relatedSlugs: [
@@ -202,58 +204,70 @@ export const TOOLS: ToolDefinition[] = [
     slug: "image-compressor",
     name: "Image Compressor",
     shortDescription:
-      "Shrink JPG, PNG, WebP, and GIF files in bulk with a quality slider and ZIP download.",
+      "Reduce JPG, PNG, WebP, and GIF file size in your browser — lossless or lossy, with a quality slider and ZIP download.",
     category: "image",
     categoryLabel: "Image Tools",
     categoryPath: "/image-tools",
     icon: "🗜️",
     schemaDescription:
-      "Browser-based image compression with previews, savings percentage, and ZIP export.",
-    metaTitle: "Free Image Compressor (Client-Side) | ToTheWebPro",
+      "Browser-based image compressor with lossless and lossy modes, quality slider, savings preview, and ZIP download. No server upload.",
+    metaTitle: "Free Image Compressor — Reduce File Size Without Losing Quality | ToTheWebPro",
     metaDescription:
-      "Compress images locally in your browser. Batch up to twenty files, tune quality, preview savings, and download a ZIP.",
+      "Compress JPG, PNG, and WebP images instantly in your browser. Lossless and lossy modes, no upload limits, no account required. Built for developers and SEO professionals.",
     howToUseParagraphs: [
       paragraph(
-        "The Image Compressor reduces file weight for faster pages and better Core Web Vitals. ",
-        "Large hero images and gallery assets often dominate LCP; shrinking them responsibly keeps detail while improving load times. ",
-        "All compression uses your device CPU via modern browser APIs—files never upload to our servers, supporting GDPR-friendly workflows.",
+        "Every kilobyte your images carry is a kilobyte your users wait for. ",
+        "If you've ever watched a Lighthouse report flag oversized images as the top performance hit, ",
+        "you already know this isn't a cosmetic issue — it's a ranking issue. ",
+        "This tool compresses images directly in your browser. No file size caps. No accounts. No data sent to a server.",
       ),
       paragraph(
-        "Drag up to twenty images into the drop zone or click to browse. Supported types include JPG, PNG, WebP, and GIF. ",
-        "Adjust the quality slider between ten and one hundred percent; lower values save more bytes but may introduce artefacts. ",
-        "Each row shows a thumbnail, original size, compressed size, and savings percentage with an individual download button.",
+        "Drag up to twenty images into the drop zone or click to browse. ",
+        "Supported formats: JPG, PNG, WebP, and GIF. ",
+        "Choose lossless compression to strip metadata without altering a single pixel — ideal for UI assets and logos. ",
+        "Choose lossy compression to reduce file size more aggressively for photographs where minor detail loss is acceptable.",
       ),
       paragraph(
-        "Use Download All as ZIP when you need to hand assets to a developer or archive a batch. ",
-        "Pair compression with responsive delivery in your CMS or CDN, and re-run checks after art direction changes. ",
-        "The privacy badge reminds stakeholders that previews stay local, which helps when handling screenshots or pre-release creative.",
+        "Adjust the quality slider between 10 and 100. A setting of 75–85 typically produces web-ready images ",
+        "that are indistinguishable from the original at normal viewing distances. ",
+        "Each row shows original size, compressed size, and savings percentage with an individual download button.",
+      ),
+      paragraph(
+        "Use Download All as ZIP to hand assets to a developer or archive a batch. ",
+        "Pair compression with responsive delivery in your CMS or CDN. ",
+        "All processing uses your device CPU — files never leave your browser, supporting GDPR-friendly workflows.",
       ),
     ],
     faqs: [
       {
-        question: "Do you upload my images?",
+        question: "Does this tool upload my images to a server?",
         answer:
-          "No. Processing happens entirely in your browser; we never receive your files.",
+          "No. All compression processing happens locally in your browser using client-side JavaScript. Your images never leave your device, which also means the tool works offline after the page loads.",
       },
       {
-        question: "Will transparency be preserved?",
+        question: "What is the difference between lossless and lossy compression?",
         answer:
-          "PNG and WebP transparency is respected where the format supports it. Some aggressive settings may flatten colours—preview before exporting.",
+          "Lossless compression removes redundant encoding data without changing any pixel values — the image is mathematically identical to the original. Lossy compression applies perceptual algorithms that reduce colour data in ways the human eye is least likely to notice, achieving higher compression ratios at the cost of minor detail reduction.",
       },
       {
-        question: "Why is GIF support limited for compression?",
+        question: "Will compression change my image dimensions or aspect ratio?",
         answer:
-          "Animated GIFs are heavier; consider converting short clips to modern video formats for web when possible.",
+          "No. This tool compresses file size only. Your image width, height, and aspect ratio remain exactly as they were in the original file.",
       },
       {
-        question: "What is a good quality setting?",
+        question: "What file formats are supported?",
         answer:
-          "Start around eighty percent for photos, then lower until artefacts appear. UI screenshots may tolerate higher values.",
+          "JPG, PNG, WebP, and GIF. For format conversion — such as converting a PNG to WebP — use the Image Converter tool.",
       },
       {
-        question: "Can I compress more than twenty files?",
+        question: "What quality setting should I use for web images?",
         answer:
-          "Process additional batches in a second pass to keep the interface responsive on typical devices.",
+          "For photographs in blog posts or hero sections, 75–82 typically produces excellent results. For product images where detail matters commercially, 85–90 is a safer range. For UI elements and icons, use lossless mode.",
+      },
+      {
+        question: "How much file size reduction can I expect?",
+        answer:
+          "Typical reductions range from 30–70%. A 1.2MB PNG can often be reduced to under 400KB with no visible quality change. Process additional batches in a second pass if you need more than twenty files at once.",
       },
     ],
     relatedSlugs: ["image-resizer", "image-converter", "word-counter"],
