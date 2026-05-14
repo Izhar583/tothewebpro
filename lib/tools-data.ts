@@ -339,58 +339,63 @@ export const TOOLS: ToolDefinition[] = [
     slug: "image-converter",
     name: "Image Converter",
     shortDescription:
-      "Convert between PNG, JPEG, and WebP locally with instant download.",
+      "Convert between PNG, JPEG, and WebP locally — format compatibility problems solved in seconds, nothing uploaded.",
     category: "image",
     categoryLabel: "Image Tools",
     categoryPath: "/image-tools",
     icon: "🔄",
     schemaDescription:
-      "Convert images across web formats using local canvas processing.",
-    metaTitle: "Free PNG, JPG & WebP Converter | ToTheWebPro",
+      "Convert images between PNG, JPEG, and WebP formats using local canvas processing. Private, instant, no server upload.",
+    metaTitle: "Image Converter — Convert Between WebP, PNG, JPG, and More | ToTheWebPro",
     metaDescription:
-      "Convert images between PNG, JPG, and WebP in your browser. Fast, private, no uploads.",
+      "Convert images between WebP, PNG, and JPG directly in your browser. No plugins, no cloud queues, no account required. Instant download.",
     howToUseParagraphs: [
       paragraph(
-        "The Image Converter helps teams standardise formats before upload. ",
-        "Photography-heavy pages may prefer WebP for efficiency, while illustrations with transparency often remain PNG. ",
-        "JPEG remains ubiquitous for photographic thumbnails when transparency is unnecessary.",
+        "Format compatibility problems cost time. You have a PNG that needs to be WebP ",
+        "for your site's performance budget, or a WebP that needs to be JPG for a client's CMS ",
+        "that still doesn't support modern formats. ",
+        "This tool converts between the most common web image formats directly in your browser — ",
+        "no plugins, no cloud queues, no waiting.",
       ),
       paragraph(
-        "Upload a file, choose the output format, and adjust JPEG quality when applicable. ",
-        "Preview the converted output and download immediately—processing stays on-device for confidentiality. ",
-        "Pair with the compressor when you need both format migration and byte savings.",
+        "Upload your source image, choose the output format from the dropdown, ",
+        "and optionally set quality for lossy outputs like JPG. ",
+        "Preview the converted output and download immediately — processing stays on-device. ",
+        "WebP offers superior compression over PNG and JPG with full transparency support; ",
+        "use it as your default format for most web use cases.",
       ),
       paragraph(
         "Use this in SEO workflows when migrating CMS templates or cleaning legacy asset folders. ",
-        "Consistent formats simplify caching rules and reduce transformation overhead at the edge. ",
-        "Always validate colour accuracy for brand-critical artwork after conversion.",
+        "Consistent formats simplify caching rules and reduce transformation overhead at the CDN edge. ",
+        "Always validate colour accuracy for brand-critical artwork after conversion, ",
+        "and pair with the Image Compressor when you need both format migration and byte savings.",
       ),
     ],
     faqs: [
       {
+        question: "Should I use WebP or PNG for my website?",
+        answer:
+          "WebP for almost everything. It offers better lossless and lossy compression than both PNG and JPG, with full transparency support. Use PNG only when you need maximum compatibility for older environments.",
+      },
+      {
+        question: "Does converting to WebP affect image quality?",
+        answer:
+          "Not with lossless WebP — the image is mathematically identical to the source. Lossy WebP at 80–90 quality produces results most viewers cannot distinguish from the original at significantly smaller file sizes.",
+      },
+      {
+        question: "What is the difference between JPG and WebP compression?",
+        answer:
+          "Both are lossy formats, but WebP's algorithm is more efficient — typically 25–35% smaller files at equivalent visual quality. WebP also supports lossless mode and transparency, which JPG does not.",
+      },
+      {
         question: "Does conversion remove transparency?",
         answer:
-          "JPEG does not support transparency; transparent areas may flatten to a background colour—preview carefully.",
+          "JPEG does not support transparency — transparent areas will flatten to white. WebP and PNG both support transparency. Preview carefully before exporting to JPEG from a file with an alpha channel.",
       },
       {
-        question: "Are files uploaded?",
+        question: "Can I batch convert multiple images?",
         answer:
-          "No. Canvas reads the file locally in your browser only.",
-      },
-      {
-        question: "What is the best format for photos?",
-        answer:
-          "WebP or JPEG typically offers smaller sizes than PNG for photographic content.",
-      },
-      {
-        question: "Can I batch convert?",
-        answer:
-          "This Phase 1 tool focuses on single files; run multiple conversions or pair with future batch utilities.",
-      },
-      {
-        question: "Will colour profiles be preserved?",
-        answer:
-          "Browser canvas may normalise colours; compare against originals for critical design work.",
+          "This tool focuses on single-file conversion. For bulk work, run files individually or use the Image Compressor which supports batches of up to twenty files.",
       },
     ],
     relatedSlugs: ["image-compressor", "image-resizer", "word-counter"],
@@ -399,13 +404,13 @@ export const TOOLS: ToolDefinition[] = [
     slug: "character-counter",
     name: "Character Counter",
     shortDescription:
-      "Measure characters with and without spaces plus byte-style estimates for limits.",
+      "Count characters with and without spaces for social posts, meta fields, and UI copy — instant, private.",
     category: "text",
     categoryLabel: "Text Tools",
     categoryPath: "/text-tools",
     icon: "🔢",
     schemaDescription:
-      "Character counter for social limits, meta fields, and UX copy.",
+      "Character counter for social posts, paid search copy, SMS, and UI microcopy — with and without spaces, real-time.",
     metaTitle: "Free Character Counter Online | ToTheWebPro",
     metaDescription:
       "Count characters with and without spaces, lines, and paragraphs. Perfect for tweets, titles, and ads.",
