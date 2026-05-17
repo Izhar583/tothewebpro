@@ -1,61 +1,61 @@
-import type { LucideIcon } from "lucide-react";
+import React from "react";
 import {
-  CaseSensitive,
-  FileText,
-  ImageDown,
-  KeyRound,
-  RefreshCw,
-  Scaling,
-  Search,
-  Type,
-} from "lucide-react";
+  MetaCheckerIcon,
+  WordCounterIcon,
+  CaseConverterIcon,
+  ImageCompressorIcon,
+  ImageResizerIcon,
+  ImageConverterIcon,
+  CharacterCounterIcon,
+  PasswordGeneratorIcon,
+} from "@/components/ui/PremiumIcons";
 
 const ICON_STROKE = "#7c2d12"; // Deep Orange (Orange 900) for better theme matching
 
 export interface ToolCardIconConfig {
-  Icon: LucideIcon;
+  Icon: React.ComponentType<{ className?: string }>;
   /** Soft rounded container background (Tailwind classes) */
   iconContainerClass: string;
 }
 
 export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
   "meta-title-description-checker": {
-    Icon: Search,
-    iconContainerClass: "bg-orange-50",
+    Icon: MetaCheckerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
   "word-counter": {
-    Icon: FileText,
-    iconContainerClass: "bg-amber-50",
+    Icon: WordCounterIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
   "case-converter": {
-    Icon: CaseSensitive,
-    iconContainerClass: "bg-orange-50",
+    Icon: CaseConverterIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
   "image-compressor": {
-    Icon: ImageDown,
-    iconContainerClass: "bg-amber-50",
+    Icon: ImageCompressorIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
   "image-resizer": {
-    Icon: Scaling,
-    iconContainerClass: "bg-orange-50",
+    Icon: ImageResizerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
   "image-converter": {
-    Icon: RefreshCw,
-    iconContainerClass: "bg-amber-50",
+    Icon: ImageConverterIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
   "character-counter": {
-    Icon: Type,
-    iconContainerClass: "bg-orange-50",
+    Icon: CharacterCounterIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
   "password-generator": {
-    Icon: KeyRound,
-    iconContainerClass: "bg-amber-50",
+    Icon: PasswordGeneratorIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
 };
 
 const FALLBACK: ToolCardIconConfig = {
-  Icon: FileText,
-  iconContainerClass: "bg-orange-50",
+  Icon: WordCounterIcon,
+  iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
 };
 
 export function getToolCardIcon(slug: string): ToolCardIconConfig {

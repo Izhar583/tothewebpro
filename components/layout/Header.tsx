@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Search, Menu, X } from "lucide-react";
@@ -72,16 +73,18 @@ export function Header() {
             </button>
             <Link
               href="/"
-              className="group flex items-center gap-2 text-xl font-black tracking-tight"
+              className="group flex items-center transition-all hover:opacity-90"
             >
-              <div className="h-9 w-9 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-all">
-                <span className="text-white font-bold text-sm">WT</span>
+              <div className="relative h-16 w-36 bg-transparent">
+                <Image
+                  src="/logo-text.png"
+                  alt="ToTheWebPro"
+                  fill
+                  sizes="144px"
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <span className={`hidden sm:block text-slate-800`}>
-                <span className="text-orange-600">ToThe</span>
-                <span>Web</span>
-                <span className="text-orange-600">Pro</span>
-              </span>
             </Link>
           </div>
 

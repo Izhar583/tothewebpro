@@ -5,6 +5,7 @@ import { Breadcrumb, type BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { TOOL_BY_SLUG } from "@/lib/tools-data";
 import type { ToolDefinition } from "@/lib/types";
 import { AdSlot } from "@/components/ui/AdSlot";
+import { getToolCardIcon } from "@/lib/tool-card-icons";
 
 interface ToolPageLayoutProps {
   tool: ToolDefinition;
@@ -87,13 +88,15 @@ function RelatedToolCard({ slug }: { slug: string }) {
   const related = TOOL_BY_SLUG[slug];
   if (!related) return null;
 
+  const { Icon } = getToolCardIcon(slug);
+
   return (
     <Link
       href={`/tools/${related.slug}`}
       className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-md hover:border-orange-200"
     >
-      <div className="text-3xl mb-4" aria-hidden>
-        {related.icon}
+      <div className="h-10 w-10 flex items-center justify-center bg-orange-50/60 rounded-xl mb-4 transition-transform duration-500 group-hover:scale-110" aria-hidden>
+        <Icon className="h-6 w-6 shrink-0" />
       </div>
       <h3 className="font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
         {related.name}

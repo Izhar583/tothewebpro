@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { ToolDefinition } from "@/lib/types";
 import {
   getToolCardIcon,
-  TOOL_ICON_STROKE_COLOR,
 } from "@/lib/tool-card-icons";
 
 interface ToolCardProps {
@@ -27,16 +26,10 @@ export function ToolCard({ tool, variant = "dark" }: ToolCardProps) {
     >
       <article className="p-6 flex flex-col h-full items-center text-center">
         <div
-          className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 ${iconContainerClass} ${
-            isDark ? "bg-slate-800" : "bg-orange-50"
-          }`}
+          className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 ${iconContainerClass}`}
           aria-hidden
         >
-          <Icon
-            className="h-6 w-6 shrink-0"
-            strokeWidth={2}
-            color={isDark ? "#94a3b8" : TOOL_ICON_STROKE_COLOR}
-          />
+          <Icon className="h-7 w-7 shrink-0" />
         </div>
 
         <h3

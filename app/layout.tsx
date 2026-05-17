@@ -24,6 +24,11 @@ export const metadata: Metadata = {
       "en-US": "https://tothewebpro.com",
     },
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
   openGraph: {
     locale: "en_GB",
     type: "website",

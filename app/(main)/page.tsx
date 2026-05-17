@@ -5,31 +5,40 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
+import {
+  SpeedIcon,
+  AccuracyIcon,
+  ClarityIcon,
+  WordCounterIcon,
+  ImageCompressorIcon,
+  MetaCheckerIcon,
+  PasswordGeneratorIcon,
+} from "@/components/ui/PremiumIcons";
 
 const TOOL_CATEGORIES = [
   {
     id: "text",
     title: "Text Analysis Tools",
     description: "A comprehensive set of text tools to help you with content creation and analysis.",
-    icon: "📝",
+    Icon: WordCounterIcon,
   },
   {
     id: "image",
     title: "Image Editing Tools",
     description: "Easily compress, resize, and convert your images with these online utilities.",
-    icon: "🖼️",
+    Icon: ImageCompressorIcon,
   },
   {
     id: "seo",
     title: "SEO Tools",
     description: "Essential tools to help you optimize your website for search engines.",
-    icon: "📊",
+    Icon: MetaCheckerIcon,
   },
   {
     id: "developer",
     title: "Developer Tools",
     description: "Productivity tools designed to help developers and technical operators.",
-    icon: "⚡",
+    Icon: PasswordGeneratorIcon,
   },
 ];
 
@@ -37,14 +46,20 @@ const WHY = [
   {
     title: "Speed",
     body: "Results in milliseconds, not after a progress bar you didn't ask for.",
+    Icon: SpeedIcon,
+    bgClass: "bg-orange-50/70",
   },
   {
     title: "Accuracy",
     body: "Output you can trust, especially when it feeds into a client deliverable.",
+    Icon: AccuracyIcon,
+    bgClass: "bg-amber-50/70",
   },
   {
     title: "Clarity",
     body: "Instructions you won't need to re-read. Interfaces that get out of your way.",
+    Icon: ClarityIcon,
+    bgClass: "bg-orange-50/70",
   },
 ];
 
@@ -107,7 +122,9 @@ export default function HomePage() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                   <div className="max-w-xl">
                     <h2 className="text-3xl font-black text-slate-900 flex items-center gap-4">
-                      <span className="text-4xl" aria-hidden>{cat.icon}</span>
+                      <span className="h-12 w-12 flex items-center justify-center bg-orange-50 rounded-[14px]" aria-hidden>
+                        <cat.Icon className="h-8 w-8 shrink-0" />
+                      </span>
                       {cat.title}
                     </h2>
                     <p className="mt-3 text-lg text-slate-600 font-medium leading-relaxed">{cat.description}</p>
@@ -141,16 +158,21 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
-            {WHY.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-[32px] border border-orange-100 bg-white p-10 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
-              >
-                <div className="h-1.5 w-12 bg-orange-600 rounded-full mb-8" />
-                <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
-                <p className="mt-4 text-base leading-relaxed text-slate-600 font-medium">{item.body}</p>
-              </div>
-            ))}
+            {WHY.map((item) => {
+              const Icon = item.Icon;
+              return (
+                <div
+                  key={item.title}
+                  className="rounded-[32px] border border-orange-100 bg-white p-10 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+                >
+                  <div className={`h-14 w-14 rounded-2xl flex items-center justify-center mb-8 ${item.bgClass}`}>
+                    <Icon className="h-8 w-8 shrink-0" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-slate-600 font-medium">{item.body}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { TOOLS } from "@/lib/tools-data";
 
 const companyLinks = [
@@ -20,13 +21,16 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
           <div className="lg:col-span-1 space-y-6">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                <span className="text-white font-bold text-sm">WT</span>
+            <Link href="/" className="group flex items-center transition-all hover:opacity-90">
+              <div className="relative h-16 w-36 bg-transparent">
+                <Image
+                  src="/logo-text.png"
+                  alt="ToTheWebPro"
+                  fill
+                  sizes="144px"
+                  className="object-contain"
+                />
               </div>
-              <span className="text-xl font-black tracking-tight text-white">
-                ToThe<span className="text-orange-500">WebPro</span>
-              </span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400">
               High-performance utilities for SEO pros, developers & content creators.

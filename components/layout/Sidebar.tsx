@@ -1,19 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { TOOLS } from "@/lib/tools-data";
 import { AdSlot } from "@/components/ui/AdSlot";
+import { getToolCardIcon } from "@/lib/tool-card-icons";
+import {
+  HomeIcon,
+  ExploreIcon,
+  MetaCheckerIcon,
+  WordCounterIcon,
+  ImageCompressorIcon,
+  PasswordGeneratorIcon,
+  BlogIcon,
+} from "@/components/ui/PremiumIcons";
 
 const SIDEBAR_LINKS = [
-  { title: "Home", href: "/", icon: "🏠" },
-  { title: "Explore", href: "/#categories", icon: "🔎" },
-  { title: "SEO Tools", href: "/seo-tools", icon: "📊" },
-  { title: "Text Tools", href: "/text-tools", icon: "✏️" },
-  { title: "Image Tools", href: "/image-tools", icon: "🖼️" },
-  { title: "Developer", href: "/developer-tools", icon: "⚡" },
-  { title: "Blog", href: "/blog", icon: "📰" },
+  { title: "Home", href: "/", Icon: HomeIcon },
+  { title: "Explore", href: "/#categories", Icon: ExploreIcon },
+  { title: "SEO Tools", href: "/seo-tools", Icon: MetaCheckerIcon },
+  { title: "Text Tools", href: "/text-tools", Icon: WordCounterIcon },
+  { title: "Image Tools", href: "/image-tools", Icon: ImageCompressorIcon },
+  { title: "Developer", href: "/developer-tools", Icon: PasswordGeneratorIcon },
+  { title: "Blog", href: "/blog", Icon: BlogIcon },
 ];
 
 const TOOL_LINKS = [
@@ -61,14 +71,17 @@ export function Sidebar() {
             <div className="px-3 mb-8">
               <Link
                 href="/"
-                className="flex items-center gap-2.5 text-lg font-bold tracking-tight"
+                className="group flex items-center transition-all hover:opacity-90"
               >
-                <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                  <span className="text-white text-sm">WT</span>
+                <div className="relative h-16 w-36 bg-transparent">
+                  <Image
+                    src="/logo-text.png"
+                    alt="ToTheWebPro"
+                    fill
+                    sizes="144px"
+                    className="object-contain"
+                  />
                 </div>
-                <span className="text-slate-900">
-                  ToThe<span className="text-orange-600">WebPro</span>
-                </span>
               </Link>
             </div>
 
@@ -77,20 +90,24 @@ export function Sidebar() {
                 Top Tools
               </h3>
               <div className="grid grid-cols-2 gap-2">
-                {TOOL_LINKS.slice(0, 4).map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    className="flex flex-col items-center gap-1.5 p-3 rounded-xl border border-orange-50 bg-orange-50/30 text-center transition-all hover:bg-orange-50 hover:border-orange-100 group"
-                  >
-                    <span className="text-xl group-hover:scale-110 transition-transform">
-                      {TOOLS.find(t => `/tools/${t.slug}` === tool.href)?.icon || "🛠️"}
-                    </span>
-                    <span className="text-[10px] font-bold text-slate-600 truncate w-full">
-                      {tool.label}
-                    </span>
-                  </Link>
-                ))}
+                {TOOL_LINKS.slice(0, 4).map((tool) => {
+                  const slug = tool.href.split("/").pop() || "";
+                  const { Icon } = getToolCardIcon(slug);
+                  return (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className="flex flex-col items-center gap-2 p-3 rounded-xl border border-orange-50 bg-orange-50/20 text-center transition-all hover:bg-orange-50 hover:border-orange-100 group"
+                    >
+                      <div className="h-7 w-7 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+                        <Icon className="h-6 w-6 shrink-0" />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-600 truncate w-full">
+                        {tool.label}
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
@@ -99,19 +116,20 @@ export function Sidebar() {
                 const isActive = isHomeOrExplore && link.href === "/"
                   ? true
                   : pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                const LinkIcon = link.Icon;
 
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                    className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 border-l-[3px] ${
                       isActive
-                        ? "bg-orange-600 text-white shadow-lg shadow-orange-500/20"
-                        : "text-slate-600 hover:text-orange-600 hover:bg-orange-50"
+                        ? "bg-orange-50/70 text-orange-600 border-orange-600 font-black"
+                        : "text-slate-600 hover:text-orange-600 hover:bg-orange-50 border-transparent"
                     }`}
                   >
-                    <span className={`text-lg transition-transform duration-200 group-hover:scale-110 ${isActive ? "filter brightness-110" : ""}`}>
-                      {link.icon}
+                    <span className="h-6 w-6 flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+                      <LinkIcon className="h-5 w-5 shrink-0" />
                     </span>
                     <span>{link.title}</span>
                   </Link>
@@ -122,10 +140,12 @@ export function Sidebar() {
             <div className="mt-6">
               <button
                 onClick={() => setToolsOpen(!toolsOpen)}
-                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-all hover:text-orange-600 hover:bg-orange-50"
+                className="group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-all hover:text-orange-600 hover:bg-orange-50"
               >
                 <span className="flex items-center gap-3">
-                  <span className="text-lg">🔧</span>
+                  <span className="h-6 w-6 flex items-center justify-center">
+                    <ExploreIcon className="h-5 w-5 shrink-0" />
+                  </span>
                   <span>All Tools</span>
                 </span>
                 <span className={`text-xs transition-transform duration-200 ${toolsOpen ? "rotate-180" : ""}`}>
