@@ -63,7 +63,8 @@ export function PasswordGenerator() {
           <button
             type="button"
             onClick={() => generate()}
-            className="flex items-center gap-2 rounded-xl bg-orange-600 px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-700 transition-all"
+            disabled={!useUpper && !useLower && !useDigits && !useSymbols}
+            className="flex items-center gap-2 rounded-xl bg-orange-600 px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Generate new password"
           >
             <RefreshCw className="h-4 w-4" />
@@ -107,6 +108,7 @@ export function PasswordGenerator() {
           aria-valuemin={8}
           aria-valuemax={64}
           aria-valuenow={length}
+          aria-valuetext={`${length} characters`}
           aria-label="Password length"
         />
         <div className="flex justify-between mt-2 text-xs font-medium text-slate-400">

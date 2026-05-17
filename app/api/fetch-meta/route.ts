@@ -3,9 +3,9 @@ import * as cheerio from "cheerio";
 import { lookup } from "node:dns/promises";
 
 // ---------------------------------------------------------------------------
-// Rate limiter — 10 requests per minute per IP (in-memory, resets per worker)
+// Rate limiter — 30 requests per minute per IP (in-memory, resets per worker)
 // ---------------------------------------------------------------------------
-const RATE_LIMIT = 10;
+const RATE_LIMIT = 30;
 const RATE_WINDOW_MS = 60_000;
 const ipMap = new Map<string, { count: number; resetAt: number }>();
 
@@ -58,7 +58,13 @@ async function isSafeUrl(rawUrl: string): Promise<{ safe: boolean; resolved?: st
     return { safe: false };
   }
 
-  const hostname = parsed.hostname;
+  const hostname = parsed.hostname.toLowerCase();
+
+  // Synchronous hostname block
+  const blockedHostnames = ["localhost", "127.0.0.1", "0.0.0.0", "[::1]", "::1"];
+  if (blockedHostnames.includes(hostname) || hostname.endsWith(".local")) {
+    return { safe: false };
+  }
 
   // Block bare IP addresses that are private
   if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname) || hostname.startsWith("[")) {
@@ -96,6 +102,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "URL required" }, { status: 400 });
   }
 
+  // Validate the input starts with http:// or https://
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return NextResponse.json(
+      { error: "URL must start with http:// or https://" },
+      { status: 400 },
+    );
+  }
+
   // SSRF protection
   const { safe } = await isSafeUrl(url);
   if (!safe) {
@@ -111,7 +125,7 @@ export async function GET(request: NextRequest) {
         "User-Agent": "ToTheWebProBot/1.0 (+https://tothewebpro.com)",
         Accept: "text/html",
       },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(10000),
       redirect: "follow",
     });
 
@@ -130,7 +144,42 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const html = await res.text();
+    let html = "";
+    if (res.body) {
+      const reader = res.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let bytesRead = 0;
+      const limit = 1 * 1024 * 1024; // 1MB
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value) {
+            chunks.push(value);
+            bytesRead += value.length;
+            if (bytesRead >= limit) {
+              break;
+            }
+          }
+        }
+      } finally {
+        reader.releaseLock();
+      }
+
+      // Concatenate and decode up to 1MB
+      const combined = new Uint8Array(bytesRead);
+      let offset = 0;
+      for (const chunk of chunks) {
+        combined.set(chunk, offset);
+        offset += chunk.length;
+      }
+      const decoder = new TextDecoder("utf-8");
+      html = decoder.decode(combined.slice(0, limit));
+    } else {
+      html = await res.text();
+    }
+
     const $ = cheerio.load(html);
 
     // Clean up non-visible content for a better word count

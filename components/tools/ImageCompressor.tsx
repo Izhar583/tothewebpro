@@ -28,7 +28,7 @@ export function ImageCompressor() {
     [addFiles],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: {
       "image/jpeg": [],
@@ -64,6 +64,15 @@ export function ImageCompressor() {
         {...getRootProps({
           className:
             "flex min-h-[180px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 px-4 py-10 text-center transition hover:border-orange-300 hover:bg-orange-50",
+          role: "button",
+          tabIndex: 0,
+          "aria-label": "Upload images",
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open();
+            }
+          }
         })}
       >
         <input {...getInputProps()} aria-label="Upload images to compress" />
@@ -115,6 +124,7 @@ export function ImageCompressor() {
           aria-valuemin={10}
           aria-valuemax={100}
           aria-valuenow={quality}
+          aria-valuetext={`${quality}%`}
           aria-label="Compression quality"
         />
         <div className="flex justify-between mt-2 text-xs font-medium text-slate-400">

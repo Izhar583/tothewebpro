@@ -5,6 +5,8 @@ import { ToolRenderer } from "@/components/ToolRenderer";
 import { JsonLd } from "@/components/JsonLd";
 import { TOOL_BY_SLUG, TOOLS } from "@/lib/tools-data";
 
+import { getToolSchemas } from "@/lib/schema";
+
 interface ToolPageProps {
   params: { slug: string };
 }
@@ -21,7 +23,9 @@ export async function generateMetadata({
     return {};
   }
   return {
-    title: tool.metaTitle,
+    title: {
+      absolute: tool.metaTitle,
+    },
     description: tool.metaDescription,
     alternates: { canonical: `https://tothewebpro.com/tools/${tool.slug}` },
     openGraph: {
@@ -38,24 +42,13 @@ export default function ToolPage({ params }: ToolPageProps) {
     notFound();
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: tool.name,
-    url: `https://tothewebpro.com/tools/${tool.slug}`,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web Browser",
-    description: tool.schemaDescription,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
+  const schemas = getToolSchemas(tool);
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={schemas.softwareApp} />
+      <JsonLd data={schemas.breadcrumb} />
+      <JsonLd data={schemas.faq} />
       <ToolPageLayout tool={tool}>
         <ToolRenderer slug={params.slug} />
       </ToolPageLayout>

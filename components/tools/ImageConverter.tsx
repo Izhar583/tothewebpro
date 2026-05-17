@@ -30,7 +30,7 @@ export function ImageConverter() {
     [loadFile],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: { "image/png": [], "image/jpeg": [], "image/webp": [] },
     multiple: false,
@@ -47,6 +47,15 @@ export function ImageConverter() {
         {...getRootProps({
           className:
             "flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 px-4 py-8 text-center transition hover:border-orange-300 hover:bg-orange-50",
+          role: "button",
+          tabIndex: 0,
+          "aria-label": "Upload image",
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open();
+            }
+          }
         })}
       >
         <input {...getInputProps()} aria-label="Upload image to convert" />
@@ -127,6 +136,10 @@ export function ImageConverter() {
                   value={jpegQuality}
                   onChange={(e) => setJpegQuality(Number(e.target.value))}
                   className="w-full h-2 rounded-full bg-orange-100 appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-orange-600 [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:shadow-orange-500/30"
+                  aria-valuemin={50}
+                  aria-valuemax={100}
+                  aria-valuenow={jpegQuality}
+                  aria-valuetext={`${jpegQuality}%`}
                   aria-label="JPEG or WebP quality"
                 />
               </div>

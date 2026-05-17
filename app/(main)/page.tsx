@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { ToolCard } from "@/components/ToolCard";
+import { JsonLd } from "@/components/JsonLd";
 import { TOOLS } from "@/lib/tools-data";
 import {
   SpeedIcon,
@@ -74,8 +75,23 @@ export default function HomePage() {
     router.push(`/search?q=${encodeURIComponent(q)}`);
   }
 
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ToTheWebPro",
+    "url": "https://tothewebpro.com",
+    "logo": "https://tothewebpro.com/logo.png",
+    "sameAs": ["https://twitter.com/tothewebpro"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "url": "https://tothewebpro.com/contact"
+    }
+  };
+
   return (
     <div>
+      <JsonLd data={orgSchema} />
       <section className="bg-white border-b border-orange-100">
         <div className="mx-auto max-w-6xl px-4 py-20 md:py-28 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-6">

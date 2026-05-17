@@ -65,7 +65,7 @@ export function WordCounter() {
         )}
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div aria-live="polite" aria-atomic="false" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Words" value={stats.wordCount} />
         <StatCard label="Characters" value={stats.charsWithSpaces} />
         <StatCard label="No Spaces" value={stats.charsNoSpaces} />

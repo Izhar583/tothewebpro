@@ -39,7 +39,7 @@ export function ImageResizer() {
     [loadFile],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: { "image/jpeg": [], "image/png": [], "image/webp": [] },
     multiple: false,
@@ -56,6 +56,15 @@ export function ImageResizer() {
         {...getRootProps({
           className:
             "flex min-h-[160px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 px-4 py-8 text-center transition hover:border-orange-300 hover:bg-orange-50",
+          role: "button",
+          tabIndex: 0,
+          "aria-label": "Upload image",
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open();
+            }
+          }
         })}
       >
         <input {...getInputProps()} aria-label="Upload image to resize" />

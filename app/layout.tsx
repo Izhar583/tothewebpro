@@ -9,8 +9,10 @@ const inter = Inter({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tothewebpro.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tothewebpro.com"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "ToTheWebPro | Free SEO, Text & Image Tools",
     template: "%s | ToTheWebPro",
@@ -18,10 +20,10 @@ export const metadata: Metadata = {
   description:
     "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
   alternates: {
-    canonical: "https://tothewebpro.com",
+    canonical: baseUrl,
     languages: {
-      "en-GB": "https://tothewebpro.com",
-      "en-US": "https://tothewebpro.com",
+      "en-GB": baseUrl,
+      "en-US": baseUrl,
     },
   },
   icons: {
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
       "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
     images: [
       {
-        url: "/og-default.png",
+        url: `${baseUrl}/og-default.png`,
         width: 1200,
         height: 630,
         alt: "ToTheWebPro | Free SEO, Text & Image Tools",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     title: "ToTheWebPro | Free SEO, Text & Image Tools",
     description:
       "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
-    images: ["/og-default.png"],
+    images: [`${baseUrl}/og-default.png`],
   },
 };
 

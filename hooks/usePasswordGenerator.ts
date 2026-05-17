@@ -41,7 +41,7 @@ export function usePasswordGenerator() {
     if (useSymbols) pool += SYMBOLS;
 
     if (!pool) {
-      setError("Select at least one character set.");
+      setError("Select at least one character type.");
       setPassword("");
       return;
     }

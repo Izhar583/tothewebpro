@@ -54,7 +54,7 @@ export function CharacterCounter() {
         />
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div aria-live="polite" aria-atomic="false" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Words" value={stats.words} />
         <Stat label="Characters" value={stats.chars} />
         <Stat label="No Spaces" value={stats.noSpaces} />
