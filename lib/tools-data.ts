@@ -7,69 +7,72 @@ export const TOOLS: ToolDefinition[] = [
     slug: "meta-title-description-checker",
     name: "Meta Title & Description Checker",
     shortDescription:
-      "Fetch or paste titles and descriptions, see live SERP previews, scores, and character guidance.",
+      "Fetch or write titles and descriptions, see a live pixel-accurate SERP preview, scores, and character guidance.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "🔎",
     schemaDescription:
-      "Free meta title and description checker with Google-style SERP preview, scoring, and URL fetch.",
+      "Free meta title and description checker with Google-style SERP preview, pixel-width scoring, character counts, and URL fetch.",
     metaTitle:
-      "Free Meta Title & Description Checker | ToTheWebPro",
+      "Meta Title Checker — Preview Your Title in Google Search Results | ToTheWebPro",
     metaDescription:
-      "Check your meta title and description for SEO. Live Google-style preview, character counts, scores, and URL fetch — free in your browser.",
+      "Write meta titles that work. Get a real-time pixel-width simulation that mirrors how Google renders titles in the SERP — catch truncation before your client does.",
     howToUseParagraphs: [
       paragraph(
-        "The Meta Title & Description Checker helps you tune how your page appears in Google. ",
-        "Strong titles and descriptions improve click-through rate, support your target keywords, and reduce unwanted rewrites in search results. ",
-        "This tool is built for SEO executives, content strategists, and developers who need fast feedback without installing software.",
+        "A meta title is the first piece of copy your potential visitor reads in the SERP. ",
+        "If it truncates at 'The Complete Guide to Optim...' you've already lost the click. ",
+        "This tool simulates how Google renders your title tag down to the pixel-width, ",
+        "so you can catch truncation before it hurts your click-through rate.",
       ),
       paragraph(
-        "Start by choosing your input mode. In manual mode, paste the title and meta description you plan to publish. ",
-        "In URL mode, enter a public page address and select Fetch; our server retrieves the HTML, parses the title and description tags, and fills the fields for you. ",
-        "URL fetching runs on the server to avoid browser CORS limits, and each successful fetch updates the address bar so you can bookmark or share the exact check.",
+        "Choose your input mode: in manual mode, paste the title and description you plan to publish. ",
+        "In URL mode, enter a public page address and click Fetch — the tool retrieves the HTML, ",
+        "parses the title and description tags, and fills the fields for you. ",
+        "URL fetching runs server-side to avoid browser CORS limits.",
       ),
       paragraph(
-        "Watch the live SERP preview while you edit. Toggle desktop and mobile to compare layouts: mobile snippets are narrower, so shorter lines often perform better. ",
-        "Character counters use green, amber, and red states aligned with common SEO working ranges so you can spot issues instantly. ",
-        "Scores out of 100 summarise title and description length quality, and the recommendation line explains whether to expand, trim, or keep your copy.",
+        "Watch the live SERP preview while you edit. Toggle desktop and mobile to compare layouts. ",
+        "Google's display limit is approximately 600px — the pixel counter shows exactly where you stand. ",
+        "Scores out of 100 summarise title and description length quality, ",
+        "and the recommendation line explains whether to expand, trim, or keep your copy.",
       ),
       paragraph(
-        "Use the copy buttons to move polished text into your CMS or spreadsheet. Pair this workflow with your canonical URL and on-page H1 to keep messaging consistent. ",
+        "Use the copy buttons to move polished text into your CMS or spreadsheet. ",
         "Re-check after template changes, A/B tests, or internationalisation updates. ",
-        "ToTheWebPro keeps the interface minimal so you can iterate quickly and ship snippets that earn clicks in competitive UK and US SERPs.",
+        "Pair this workflow with your canonical URL and on-page H1 to keep messaging consistent across surfaces.",
       ),
     ],
     faqs: [
       {
+        question: "How long should a meta title be?",
+        answer:
+          "Google's SERP display limit is approximately 600px, which fits roughly 50–60 characters in most fonts. Because pixel width — not character count — determines truncation, use the pixel counter in this tool for an accurate read.",
+      },
+      {
+        question: "Does Google rewrite meta titles?",
+        answer:
+          "Yes. Google may substitute alternatives from your on-page content, especially if your title is too long, keyword-stuffed, or mismatches the page content. This tool helps you present the strongest candidate title and reduce the chance of an unwanted rewrite.",
+      },
+      {
+        question: "What happens if my title is too long for Google?",
+        answer:
+          "Google truncates it mid-sentence, often cutting off your brand name or key differentiator. The live preview shows exactly where the cut will happen so you can adjust before publishing.",
+      },
+      {
         question: "What is a meta title?",
         answer:
-          "The meta title is the HTML title element and primary blue link text Google usually shows. It should describe the page accurately and include the main keyword near the front.",
+          "The meta title is the HTML title element and primary blue link text Google usually shows in search results. It should describe the page accurately and include the main keyword near the front.",
       },
       {
-        question: "How long should a meta description be?",
+        question: "Will Google always show my description?",
         answer:
-          "A practical target is roughly 120–160 characters on desktop, with shorter lines often safer on mobile. Google may rewrite descriptions, but a strong default improves relevance signals.",
-      },
-      {
-        question: "Why fetch meta tags from a URL?",
-        answer:
-          "Fetching saves time when auditing live pages, competitor snippets, or staging environments. It also reduces copy-paste errors when you validate production HTML.",
-      },
-      {
-        question: "Will Google always show my title and description?",
-        answer:
-          "No. Google may substitute alternatives from on-page content. This tool helps you present the best candidate snippet and spot truncation risk early.",
-      },
-      {
-        question: "Is my search data stored?",
-        answer:
-          "URL fetch requests are processed to return meta information only. Do not submit private URLs or credentials. Review our Privacy Policy for retention and cookies.",
+          "No. Google may substitute alternatives from on-page content. This tool helps you present the best candidate snippet and spot truncation risk before it reaches the SERP.",
       },
       {
         question: "Can I use this for localised pages?",
         answer:
-          "Yes. Check each language variant separately and align titles with hreflang and local keyword intent for UK, US, and other English markets.",
+          "Yes. Check each language variant separately and align titles with hreflang and local keyword intent for UK, US, and other markets.",
       },
     ],
     relatedSlugs: ["word-counter", "character-counter", "case-converter"],
@@ -78,58 +81,60 @@ export const TOOLS: ToolDefinition[] = [
     slug: "word-counter",
     name: "Word Counter",
     shortDescription:
-      "Count words, characters, sentences, and reading time with keyword-style frequency insights.",
+      "Count words, characters, sentences, and reading time with keyword frequency insights — real-time, in your browser.",
     category: "text",
     categoryLabel: "Text Tools",
     categoryPath: "/text-tools",
     icon: "📝",
     schemaDescription:
-      "Free online word counter with reading time, speaking time, and top word frequency table.",
-    metaTitle: "Free Word Counter & Reading Time | ToTheWebPro",
+      "Free word counter with real-time word, character, sentence, and paragraph counts, reading time, speaking time, and keyword frequency table.",
+    metaTitle: "Word Counter — Count Words, Characters, and Reading Time | ToTheWebPro",
     metaDescription:
-      "Count words, characters, sentences, paragraphs, and lines. See reading and speaking time plus top words — fast, free, private.",
+      "Count words, characters, sentences, and reading time instantly. Built for SEO page targets, content briefs, and copy QA — free, private, no account needed.",
     howToUseParagraphs: [
       paragraph(
-        "The Word Counter gives editors and SEOs immediate statistics for drafts, briefs, and published articles. ",
-        "Paste content from Google Docs, CMS fields, or email, or upload a plain text file to populate the editor. ",
-        "Counts refresh in real time so you can trim fluff, hit brief targets, or verify deliverable length before hand-off.",
+        "Every piece of content you publish has a performance context — SEO page targets, ",
+        "social character limits, meta descriptions, email subject lines. ",
+        "Paste content from your CMS, Google Docs, or email to see word count, character count, ",
+        "reading time, and sentence density update in real time.",
       ),
       paragraph(
-        "Below the editor you will see cards for words, characters with and without spaces, sentences, paragraphs, and line breaks. ",
-        "Reading time assumes roughly two hundred words per minute, while speaking time assumes about one hundred thirty words per minute—useful for scripts and webinars. ",
-        "The top words table ignores common stop words so you can spot accidental repetition or missing topical coverage.",
+        "Below the editor you will see cards for words, characters with and without spaces, ",
+        "sentences, paragraphs, and line breaks. ",
+        "Reading time assumes roughly 200 words per minute; speaking time assumes 130 — useful for scripts and webinars. ",
+        "The top words table filters stop words so you can spot accidental repetition or gaps in topical coverage.",
       ),
       paragraph(
-        "Pair this tool with your editorial guidelines: set minimum depth for pillar pages, cap intro length for news posts, or balance head terms with supporting phrases. ",
-        "For SEO, compare word count against intent—some queries need concise answers, while others reward comprehensive guides. ",
-        "Everything runs in your session without server-side text storage, keeping client copy under your control.",
+        "Pair this tool with your editorial guidelines: set minimum depth for pillar pages, ",
+        "cap intro length for news posts, or check character counts against social platform limits. ",
+        "Everything runs in your session without server-side storage — client copy stays under your control.",
       ),
     ],
     faqs: [
       {
+        question: "How many words should a blog post be for SEO?",
+        answer:
+          "There is no universal target. Content length should match search intent — some queries need concise 300-word answers, others reward comprehensive 2,000-word guides. Focus on topical coverage and depth rather than hitting an arbitrary word count.",
+      },
+      {
+        question: "What is the character limit for a meta description?",
+        answer:
+          "A practical target is 120–160 characters on desktop. Mobile snippets are narrower, so shorter often performs better. Google may rewrite descriptions regardless, but a strong default improves relevance signals.",
+      },
+      {
+        question: "Does word count affect Google rankings?",
+        answer:
+          "Not directly. Word count correlates with ranking on competitive queries because longer content tends to cover more sub-topics. The underlying driver is topical depth and information quality, not character volume.",
+      },
+      {
         question: "How accurate is reading time?",
         answer:
-          "It is an estimate based on average adult reading speed. Dense technical content may read slower; skim-friendly lists may read faster.",
+          "It is an estimate based on average adult reading speed of around 200 words per minute. Dense technical content may read slower; skim-friendly list posts may read faster.",
       },
       {
-        question: "Which file types are supported?",
+        question: "Does this check grammar or spelling?",
         answer:
-          "Upload .txt files for quick imports. Rich formats like PDF are not parsed here—paste extracted text instead.",
-      },
-      {
-        question: "Why are some words excluded from frequency?",
-        answer:
-          "Stop words such as “the” and “and” are filtered so you can focus on meaningful terms and avoid noisy tables.",
-      },
-      {
-        question: "Does this check grammar?",
-        answer:
-          "No. It focuses on quantitative stats. Use a dedicated grammar tool alongside this counter.",
-      },
-      {
-        question: "Can I count selected text only?",
-        answer:
-          "Yes. Paste only the excerpt you need; the stats always reflect the full textarea contents.",
+          "No. The tool focuses on quantitative statistics. Use a dedicated grammar checker alongside this counter for copy quality review.",
       },
     ],
     relatedSlugs: [
@@ -202,58 +207,70 @@ export const TOOLS: ToolDefinition[] = [
     slug: "image-compressor",
     name: "Image Compressor",
     shortDescription:
-      "Shrink JPG, PNG, WebP, and GIF files in bulk with a quality slider and ZIP download.",
+      "Reduce JPG, PNG, WebP, and GIF file size in your browser — lossless or lossy, with a quality slider and ZIP download.",
     category: "image",
     categoryLabel: "Image Tools",
     categoryPath: "/image-tools",
     icon: "🗜️",
     schemaDescription:
-      "Browser-based image compression with previews, savings percentage, and ZIP export.",
-    metaTitle: "Free Image Compressor (Client-Side) | ToTheWebPro",
+      "Browser-based image compressor with lossless and lossy modes, quality slider, savings preview, and ZIP download. No server upload.",
+    metaTitle: "Free Image Compressor — Reduce File Size Without Losing Quality | ToTheWebPro",
     metaDescription:
-      "Compress images locally in your browser. Batch up to twenty files, tune quality, preview savings, and download a ZIP.",
+      "Compress JPG, PNG, and WebP images instantly in your browser. Lossless and lossy modes, no upload limits, no account required. Built for developers and SEO professionals.",
     howToUseParagraphs: [
       paragraph(
-        "The Image Compressor reduces file weight for faster pages and better Core Web Vitals. ",
-        "Large hero images and gallery assets often dominate LCP; shrinking them responsibly keeps detail while improving load times. ",
-        "All compression uses your device CPU via modern browser APIs—files never upload to our servers, supporting GDPR-friendly workflows.",
+        "Every kilobyte your images carry is a kilobyte your users wait for. ",
+        "If you've ever watched a Lighthouse report flag oversized images as the top performance hit, ",
+        "you already know this isn't a cosmetic issue — it's a ranking issue. ",
+        "This tool compresses images directly in your browser. No file size caps. No accounts. No data sent to a server.",
       ),
       paragraph(
-        "Drag up to twenty images into the drop zone or click to browse. Supported types include JPG, PNG, WebP, and GIF. ",
-        "Adjust the quality slider between ten and one hundred percent; lower values save more bytes but may introduce artefacts. ",
-        "Each row shows a thumbnail, original size, compressed size, and savings percentage with an individual download button.",
+        "Drag up to twenty images into the drop zone or click to browse. ",
+        "Supported formats: JPG, PNG, WebP, and GIF. ",
+        "Choose lossless compression to strip metadata without altering a single pixel — ideal for UI assets and logos. ",
+        "Choose lossy compression to reduce file size more aggressively for photographs where minor detail loss is acceptable.",
       ),
       paragraph(
-        "Use Download All as ZIP when you need to hand assets to a developer or archive a batch. ",
-        "Pair compression with responsive delivery in your CMS or CDN, and re-run checks after art direction changes. ",
-        "The privacy badge reminds stakeholders that previews stay local, which helps when handling screenshots or pre-release creative.",
+        "Adjust the quality slider between 10 and 100. A setting of 75–85 typically produces web-ready images ",
+        "that are indistinguishable from the original at normal viewing distances. ",
+        "Each row shows original size, compressed size, and savings percentage with an individual download button.",
+      ),
+      paragraph(
+        "Use Download All as ZIP to hand assets to a developer or archive a batch. ",
+        "Pair compression with responsive delivery in your CMS or CDN. ",
+        "All processing uses your device CPU — files never leave your browser, supporting GDPR-friendly workflows.",
       ),
     ],
     faqs: [
       {
-        question: "Do you upload my images?",
+        question: "Does this tool upload my images to a server?",
         answer:
-          "No. Processing happens entirely in your browser; we never receive your files.",
+          "No. All compression processing happens locally in your browser using client-side JavaScript. Your images never leave your device, which also means the tool works offline after the page loads.",
       },
       {
-        question: "Will transparency be preserved?",
+        question: "What is the difference between lossless and lossy compression?",
         answer:
-          "PNG and WebP transparency is respected where the format supports it. Some aggressive settings may flatten colours—preview before exporting.",
+          "Lossless compression removes redundant encoding data without changing any pixel values — the image is mathematically identical to the original. Lossy compression applies perceptual algorithms that reduce colour data in ways the human eye is least likely to notice, achieving higher compression ratios at the cost of minor detail reduction.",
       },
       {
-        question: "Why is GIF support limited for compression?",
+        question: "Will compression change my image dimensions or aspect ratio?",
         answer:
-          "Animated GIFs are heavier; consider converting short clips to modern video formats for web when possible.",
+          "No. This tool compresses file size only. Your image width, height, and aspect ratio remain exactly as they were in the original file.",
       },
       {
-        question: "What is a good quality setting?",
+        question: "What file formats are supported?",
         answer:
-          "Start around eighty percent for photos, then lower until artefacts appear. UI screenshots may tolerate higher values.",
+          "JPG, PNG, WebP, and GIF. For format conversion — such as converting a PNG to WebP — use the Image Converter tool.",
       },
       {
-        question: "Can I compress more than twenty files?",
+        question: "What quality setting should I use for web images?",
         answer:
-          "Process additional batches in a second pass to keep the interface responsive on typical devices.",
+          "For photographs in blog posts or hero sections, 75–82 typically produces excellent results. For product images where detail matters commercially, 85–90 is a safer range. For UI elements and icons, use lossless mode.",
+      },
+      {
+        question: "How much file size reduction can I expect?",
+        answer:
+          "Typical reductions range from 30–70%. A 1.2MB PNG can often be reduced to under 400KB with no visible quality change. Process additional batches in a second pass if you need more than twenty files at once.",
       },
     ],
     relatedSlugs: ["image-resizer", "image-converter", "word-counter"],
@@ -322,58 +339,63 @@ export const TOOLS: ToolDefinition[] = [
     slug: "image-converter",
     name: "Image Converter",
     shortDescription:
-      "Convert between PNG, JPEG, and WebP locally with instant download.",
+      "Convert between PNG, JPEG, and WebP locally — format compatibility problems solved in seconds, nothing uploaded.",
     category: "image",
     categoryLabel: "Image Tools",
     categoryPath: "/image-tools",
     icon: "🔄",
     schemaDescription:
-      "Convert images across web formats using local canvas processing.",
-    metaTitle: "Free PNG, JPG & WebP Converter | ToTheWebPro",
+      "Convert images between PNG, JPEG, and WebP formats using local canvas processing. Private, instant, no server upload.",
+    metaTitle: "Image Converter — Convert Between WebP, PNG, JPG, and More | ToTheWebPro",
     metaDescription:
-      "Convert images between PNG, JPG, and WebP in your browser. Fast, private, no uploads.",
+      "Convert images between WebP, PNG, and JPG directly in your browser. No plugins, no cloud queues, no account required. Instant download.",
     howToUseParagraphs: [
       paragraph(
-        "The Image Converter helps teams standardise formats before upload. ",
-        "Photography-heavy pages may prefer WebP for efficiency, while illustrations with transparency often remain PNG. ",
-        "JPEG remains ubiquitous for photographic thumbnails when transparency is unnecessary.",
+        "Format compatibility problems cost time. You have a PNG that needs to be WebP ",
+        "for your site's performance budget, or a WebP that needs to be JPG for a client's CMS ",
+        "that still doesn't support modern formats. ",
+        "This tool converts between the most common web image formats directly in your browser — ",
+        "no plugins, no cloud queues, no waiting.",
       ),
       paragraph(
-        "Upload a file, choose the output format, and adjust JPEG quality when applicable. ",
-        "Preview the converted output and download immediately—processing stays on-device for confidentiality. ",
-        "Pair with the compressor when you need both format migration and byte savings.",
+        "Upload your source image, choose the output format from the dropdown, ",
+        "and optionally set quality for lossy outputs like JPG. ",
+        "Preview the converted output and download immediately — processing stays on-device. ",
+        "WebP offers superior compression over PNG and JPG with full transparency support; ",
+        "use it as your default format for most web use cases.",
       ),
       paragraph(
         "Use this in SEO workflows when migrating CMS templates or cleaning legacy asset folders. ",
-        "Consistent formats simplify caching rules and reduce transformation overhead at the edge. ",
-        "Always validate colour accuracy for brand-critical artwork after conversion.",
+        "Consistent formats simplify caching rules and reduce transformation overhead at the CDN edge. ",
+        "Always validate colour accuracy for brand-critical artwork after conversion, ",
+        "and pair with the Image Compressor when you need both format migration and byte savings.",
       ),
     ],
     faqs: [
       {
+        question: "Should I use WebP or PNG for my website?",
+        answer:
+          "WebP for almost everything. It offers better lossless and lossy compression than both PNG and JPG, with full transparency support. Use PNG only when you need maximum compatibility for older environments.",
+      },
+      {
+        question: "Does converting to WebP affect image quality?",
+        answer:
+          "Not with lossless WebP — the image is mathematically identical to the source. Lossy WebP at 80–90 quality produces results most viewers cannot distinguish from the original at significantly smaller file sizes.",
+      },
+      {
+        question: "What is the difference between JPG and WebP compression?",
+        answer:
+          "Both are lossy formats, but WebP's algorithm is more efficient — typically 25–35% smaller files at equivalent visual quality. WebP also supports lossless mode and transparency, which JPG does not.",
+      },
+      {
         question: "Does conversion remove transparency?",
         answer:
-          "JPEG does not support transparency; transparent areas may flatten to a background colour—preview carefully.",
+          "JPEG does not support transparency — transparent areas will flatten to white. WebP and PNG both support transparency. Preview carefully before exporting to JPEG from a file with an alpha channel.",
       },
       {
-        question: "Are files uploaded?",
+        question: "Can I batch convert multiple images?",
         answer:
-          "No. Canvas reads the file locally in your browser only.",
-      },
-      {
-        question: "What is the best format for photos?",
-        answer:
-          "WebP or JPEG typically offers smaller sizes than PNG for photographic content.",
-      },
-      {
-        question: "Can I batch convert?",
-        answer:
-          "This Phase 1 tool focuses on single files; run multiple conversions or pair with future batch utilities.",
-      },
-      {
-        question: "Will colour profiles be preserved?",
-        answer:
-          "Browser canvas may normalise colours; compare against originals for critical design work.",
+          "This tool focuses on single-file conversion. For bulk work, run files individually or use the Image Compressor which supports batches of up to twenty files.",
       },
     ],
     relatedSlugs: ["image-compressor", "image-resizer", "word-counter"],
@@ -382,13 +404,13 @@ export const TOOLS: ToolDefinition[] = [
     slug: "character-counter",
     name: "Character Counter",
     shortDescription:
-      "Measure characters with and without spaces plus byte-style estimates for limits.",
+      "Count characters with and without spaces for social posts, meta fields, and UI copy — instant, private.",
     category: "text",
     categoryLabel: "Text Tools",
     categoryPath: "/text-tools",
     icon: "🔢",
     schemaDescription:
-      "Character counter for social limits, meta fields, and UX copy.",
+      "Character counter for social posts, paid search copy, SMS, and UI microcopy — with and without spaces, real-time.",
     metaTitle: "Free Character Counter Online | ToTheWebPro",
     metaDescription:
       "Count characters with and without spaces, lines, and paragraphs. Perfect for tweets, titles, and ads.",
