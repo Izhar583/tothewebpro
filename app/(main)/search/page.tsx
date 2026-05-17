@@ -25,7 +25,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-navy">Search tools</h1>
+      <h1 className="text-3xl font-black text-slate-900">Search tools</h1>
       <form className="mt-6 flex flex-col gap-3 sm:flex-row" action="/search" method="get" role="search">
         <label htmlFor="search-q" className="sr-only">
           Query
@@ -35,12 +35,12 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
           name="q"
           type="search"
           defaultValue={searchParams.q ?? ""}
-          placeholder="Try “meta”, “word”, or “image”"
-          className="w-full rounded-input border border-slate-200 px-4 py-3 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+          placeholder='Try "meta", "word", or "image"'
+          className="w-full rounded-xl border border-orange-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
         />
         <button
           type="submit"
-          className="rounded-input bg-primary px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-primary-dark"
+          className="rounded-xl bg-orange-600 px-8 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-700 active:scale-95"
           aria-label="Search"
         >
           Search
@@ -48,10 +48,10 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
       </form>
 
       {!q ? (
-        <p className="mt-8 text-body">Enter a keyword to see matching tools.</p>
+        <p className="mt-8 text-slate-500 font-medium">Enter a keyword to see matching tools.</p>
       ) : results.length === 0 ? (
-        <p className="mt-8 text-body">
-          No tools matched “{searchParams.q}”. Try another keyword or browse
+        <p className="mt-8 text-slate-500 font-medium">
+          No tools matched &quot;{searchParams.q}&quot;. Try another keyword or browse
           categories from the homepage.
         </p>
       ) : (
@@ -60,15 +60,15 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
             <li key={tool.slug}>
               <Link
                 href={`/tools/${tool.slug}`}
-                className="block rounded-card border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="block rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-md hover:border-orange-200 group"
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl" aria-hidden>
+                <div className="flex items-start gap-4">
+                  <span className="text-3xl" aria-hidden>
                     {tool.icon}
                   </span>
                   <div>
-                    <h2 className="text-lg font-semibold text-navy">{tool.name}</h2>
-                    <p className="text-sm text-body">{tool.shortDescription}</p>
+                    <h2 className="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">{tool.name}</h2>
+                    <p className="text-sm text-slate-600 font-medium mt-1">{tool.shortDescription}</p>
                   </div>
                 </div>
               </Link>

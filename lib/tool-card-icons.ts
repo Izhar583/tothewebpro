@@ -10,7 +10,7 @@ import {
   Type,
 } from "lucide-react";
 
-const ICON_STROKE = "#1e3a8a"; // Deep Blue (Blue 900) for better theme matching
+const ICON_STROKE = "#7c2d12"; // Deep Orange (Orange 900) for better theme matching
 
 export interface ToolCardIconConfig {
   Icon: LucideIcon;
@@ -21,41 +21,41 @@ export interface ToolCardIconConfig {
 export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
   "meta-title-description-checker": {
     Icon: Search,
-    iconContainerClass: "bg-blue-50",
+    iconContainerClass: "bg-orange-50",
   },
   "word-counter": {
     Icon: FileText,
-    iconContainerClass: "bg-sky-50",
+    iconContainerClass: "bg-amber-50",
   },
   "case-converter": {
     Icon: CaseSensitive,
-    iconContainerClass: "bg-indigo-50",
+    iconContainerClass: "bg-orange-50",
   },
   "image-compressor": {
     Icon: ImageDown,
-    iconContainerClass: "bg-blue-50",
+    iconContainerClass: "bg-amber-50",
   },
   "image-resizer": {
     Icon: Scaling,
-    iconContainerClass: "bg-sky-50",
+    iconContainerClass: "bg-orange-50",
   },
   "image-converter": {
     Icon: RefreshCw,
-    iconContainerClass: "bg-indigo-50",
+    iconContainerClass: "bg-amber-50",
   },
   "character-counter": {
     Icon: Type,
-    iconContainerClass: "bg-blue-50",
+    iconContainerClass: "bg-orange-50",
   },
   "password-generator": {
     Icon: KeyRound,
-    iconContainerClass: "bg-sky-50",
+    iconContainerClass: "bg-amber-50",
   },
 };
 
 const FALLBACK: ToolCardIconConfig = {
   Icon: FileText,
-  iconContainerClass: "bg-blue-50",
+  iconContainerClass: "bg-orange-50",
 };
 
 export function getToolCardIcon(slug: string): ToolCardIconConfig {

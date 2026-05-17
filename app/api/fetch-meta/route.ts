@@ -133,6 +133,27 @@ export async function GET(request: NextRequest) {
     const html = await res.text();
     const $ = cheerio.load(html);
 
+    // Clean up non-visible content for a better word count
+    const $clone = cheerio.load(html);
+    $clone("script, style, noscript, nav, footer, header").remove();
+    const cleanText = $clone("body").text() || $clone.text();
+    const wordCount = cleanText.trim() ? cleanText.trim().split(/\s+/).length : 0;
+
+    const h1s: string[] = [];
+    $("h1").each((_, el) => {
+      const txt = $(el).text().trim();
+      if (txt) h1s.push(txt.slice(0, 100)); // Limit long H1s
+    });
+
+    let ogImage = $('meta[property="og:image"]').attr("content") || "";
+    if (ogImage && !/^https?:\/\//i.test(ogImage)) {
+      try {
+        ogImage = new URL(ogImage, url).toString();
+      } catch {
+        // stay relative if parse fails
+      }
+    }
+
     return NextResponse.json({
       title:
         $("title").text().trim() ||
@@ -143,9 +164,14 @@ export async function GET(request: NextRequest) {
         $('meta[property="og:description"]').attr("content") ||
         "",
       ogTitle: $('meta[property="og:title"]').attr("content") || "",
+      ogImage,
       canonical: $('link[rel="canonical"]').attr("href") || "",
+      robots: $('meta[name="robots"]').attr("content") || "index, follow",
+      h1s: h1s.slice(0, 5),
+      wordCount,
     });
-  } catch {
+  } catch (err) {
+    console.error("Fetch meta error:", err);
     return NextResponse.json(
       { error: "Could not fetch the URL. Check it is publicly accessible." },
       { status: 500 },

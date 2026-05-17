@@ -12,12 +12,12 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       colors: {
-        /* Brand + travel-inspired neutrals */
-        primary: "#2563eb",
-        "primary-dark": "#1d4ed8",
-        navy: "#0f172a", // Darker navy for better contrast with blue
-        accent: "#3b82f6",
-        "accent-light": "#93c5fd",
+        /* Brand + orange-inspired neutrals */
+        primary: "#f97316", // orange-500
+        "primary-dark": "#ea580c", // orange-600
+        navy: "#0f172a", 
+        accent: "#f59e0b", // amber-500
+        "accent-light": "#fef3c7", // amber-100
         body: "#475569",
         surface: "#f8fafc",
         success: "#10b981",

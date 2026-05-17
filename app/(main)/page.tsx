@@ -6,30 +6,30 @@ import { FormEvent, useState } from "react";
 import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
 
-const CATEGORIES = [
+const TOOL_CATEGORIES = [
   {
+    id: "text",
+    title: "Text Analysis Tools",
+    description: "A comprehensive set of text tools to help you with content creation and analysis.",
+    icon: "📝",
+  },
+  {
+    id: "image",
+    title: "Image Editing Tools",
+    description: "Easily compress, resize, and convert your images with these online utilities.",
+    icon: "🖼️",
+  },
+  {
+    id: "seo",
     title: "SEO Tools",
-    description: "SERP-ready checkers and utilities for search teams.",
-    href: "/seo-tools",
-    accent: "from-blue-100/90 via-sky-50/50 to-indigo-50/80 border-white/60",
+    description: "Essential tools to help you optimize your website for search engines.",
+    icon: "📊",
   },
   {
-    title: "Text Tools",
-    description: "Word stats, casing, and character limits for writers.",
-    href: "/text-tools",
-    accent: "from-sky-50/90 via-white/40 to-blue-100/70 border-white/60",
-  },
-  {
-    title: "Image Tools",
-    description: "Compress, resize, and convert visuals client-side.",
-    href: "/image-tools",
-    accent: "from-blue-50/80 via-sky-50/50 to-indigo-50/80 border-white/60",
-  },
-  {
+    id: "developer",
     title: "Developer Tools",
-    description: "Productivity helpers for builders and operators.",
-    href: "/developer-tools",
-    accent: "from-slate-100/80 via-blue-50/40 to-slate-50/90 border-white/60",
+    description: "Productivity tools designed to help developers and technical operators.",
+    icon: "⚡",
   },
 ];
 
@@ -51,7 +51,6 @@ const WHY = [
 export default function HomePage() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const featured = TOOLS.find((t) => t.slug === "meta-title-description-checker");
 
   function onSearch(e: FormEvent) {
     e.preventDefault();
@@ -62,155 +61,114 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="border-b border-white/40">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <div className="glass-panel max-w-4xl p-8 md:p-10">
-            <p className="text-sm font-bold uppercase tracking-wide text-primary">
-              ToTheWebPro
-            </p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-navy md:text-5xl">
-              The Utility Belt Every SEO Pro and Developer Actually Needs
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg font-medium text-body/80">
-              Stop wrestling with bloated software just to check a meta title or compress a PNG.
-              ToTheWebPro gives you sharp, fast, no-nonsense tools — built for people who care about
-              performance, precision, and getting things done without the friction.
-              No accounts. No paywalls. No distractions.
-            </p>
-            <form
-              className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
-              onSubmit={onSearch}
-              role="search"
-            >
-              <label htmlFor="hero-search" className="sr-only">
-                Search tools
-              </label>
-              <input
-                id="hero-search"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search tools e.g. word counter, meta checker…"
-                className="w-full rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-navy shadow-inner outline-none transition-all placeholder:text-body/60 focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
-              />
-              <button
-                type="submit"
-                className="rounded-2xl bg-primary px-7 py-3 text-sm font-bold text-white shadow-lift transition hover:bg-primary-dark active:scale-95"
-                aria-label="Submit search"
-              >
-                Search
-              </button>
-            </form>
+      <section className="bg-white border-b border-orange-100">
+        <div className="mx-auto max-w-6xl px-4 py-20 md:py-28 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-6">
+            <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
+            <span className="text-xs font-bold text-orange-700 uppercase tracking-widest">Premium SEO Utilities</span>
           </div>
-        </div>
-      </section>
-
-      {featured ? (
-        <section className="mx-auto max-w-6xl px-4 py-12">
-          <h2 className="text-2xl font-bold text-navy">Featured tool</h2>
-          <div className="mt-6 rounded-3xl border border-blue-100 bg-white/50 p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-lift md:p-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-primary">Flagship SEO</p>
-                <h3 className="mt-1 text-2xl font-bold text-navy">
-                  {featured.name}
-                </h3>
-                <p className="mt-2 max-w-2xl text-body/80">
-                  {featured.shortDescription} Includes Google-style SERP preview,
-                  scoring, manual and URL modes.
-                </p>
-              </div>
-              <Link
-                href={`/tools/${featured.slug}`}
-                className="inline-flex justify-center rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lift transition hover:bg-primary-dark"
-                aria-label={`Use ${featured.name}`}
-              >
-                Use Tool
-              </Link>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      <section
-        className="mx-auto max-w-6xl px-4 py-6"
-        aria-labelledby="categories-heading"
-      >
-        <h2 id="categories-heading" className="text-2xl font-bold text-navy text-center sm:text-left">Explore Categories</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {CATEGORIES.map((c) => (
-            <Link
-              key={c.href}
-              href={c.href}
-              className={`rounded-3xl border bg-gradient-to-br ${c.accent} p-7 shadow-soft backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift`}
-            >
-              <h3 className="text-xl font-bold text-navy">{c.title}</h3>
-              <p className="mt-2 text-[14px] font-medium text-body/80">{c.description}</p>
-              <span className="mt-4 inline-flex text-sm font-bold text-primary">
-                Browse {c.title} →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section
-        className="mx-auto max-w-7xl px-4 py-12"
-        aria-labelledby="tools-directory-heading"
-      >
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-          <h2
-            id="tools-directory-heading"
-            className="text-3xl font-bold tracking-tight text-navy"
+          <h1 className="text-4xl md:text-7xl font-black text-slate-900 tracking-tight leading-[1.1]">
+            Sharp Tools for <br />
+            <span className="text-orange-600">Smart Creators</span>
+          </h1>
+          <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
+            Get instant, browser-local results with our professional-grade utilities. 
+            No accounts, no trackers, no limits.
+          </p>
+          <form
+            className="mt-12 flex max-w-2xl mx-auto flex-col gap-3 sm:flex-row p-2 bg-orange-50 rounded-[24px] border border-orange-100"
+            onSubmit={onSearch}
+            role="search"
           >
-            All tools
-          </h2>
-          <p className="text-sm font-medium text-body/60">
-            Eight free utilities — fast, focused, and production-ready.
-          </p>
-        </div>
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {TOOLS.slice(0, 8).map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
-          ))}
+            <input
+              id="hero-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search tools e.g. word counter, meta checker…"
+              className="w-full flex-1 rounded-[18px] border-none bg-white px-6 py-4 text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:ring-2 focus:ring-orange-500/20"
+            />
+            <button
+              type="submit"
+              className="rounded-[18px] bg-orange-600 px-10 py-4 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-700 active:scale-95"
+            >
+              Search Tools
+            </button>
+          </form>
         </div>
       </section>
 
-      <section className="mt-12 border-t border-slate-100 bg-white/40 py-20 backdrop-blur-sm">
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <div className="space-y-24">
+          {TOOL_CATEGORIES.map((cat) => {
+            const catTools = TOOLS.filter((t) => t.category === cat.id);
+            return (
+              <div key={cat.id} id={cat.id} className="scroll-mt-20">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                  <div className="max-w-xl">
+                    <h2 className="text-3xl font-black text-slate-900 flex items-center gap-4">
+                      <span className="text-4xl" aria-hidden>{cat.icon}</span>
+                      {cat.title}
+                    </h2>
+                    <p className="mt-3 text-lg text-slate-600 font-medium leading-relaxed">{cat.description}</p>
+                  </div>
+                  <Link 
+                    href={`/${cat.id}-tools`} 
+                    className="inline-flex items-center gap-2 text-sm font-bold text-orange-600 hover:text-orange-700 transition-colors group"
+                  >
+                    View All {cat.id} Tools
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                  {catTools.map((tool) => (
+                    <ToolCard key={tool.slug} tool={tool} variant="light" />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="py-24 border-y border-orange-100 bg-orange-50/30">
         <div className="mx-auto max-w-6xl px-6">
-          <h2 className="text-3xl font-bold text-navy text-center">Built for the People Who Build the Web</h2>
-          <p className="mt-4 text-center text-body/70 max-w-2xl mx-auto">
-            Whether you&apos;re auditing a client&apos;s SERP snippet, optimizing images for a Core Web Vitals report,
-            or counting characters before a deadline — you need tools that respect your time.
-          </p>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-black text-slate-900">Built for the People Who Build the Web</h2>
+            <p className="mt-6 text-lg text-slate-600 font-medium leading-relaxed">
+              Whether you&apos;re auditing a client&apos;s SERP snippet, optimizing images for a Core Web Vitals report,
+              or counting characters before a deadline — you need tools that respect your time.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
             {WHY.map((item) => (
               <div
                 key={item.title}
-                className="rounded-3xl border border-white/60 bg-white/80 p-8 shadow-sm transition-all hover:shadow-md"
+                className="rounded-[32px] border border-orange-100 bg-white p-10 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
               >
-                <div className="h-1 w-12 bg-primary rounded-full mb-6" />
-                <h3 className="text-lg font-bold text-navy">{item.title}</h3>
-                <p className="mt-4 text-[14px] leading-relaxed text-body/70 font-medium">{item.body}</p>
+                <div className="h-1.5 w-12 bg-orange-600 rounded-full mb-8" />
+                <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
+                <p className="mt-4 text-base leading-relaxed text-slate-600 font-medium">{item.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-t border-slate-100 bg-gradient-to-br from-primary/5 via-white to-sky-50/40 py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-3xl font-bold text-navy">The Right Tool Is Already Waiting</h2>
-          <p className="mt-4 text-body/70 max-w-xl mx-auto">
+      <section className="py-28 bg-white overflow-hidden relative">
+        <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900">The Right Tool Is Already Waiting</h2>
+          <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto font-medium leading-relaxed">
             Technical work deserves technical precision. Open any tool, run your task, move on. That&apos;s the whole deal.
           </p>
           <Link
-            href="/tools"
-            className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-lift transition hover:bg-primary-dark active:scale-95"
+            href="/seo-tools"
+            className="mt-10 inline-flex items-center gap-2 rounded-2xl bg-orange-600 px-10 py-4 text-sm font-bold text-white shadow-xl shadow-orange-500/30 transition hover:bg-orange-700 active:scale-95"
           >
             Browse All Tools →
           </Link>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/30 blur-[120px] rounded-full -z-0" />
       </section>
     </div>
   );

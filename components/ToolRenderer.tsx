@@ -36,7 +36,6 @@ const MetaChecker = dynamic(
   () => import("@/components/tools/MetaChecker").then((m) => m.MetaChecker),
   {
     loading: () => <Spinner label="Loading tool…" />,
-    ssr: false,
   },
 );
 const PasswordGenerator = dynamic(

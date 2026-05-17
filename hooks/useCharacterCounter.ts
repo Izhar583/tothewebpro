@@ -12,7 +12,10 @@ export function useCharacterCounter(initial = "") {
     const paragraphs = text
       ? text.split(/\n+/).filter((p) => p.trim().length > 0).length
       : 0;
-    return { chars, noSpaces, lines, paragraphs };
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const readingMinutes = Math.ceil(words / 225);
+    const speakingMinutes = Math.ceil(words / 130);
+    return { chars, noSpaces, lines, paragraphs, words, readingMinutes, speakingMinutes };
   }, [text]);
 
   return { text, setText, stats };

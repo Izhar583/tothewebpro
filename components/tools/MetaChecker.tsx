@@ -9,7 +9,7 @@ import {
 import { useMetaChecker } from "@/hooks/useMetaChecker";
 import { Spinner } from "@/components/ui/Spinner";
 import { copyToClipboard } from "@/lib/clipboard";
-import { X } from "lucide-react";
+import { X, Copy, Check } from "lucide-react";
 
 type SerpVariant = "desktop" | "mobile";
 
@@ -31,6 +31,10 @@ export function MetaChecker() {
     fetchMeta,
     titleScore,
     descriptionScore,
+    h1s,
+    robots,
+    ogImage,
+    wordCount,
   } = useMetaChecker();
 
   const [serpVariant, setSerpVariant] = useState<SerpVariant>("desktop");
@@ -45,7 +49,7 @@ export function MetaChecker() {
 
     setMode("url");
     setUrlInput(urlParam);
-    
+
     void (async () => {
       const ok = await fetchMeta(urlParam);
       if (ok) {
@@ -110,10 +114,10 @@ export function MetaChecker() {
           <button
             type="button"
             onClick={() => setMode("text")}
-            className={`rounded-input px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
               mode === "text"
-                ? "bg-primary text-white shadow-md shadow-primary/20"
-                : "border border-slate-200 bg-white text-navy hover:bg-slate-50"
+                ? "bg-orange-600 text-white shadow-lg shadow-orange-500/20"
+                : "border border-orange-100 bg-white text-slate-600 hover:bg-orange-50 hover:border-orange-200"
             }`}
             aria-pressed={mode === "text"}
             aria-label="Manual text input mode"
@@ -123,10 +127,10 @@ export function MetaChecker() {
           <button
             type="button"
             onClick={() => setMode("url")}
-            className={`rounded-input px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
               mode === "url"
-                ? "bg-primary text-white shadow-md shadow-primary/20"
-                : "border border-slate-200 bg-white text-navy hover:bg-slate-50"
+                ? "bg-orange-600 text-white shadow-lg shadow-orange-500/20"
+                : "border border-orange-100 bg-white text-slate-600 hover:bg-orange-50 hover:border-orange-200"
             }`}
             aria-pressed={mode === "url"}
             aria-label="Fetch from URL mode"
@@ -139,7 +143,7 @@ export function MetaChecker() {
           <button
             type="button"
             onClick={onClear}
-            className="flex items-center gap-1.5 text-sm font-semibold text-body hover:text-error transition-colors"
+            className="flex items-center gap-1.5 text-sm font-semibold text-slate-400 hover:text-red-400 transition-colors"
           >
             <X className="h-4 w-4" />
             Clear all
@@ -149,7 +153,7 @@ export function MetaChecker() {
 
       {mode === "url" ? (
         <div className="space-y-3">
-          <label htmlFor="meta-url" className="block text-sm font-medium text-navy">
+          <label htmlFor="meta-url" className="block text-sm font-bold text-slate-700">
             Page URL
           </label>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -160,38 +164,38 @@ export function MetaChecker() {
               placeholder="https://example.com"
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
-              className="w-full flex-1 rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+              className="w-full flex-1 rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
             />
             <button
               type="button"
               onClick={() => void onFetch()}
               disabled={loading}
-              className="rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded-xl bg-orange-600 px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-700 transition-all"
               aria-label="Fetch meta tags from URL"
             >
-              {loading ? "Fetching…" : "Fetch"}
+              {loading ? "Fetching..." : "Fetch"}
             </button>
           </div>
-          {loading ? <Spinner label="Fetching page meta tags…" /> : null}
+          {loading ? <Spinner label="Fetching page meta tags..." /> : null}
           {error ? (
-            <p className="text-sm text-error" role="alert">
+            <p className="text-sm text-red-600 font-medium" role="alert">
               {error}
             </p>
           ) : null}
         </div>
       ) : null}
 
-      <div className="space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
+      <div className="space-y-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <label htmlFor="meta-title" className="text-sm font-medium text-navy">
+              <label htmlFor="meta-title" className="text-sm font-bold text-slate-700">
                 Meta title
               </label>
               <span
-                className={`text-sm font-semibold ${titleCharClass(title.length)}`}
+                className={`text-sm font-bold ${titleCharClass(title.length)}`}
               >
-                {title.length} chars · {titleScore.score}/100
+                {title.length} chars &middot; {titleScore.score}/100
               </span>
             </div>
             <textarea
@@ -199,13 +203,13 @@ export function MetaChecker() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               rows={2}
-              className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+              className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
               placeholder="Enter page title..."
             />
-            <p className="text-xs text-body/80">{titleScore.message}</p>
+            <p className="text-xs text-slate-500 font-medium">{titleScore.message}</p>
           </div>
-          <div className="space-y-1.5">
-            <label htmlFor="display-url" className="text-sm font-medium text-navy">
+          <div className="space-y-2">
+            <label htmlFor="display-url" className="text-sm font-bold text-slate-700">
               Display URL (for preview)
             </label>
             <input
@@ -213,20 +217,20 @@ export function MetaChecker() {
               type="text"
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
-              className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+              className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
               placeholder="www.example.com/page-path"
             />
           </div>
         </div>
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <label htmlFor="meta-desc" className="text-sm font-medium text-navy">
+            <label htmlFor="meta-desc" className="text-sm font-bold text-slate-700">
               Meta description
             </label>
             <span
-              className={`text-sm font-semibold ${descriptionCharClass(description.length)}`}
+              className={`text-sm font-bold ${descriptionCharClass(description.length)}`}
             >
-              {description.length} chars · {descriptionScore.score}/100
+              {description.length} chars &middot; {descriptionScore.score}/100
             </span>
           </div>
           <textarea
@@ -234,42 +238,52 @@ export function MetaChecker() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-input border border-slate-200 px-3 py-2 text-sm text-navy outline-none ring-primary/30 focus:ring-2"
+            className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
             placeholder="Enter meta description..."
           />
-          <p className="text-xs text-body/80">{descriptionScore.message}</p>
+          <p className="text-xs text-slate-500 font-medium">{descriptionScore.message}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             type="button"
             onClick={() => void copyField("title")}
-            className="rounded-input border border-slate-200 px-3 py-1.5 text-xs font-semibold text-primary"
+            className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition-all ${
+              copied === "title"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-orange-100 bg-white text-orange-600 hover:bg-orange-50 hover:border-orange-200"
+            }`}
             aria-label="Copy meta title to clipboard"
           >
+            {copied === "title" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied === "title" ? "Copied" : "Copy title"}
           </button>
           <button
             type="button"
             onClick={() => void copyField("description")}
-            className="rounded-input border border-slate-200 px-3 py-1.5 text-xs font-semibold text-primary"
+            className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition-all ${
+              copied === "description"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-orange-100 bg-white text-orange-600 hover:bg-orange-50 hover:border-orange-200"
+            }`}
             aria-label="Copy meta description to clipboard"
           >
+            {copied === "description" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied === "description" ? "Copied" : "Copy description"}
           </button>
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-lg font-semibold text-navy">SERP preview</h3>
+          <h3 className="text-lg font-bold text-slate-800">SERP preview</h3>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setSerpVariant("desktop")}
-              className={`rounded-badge px-3 py-1 text-xs font-semibold ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                 serpVariant === "desktop"
-                  ? "bg-primary text-white"
-                  : "bg-surface text-navy"
+                  ? "bg-orange-600 text-white"
+                  : "bg-white text-slate-500 hover:text-orange-600 border border-orange-100"
               }`}
               aria-pressed={serpVariant === "desktop"}
               aria-label="Desktop SERP preview"
@@ -279,10 +293,10 @@ export function MetaChecker() {
             <button
               type="button"
               onClick={() => setSerpVariant("mobile")}
-              className={`rounded-badge px-3 py-1 text-xs font-semibold ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                 serpVariant === "mobile"
-                  ? "bg-primary text-white"
-                  : "bg-surface text-navy"
+                  ? "bg-orange-600 text-white"
+                  : "bg-white text-slate-500 hover:text-orange-600 border border-orange-100"
               }`}
               aria-pressed={serpVariant === "mobile"}
               aria-label="Mobile SERP preview"
@@ -294,20 +308,64 @@ export function MetaChecker() {
 
         <div className="overflow-x-auto">
           <div
-            className={`rounded-card border border-slate-200 bg-white p-4 shadow-sm ${previewWidth}`}
+            className={`rounded-xl border border-orange-100 bg-white p-6 shadow-sm ${previewWidth}`}
           >
             <p
-              className={`line-clamp-2 font-[Arial,sans-serif] text-serpTitle ${titleSize}`}
+              className={`line-clamp-2 font-[Arial,sans-serif] text-xl leading-7 ${titleSize} ${title ? "text-blue-700" : "text-slate-400"}`}
             >
               {title || "Your title appears here"}
             </p>
-            <p className="mt-1 truncate text-sm text-body">{displayUrl}</p>
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-body">
+            <p className="mt-1 truncate text-sm text-green-700">{displayUrl}</p>
+            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">
               {description || "Your meta description will appear here — aim for 120–160 characters."}
             </p>
           </div>
         </div>
       </div>
+
+      {(h1s.length > 0 || robots || ogImage) && (
+        <div className="space-y-6 pt-8 border-t border-orange-100">
+          <h3 className="text-xl font-black text-slate-900">Extended SEO Analysis</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            {h1s.length > 0 && (
+              <div className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+                <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">H1 Headings ({h1s.length})</h4>
+                <ul className="space-y-3">
+                  {h1s.map((h1, i) => (
+                    <li key={i} className="text-sm font-bold text-slate-800 flex gap-3">
+                      <span className="text-orange-500">H1</span>
+                      {h1}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="space-y-6">
+              <>
+                {robots && (
+                  <div className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+                    <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Robots Meta</h4>
+                    <p className="text-sm font-black text-orange-600">{robots}</p>
+                  </div>
+                )}
+                {wordCount > 0 && (
+                  <div className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+                    <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Word Count</h4>
+                    <p className="text-sm font-black text-orange-600">{wordCount} words</p>
+                  </div>
+                )}
+              </>
+              {ogImage && (
+                <div className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Social Preview Image</h4>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={ogImage} alt="OG Preview" className="rounded-xl border border-orange-100 w-full h-auto max-h-48 object-cover" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

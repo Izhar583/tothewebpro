@@ -12,13 +12,13 @@ export function AdSlot({
   return (
     <aside
       aria-label={label}
-      className={`flex min-h-[90px] items-center justify-center rounded-card border border-dashed border-teal-800/15 bg-white/55 px-4 py-6 text-center text-sm text-body shadow-soft backdrop-blur-sm ${className}`}
+      className={`flex min-h-[90px] items-center justify-center rounded-card border border-dashed border-orange-200 bg-orange-50/50 px-4 py-6 text-center text-sm text-slate-500 shadow-sm backdrop-blur-sm ${className}`}
     >
       <div className="max-w-md space-y-1">
-        <p className="font-medium text-navy">{label}</p>
+        <p className="font-bold text-slate-900">{label}</p>
         <p className="text-xs">
-          Ad slot <span className="font-mono">{id}</span> — reserve for Google
-          AdSense after approval. Keep ads outside interactive controls.
+          Ad slot <span className="font-mono">{id}</span> — reserved for Google
+          AdSense.
         </p>
       </div>
     </aside>

@@ -10,8 +10,12 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-4xl font-bold text-navy">About ToTheWebPro</h1>
-      <div className="prose prose-slate mt-8 max-w-none text-body">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
+        <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+        <span className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Our Story</span>
+      </div>
+      <h1 className="text-4xl font-bold text-white">About ToTheWebPro</h1>
+      <div className="prose prose-inverse prose-slate mt-8 max-w-none text-slate-300">
         <p>
           ToTheWebPro started as a personal frustration. Too many SEO and
           content tools are either buried behind paywalls, cluttered with

@@ -14,17 +14,17 @@ body {
   background-image:
     radial-gradient(
       ellipse 120% 90% at 0% -10%,
-      rgba(186, 230, 253, 0.5),
+      rgba(254, 215, 170, 0.5), /* orange-200 */
       transparent 50%
     ),
     radial-gradient(
       ellipse 100% 80% at 100% 0%,
-      rgba(199, 210, 254, 0.4),
+      rgba(254, 243, 199, 0.4), /* amber-100 */
       transparent 48%
     ),
     radial-gradient(
       ellipse 90% 70% at 50% 110%,
-      rgba(224, 231, 255, 0.4),
+      rgba(255, 237, 213, 0.4), /* orange-100 */
       transparent 50%
     );
   /* scroll on mobile — background-attachment:fixed triggers full-repaint

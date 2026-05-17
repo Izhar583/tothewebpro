@@ -16,6 +16,10 @@ export function useMetaChecker() {
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [h1s, setH1s] = useState<string[]>([]);
+  const [robots, setRobots] = useState("");
+  const [ogImage, setOgImage] = useState("");
+  const [wordCount, setWordCount] = useState(0);
 
   const titleScore = useMemo(() => scoreTitle(title.length), [title]);
   const descriptionScore = useMemo(
@@ -26,6 +30,10 @@ export function useMetaChecker() {
   const fetchMeta = useCallback(async (rawUrl: string) => {
     setLoading(true);
     setError(null);
+    setH1s([]);
+    setRobots("");
+    setOgImage("");
+    setWordCount(0);
     try {
       let target = rawUrl.trim();
       if (!target) {
@@ -39,7 +47,7 @@ export function useMetaChecker() {
         `/api/fetch-meta?url=${encodeURIComponent(target)}`,
       );
       const data = (await res.json()) as
-        | FetchMetaResponse
+        | (FetchMetaResponse & { h1s: string[]; robots: string; ogImage: string; wordCount: number })
         | { error: string };
       if (!res.ok || "error" in data) {
         setError(
@@ -51,6 +59,10 @@ export function useMetaChecker() {
       }
       setTitle(data.title);
       setDescription(data.description);
+      setH1s(data.h1s || []);
+      setRobots(data.robots || "");
+      setOgImage(data.ogImage || "");
+      setWordCount(data.wordCount || 0);
       return target;
     } catch {
       setError("Could not fetch URL. Check if the site is accessible.");
@@ -75,5 +87,9 @@ export function useMetaChecker() {
     fetchMeta,
     titleScore,
     descriptionScore,
+    h1s,
+    robots,
+    ogImage,
+    wordCount,
   };
 }

@@ -46,16 +46,16 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
-      <Link href="/blog" className="text-sm font-semibold text-primary">
+      <Link href="/blog" className="text-sm font-bold text-orange-600 hover:text-orange-700">
         ← Back to blog
       </Link>
-      <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-body">
+      <p className="mt-4 text-xs font-bold uppercase tracking-wide text-slate-500">
         {post.date} · {post.readMinutes} min read
       </p>
-      <h1 className="mt-2 text-4xl font-bold text-navy">{post.title}</h1>
-      <div className="prose prose-slate mt-8 max-w-none text-body">
+      <h1 className="mt-2 text-4xl font-black text-slate-900">{post.title}</h1>
+      <div className="prose prose-orange mt-8 max-w-none text-slate-700 leading-relaxed">
         {post.content.map((paragraph, index) => (
-          <p key={index} className="mb-4 leading-relaxed">
+          <p key={index} className="mb-6">
             {paragraph}
           </p>
         ))}

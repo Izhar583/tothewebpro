@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap", // Prevents invisible text while font loads (fixes FCP/LCP)
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +33,7 @@ export const metadata: Metadata = {
       "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
     images: [
       {
-        url: "/og-default.png", // Add a 1200×630 PNG to /public/og-default.png
+        url: "/og-default.png",
         width: 1200,
         height: 630,
         alt: "ToTheWebPro | Free SEO, Text & Image Tools",
@@ -63,11 +61,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} min-h-screen font-sans antialiased text-navy`}
       >
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        {children}
         <Analytics />
       </body>
     </html>
