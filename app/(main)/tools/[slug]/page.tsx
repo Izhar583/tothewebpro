@@ -22,10 +22,9 @@ export async function generateMetadata({
   if (!tool) {
     return {};
   }
+  const cleanTitle = tool.metaTitle.replace(/\s*\|\s*ToTheWebPro\s*$/i, "");
   return {
-    title: {
-      absolute: tool.metaTitle,
-    },
+    title: cleanTitle,
     description: tool.metaDescription,
     alternates: { canonical: `https://tothewebpro.com/tools/${tool.slug}` },
     openGraph: {
