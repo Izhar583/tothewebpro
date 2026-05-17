@@ -15,7 +15,7 @@ export const TOOLS: ToolDefinition[] = [
     schemaDescription:
       "Free meta title and description checker with Google-style SERP preview, pixel-width scoring, character counts, and URL fetch.",
     metaTitle:
-      "Meta Title Checker — Preview Your Title in Google Search Results | ToTheWebPro",
+      "Meta Title Checker — Preview Your Title in Google Search Results",
     metaDescription:
       "Write meta titles that work. Get a real-time pixel-width simulation that mirrors how Google renders titles in the SERP — catch truncation before your client does.",
     howToUseParagraphs: [
@@ -88,7 +88,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "📝",
     schemaDescription:
       "Free word counter with real-time word, character, sentence, and paragraph counts, reading time, speaking time, and keyword frequency table.",
-    metaTitle: "Word Counter — Count Words, Characters, and Reading Time | ToTheWebPro",
+    metaTitle: "Word Counter — Count Words, Characters, and Reading Time",
     metaDescription:
       "Count words, characters, sentences, and reading time instantly. Built for SEO page targets, content briefs, and copy QA — free, private, no account needed.",
     howToUseParagraphs: [
@@ -154,7 +154,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔠",
     schemaDescription:
       "Free case converter for uppercase, title case, camelCase, snake_case, kebab-case, and more.",
-    metaTitle: "Free Case Converter Online | ToTheWebPro",
+    metaTitle: "Free Case Converter Online",
     metaDescription:
       "Convert text to uppercase, title case, camelCase, snake_case, kebab-case, and more. Live preview and one-click copy.",
     howToUseParagraphs: [
@@ -214,7 +214,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🗜️",
     schemaDescription:
       "Browser-based image compressor with lossless and lossy modes, quality slider, savings preview, and ZIP download. No server upload.",
-    metaTitle: "Free Image Compressor — Reduce File Size Without Losing Quality | ToTheWebPro",
+    metaTitle: "Free Image Compressor — Reduce File Size Without Losing Quality",
     metaDescription:
       "Compress JPG, PNG, and WebP images instantly in your browser. Lossless and lossy modes, no upload limits, no account required. Built for developers and SEO professionals.",
     howToUseParagraphs: [
@@ -286,7 +286,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "📐",
     schemaDescription:
       "Client-side image resizer with presets for HD, social, and custom dimensions.",
-    metaTitle: "Free Image Resizer Online | ToTheWebPro",
+    metaTitle: "Free Image Resizer Online",
     metaDescription:
       "Resize JPG, PNG, or WebP locally. Lock aspect ratio, use social presets, preview output, and download instantly.",
     howToUseParagraphs: [
@@ -346,7 +346,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔄",
     schemaDescription:
       "Convert images between PNG, JPEG, and WebP formats using local canvas processing. Private, instant, no server upload.",
-    metaTitle: "Image Converter — Convert Between WebP, PNG, JPG, and More | ToTheWebPro",
+    metaTitle: "Image Converter — Convert Between WebP, PNG, JPG, and More",
     metaDescription:
       "Convert images between WebP, PNG, and JPG directly in your browser. No plugins, no cloud queues, no account required. Instant download.",
     howToUseParagraphs: [
@@ -411,7 +411,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔢",
     schemaDescription:
       "Character counter for social posts, paid search copy, SMS, and UI microcopy — with and without spaces, real-time.",
-    metaTitle: "Free Character Counter Online | ToTheWebPro",
+    metaTitle: "Free Character Counter Online",
     metaDescription:
       "Count characters with and without spaces, lines, and paragraphs. Perfect for tweets, titles, and ads.",
     howToUseParagraphs: [
@@ -471,7 +471,7 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔐",
     schemaDescription:
       "Generate secure passwords with custom length and symbol options in the browser.",
-    metaTitle: "Free Strong Password Generator | ToTheWebPro",
+    metaTitle: "Free Strong Password Generator",
     metaDescription:
       "Generate secure passwords locally. Control length, uppercase, numbers, and symbols — copy in one click.",
     howToUseParagraphs: [

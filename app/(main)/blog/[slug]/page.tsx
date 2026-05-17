@@ -16,6 +16,7 @@ export async function generateMetadata({
 }: BlogPostPageProps): Promise<Metadata> {
   const post = BLOG_BY_SLUG[params.slug];
   if (!post) return {};
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tothewebpro.com";
   return {
     title: post.title,
     description: post.excerpt,
@@ -25,7 +26,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       url: `https://tothewebpro.com/blog/${post.slug}`,
-      images: [{ url: "/og-default.png", width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/og-default.png`, width: 1200, height: 630 }],
       publishedTime: post.date,
       authors: ["ToTheWebPro"],
     },
@@ -33,7 +34,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: ["/og-default.png"],
+      images: [`${baseUrl}/og-default.png`],
     },
   };
 }
