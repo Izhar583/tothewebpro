@@ -27,14 +27,14 @@ export function Footer() {
           {/* Brand section */}
           <div className="lg:col-span-1 space-y-6">
             <Link href="/" className="group flex items-center transition-all">
-              <div className="relative flex items-center justify-center p-2 rounded-2xl bg-slate-900/30 border border-slate-800/80 group-hover:border-orange-500/30 transition-all duration-300">
-                <div className="relative h-12 w-28">
+              <div className="relative flex items-center justify-center p-2 rounded-2xl bg-white/5 border border-slate-800/80 group-hover:border-orange-500/30 transition-all duration-300 w-36 h-24">
+                <div className="relative w-full h-full">
                   <Image
-                    src="/logo-text.png"
+                    src="/logo-silver.png"
                     alt="ToTheWebPro"
                     fill
-                    sizes="112px"
-                    className="object-contain filter group-hover:brightness-110 transition-all duration-300"
+                    sizes="144px"
+                    className="object-contain filter group-hover:scale-105 transition-all duration-300"
                   />
                 </div>
               </div>
