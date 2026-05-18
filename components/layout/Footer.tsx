@@ -26,18 +26,15 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
           {/* Brand section */}
           <div className="lg:col-span-1 space-y-6">
-            <Link href="/" className="group flex items-center transition-all">
-              <div className="relative flex items-center justify-center p-2 rounded-2xl bg-white/5 border border-slate-800/80 group-hover:border-orange-500/30 transition-all duration-300 w-36 h-24">
-                <div className="relative w-full h-full">
-                  <Image
-                    src="/logo-silver.png"
-                    alt="ToTheWebPro"
-                    fill
-                    sizes="144px"
-                    className="object-contain filter group-hover:scale-105 transition-all duration-300"
-                  />
-                </div>
-              </div>
+            <Link href="/" className="group block relative w-36 h-24 transition-all duration-300">
+              <Image
+                src="/logo-silver.png"
+                alt="ToTheWebPro"
+                fill
+                sizes="144px"
+                className="object-contain filter brightness-95 group-hover:brightness-110 group-hover:scale-[1.03] transition-all duration-300"
+                priority
+              />
             </Link>
             <p className="text-sm leading-relaxed text-slate-400">
               High-performance utilities for SEO pros, developers & content creators.
