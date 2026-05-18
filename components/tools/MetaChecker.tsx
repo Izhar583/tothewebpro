@@ -13,6 +13,28 @@ import { X, Copy, Check } from "lucide-react";
 
 type SerpVariant = "desktop" | "mobile";
 
+function StatusCircleIcon({ type }: { type: "green" | "amber" | "red" }) {
+  if (type === "green") {
+    return (
+      <svg className="h-5 w-5 text-emerald-600 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z" clipRule="evenodd" />
+      </svg>
+    );
+  }
+  if (type === "amber") {
+    return (
+      <svg className="h-5 w-5 text-amber-500 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="h-5 w-5 text-red-500 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+    </svg>
+  );
+}
+
 export function MetaChecker() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -58,10 +80,6 @@ export function MetaChecker() {
     })();
   }, [urlParam, fetchMeta, setMode, setUrlInput]);
 
-  const previewWidth = serpVariant === "desktop" ? "max-w-[600px]" : "max-w-[360px]";
-  const titleSize =
-    serpVariant === "desktop" ? "text-xl leading-7" : "text-lg leading-6";
-
   const displayUrl = useMemo(() => {
     try {
       if (mode === "url" && urlInput) {
@@ -75,6 +93,109 @@ export function MetaChecker() {
     }
     return "www.example.com/page";
   }, [mode, urlInput]);
+
+  // Client-side canvas-based pixel width calculations
+  const titlePixelWidth = useMemo(() => {
+    if (typeof window === "undefined") return 0;
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return 0;
+      ctx.font = "20px Arial";
+      return Math.round(ctx.measureText(title).width);
+    } catch {
+      return 0;
+    }
+  }, [title]);
+
+  const descPixelWidth = useMemo(() => {
+    if (typeof window === "undefined") return 0;
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return 0;
+      ctx.font = "14px Arial";
+      return Math.round(ctx.measureText(description).width);
+    } catch {
+      return 0;
+    }
+  }, [description]);
+
+  // Title Pixel Threshold Logic
+  const titlePixelState = useMemo(() => {
+    const w = titlePixelWidth;
+    if (w <= 300) {
+      return {
+        color: "text-red-500 font-medium flex items-center gap-2",
+        message: `Page title is ${w} pixel(s) long — Your page title is too short.`,
+        type: "red" as const
+      };
+    }
+    if (w <= 499) {
+      return {
+        color: "text-amber-500 font-medium flex items-center gap-2",
+        message: `Page title is ${w} pixel(s) long — Your page title could be longer.`,
+        type: "amber" as const
+      };
+    }
+    if (w <= 580) {
+      return {
+        color: "text-emerald-600 font-medium flex items-center gap-2",
+        message: `Page title is ${w} pixel(s) long — Your page title is an acceptable length.`,
+        type: "green" as const
+      };
+    }
+    if (w <= 600) {
+      return {
+        color: "text-amber-500 font-medium flex items-center gap-2",
+        message: `Page title is ${w} pixel(s) long — Your page title is close to the limit.`,
+        type: "amber" as const
+      };
+    }
+    return {
+      color: "text-red-500 font-medium flex items-center gap-2",
+      message: `Page title is ${w} pixel(s) long — Page titles should be around 580 pixels in length.`,
+      type: "red" as const
+    };
+  }, [titlePixelWidth]);
+
+  // Description Pixel Threshold Logic
+  const descPixelState = useMemo(() => {
+    const w = descPixelWidth;
+    if (w <= 400) {
+      return {
+        color: "text-red-500 font-medium flex items-center gap-2",
+        message: `Meta description is ${w} pixel(s) long — Your meta description is too short.`,
+        type: "red" as const
+      };
+    }
+    if (w <= 699) {
+      return {
+        color: "text-amber-500 font-medium flex items-center gap-2",
+        message: `Meta description is ${w} pixel(s) long — Your meta description could be longer.`,
+        type: "amber" as const
+      };
+    }
+    if (w <= 900) {
+      return {
+        color: "text-emerald-600 font-medium flex items-center gap-2",
+        message: `Meta description is ${w} pixel(s) long — Your meta description is an acceptable length.`,
+        type: "green" as const
+      };
+    }
+    if (w <= 920) {
+      return {
+        color: "text-amber-500 font-medium flex items-center gap-2",
+        message: `Meta description is ${w} pixel(s) long — Your meta description is close to the limit.`,
+        type: "amber" as const
+      };
+    }
+    return {
+      color: "text-red-500 font-medium flex items-center gap-2",
+      message: `Meta description is ${w} pixel(s) long — Meta descriptions should be around 900 pixels in length.`,
+      type: "red" as const
+    };
+  }, [descPixelWidth]);
 
   async function onFetch() {
     setError(null);
@@ -187,15 +308,16 @@ export function MetaChecker() {
 
       <div className="space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
+          {/* Title Area */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <label htmlFor="meta-title" className="text-sm font-bold text-slate-700">
                 Meta title
               </label>
               <span
-                className={`text-sm font-bold ${titleCharClass(title.length)}`}
+                className={`text-xs font-bold ${titleCharClass(title.length)}`}
               >
-                {title.length} chars &middot; {titleScore.score}/100
+                {title.length} chars &middot; ~{titlePixelWidth}px / 600px max &middot; {titleScore.score}/100
               </span>
             </div>
             <textarea
@@ -206,8 +328,19 @@ export function MetaChecker() {
               className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
               placeholder="Enter page title..."
             />
-            <p className="text-xs text-slate-500 font-medium">{titleScore.message}</p>
+            {/* Visual Pixel Indicator */}
+            {title && (
+              <div className={`mt-2 flex items-start gap-2 text-sm ${titlePixelState.color}`} role="status">
+                <StatusCircleIcon type={titlePixelState.type} />
+                <span>
+                  Page title is <strong className="font-extrabold">{titlePixelWidth}</strong> pixel(s) long — {titlePixelState.message.split(" — ")[1]}
+                </span>
+              </div>
+            )}
+            <p className="text-xs text-slate-500 font-semibold mt-1">{titleScore.message}</p>
           </div>
+
+          {/* Display URL */}
           <div className="space-y-2">
             <label htmlFor="display-url" className="text-sm font-bold text-slate-700">
               Display URL (for preview)
@@ -222,15 +355,17 @@ export function MetaChecker() {
             />
           </div>
         </div>
+
+        {/* Description Area */}
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-2">
             <label htmlFor="meta-desc" className="text-sm font-bold text-slate-700">
               Meta description
             </label>
             <span
-              className={`text-sm font-bold ${descriptionCharClass(description.length)}`}
+              className={`text-xs font-bold ${descriptionCharClass(description.length)}`}
             >
-              {description.length} chars &middot; {descriptionScore.score}/100
+              {description.length} chars &middot; ~{descPixelWidth}px total / 920px desktop max &middot; {descriptionScore.score}/100
             </span>
           </div>
           <textarea
@@ -241,8 +376,19 @@ export function MetaChecker() {
             className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
             placeholder="Enter meta description..."
           />
-          <p className="text-xs text-slate-500 font-medium">{descriptionScore.message}</p>
+          {/* Visual Pixel Indicator */}
+          {description && (
+            <div className={`mt-2 flex items-start gap-2 text-sm ${descPixelState.color}`} role="status">
+              <StatusCircleIcon type={descPixelState.type} />
+              <span>
+                Meta description is <strong className="font-extrabold">{descPixelWidth}</strong> pixel(s) long — {descPixelState.message.split(" — ")[1]}
+              </span>
+            </div>
+          )}
+          <p className="text-xs text-slate-500 font-semibold mt-1">{descriptionScore.message}</p>
         </div>
+
+        {/* Copy Controls */}
         <div className="flex gap-3">
           <button
             type="button"
@@ -273,6 +419,7 @@ export function MetaChecker() {
         </div>
       </div>
 
+      {/* SERP Preview Area */}
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
           <h3 className="text-lg font-bold text-slate-800">SERP preview</h3>
@@ -308,16 +455,54 @@ export function MetaChecker() {
 
         <div className="overflow-x-auto">
           <div
-            className={`rounded-xl border border-orange-100 bg-white p-6 shadow-sm ${previewWidth}`}
+            className={`rounded-xl border border-orange-100 bg-white p-6 shadow-sm transition-all duration-300 ${
+              serpVariant === "desktop" ? "w-[600px] max-w-[600px]" : "w-[400px] max-w-[400px]"
+            }`}
           >
+            {/* Title */}
             <p
-              className={`line-clamp-2 font-[Arial,sans-serif] text-xl leading-7 ${titleSize} ${title ? "text-blue-700" : "text-slate-400"}`}
+              style={{
+                fontFamily: "Arial, sans-serif",
+                fontSize: "20px",
+                color: title ? "#1a0dab" : "#94a3b8",
+                lineHeight: "1.3",
+                fontWeight: "normal",
+              }}
+              className={
+                serpVariant === "desktop"
+                  ? "overflow-hidden text-ellipsis whitespace-nowrap"
+                  : "line-clamp-2 overflow-hidden"
+              }
             >
               {title || "Your title appears here"}
             </p>
-            <p className="mt-1 truncate text-sm text-green-700">{displayUrl}</p>
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">
-              {description || "Your meta description will appear here — aim for 120–160 characters."}
+
+            {/* URL/breadcrumb */}
+            <p
+              className="mt-1 truncate"
+              style={{
+                fontFamily: "Arial, sans-serif",
+                fontSize: "14px",
+                color: "#006621",
+              }}
+            >
+              {displayUrl}
+            </p>
+
+            {/* Description */}
+            <p
+              className="mt-2 line-clamp-2 overflow-hidden"
+              style={{
+                fontFamily: "Arial, sans-serif",
+                fontSize: "14px",
+                color: description ? "#4d5156" : "#94a3b8",
+                lineHeight: "1.58",
+              }}
+            >
+              {serpVariant === "mobile"
+                ? (description ? description.slice(0, 115) + (description.length > 115 ? "..." : "") : "Your mobile meta description will appear here...")
+                : (description || "Your meta description will appear here — aim for 120–160 characters.")
+              }
             </p>
           </div>
         </div>
