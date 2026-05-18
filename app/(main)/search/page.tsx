@@ -60,7 +60,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
             <li key={tool.slug}>
               <Link
                 href={`/tools/${tool.slug}`}
-                className="block rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-md hover:border-orange-200 group"
+                className="block rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:border-orange-200 group"
               >
                 <div className="flex items-start gap-4">
                   <span className="text-3xl" aria-hidden>

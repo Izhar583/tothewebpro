@@ -59,7 +59,7 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
               {tool.faqs.map((faq) => (
                 <div
                   key={faq.question}
-                  className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+                  className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition-shadow"
                 >
                   <dt className="font-bold text-slate-900 mb-2">{faq.question}</dt>
                   <dd className="text-sm text-slate-600 leading-relaxed font-medium">{faq.answer}</dd>
@@ -93,7 +93,7 @@ function RelatedToolCard({ slug }: { slug: string }) {
   return (
     <Link
       href={`/tools/${related.slug}`}
-      className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:shadow-md hover:border-orange-200"
+      className="group rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition hover:border-orange-200"
     >
       <div className="h-10 w-10 flex items-center justify-center bg-orange-50/60 rounded-xl mb-4 transition-transform duration-500 group-hover:scale-110" aria-hidden>
         <Icon className="h-6 w-6 shrink-0" />

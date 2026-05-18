@@ -117,7 +117,7 @@ export function Header() {
                 className={`relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-200 ${
                   isActive(link.href)
                     ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 shadow-sm"
-                    : `${textColor} hover:text-orange-600 dark:hover:text-orange-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:shadow-md hover:-translate-y-0.5`
+                    : `${textColor} hover:text-orange-600 dark:hover:text-orange-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:-translate-y-0.5`
                 }`}
                 aria-current={isActive(link.href) ? "page" : undefined}
               >
@@ -126,7 +126,7 @@ export function Header() {
             ))}
             <Link
               href="/contact"
-              className="ml-2 px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-white shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              className="ml-2 px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-white shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 active:translate-y-0 transition-all"
             >
               Get in Touch
             </Link>

@@ -20,7 +20,7 @@ export function ToolCard({ tool, variant = "dark" }: ToolCardProps) {
       className={`group block h-full rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
         isDark
           ? "border-slate-800/60 bg-slate-900/80 hover:border-orange-500/30 hover:bg-slate-900"
-          : "border-orange-100 bg-white hover:border-orange-200 hover:shadow-md shadow-sm"
+          : "border-orange-100 bg-white hover:border-orange-200 shadow-sm"
       }`}
       aria-labelledby={`tool-card-${tool.slug}`}
     >

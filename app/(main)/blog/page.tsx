@@ -23,7 +23,7 @@ export default function BlogIndexPage() {
       <ul className="mt-10 space-y-6">
         {BLOG_POSTS.map((post) => (
           <li key={post.slug}>
-            <article className="rounded-2xl border border-orange-100 bg-white p-8 shadow-sm transition hover:shadow-md hover:border-orange-200 group">
+            <article className="rounded-2xl border border-orange-100 bg-white p-8 shadow-sm transition hover:border-orange-200 group">
               <p className="text-xs font-bold uppercase tracking-wide text-orange-600">
                 {post.date} · {post.readMinutes} min read
               </p>

@@ -45,7 +45,7 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 text-white shadow-md shadow-orange-500/10 hover:shadow-lg hover:shadow-orange-500/20 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] transition-all duration-300"
+                className="flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 text-white shadow-md shadow-orange-500/10 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] transition-all duration-300"
               >
                 <span>Contact Us</span>
                 <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">

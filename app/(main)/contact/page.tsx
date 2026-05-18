@@ -42,7 +42,7 @@ export default function ContactPage() {
             <div className="space-y-6">
               
               {/* Email Card */}
-              <div className="group flex gap-5 p-6 rounded-2xl border border-orange-100/80 bg-white/60 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 backdrop-blur-md">
+              <div className="group flex gap-5 p-6 rounded-2xl border border-orange-100/80 bg-white/60 shadow-sm hover:border-orange-200 transition-all duration-300 backdrop-blur-md">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600 group-hover:scale-110 transition-transform duration-300">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -61,7 +61,7 @@ export default function ContactPage() {
               </div>
 
               {/* Help Center Card */}
-              <div className="group flex gap-5 p-6 rounded-2xl border border-orange-100/80 bg-white/60 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 backdrop-blur-md">
+              <div className="group flex gap-5 p-6 rounded-2xl border border-orange-100/80 bg-white/60 shadow-sm hover:border-orange-200 transition-all duration-300 backdrop-blur-md">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50/80 text-amber-600 group-hover:scale-110 transition-transform duration-300">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

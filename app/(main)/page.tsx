@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { ToolCard } from "@/components/ToolCard";
+import { HomeBlogPreview } from "@/components/HomeBlogPreview";
 import { JsonLd } from "@/components/JsonLd";
 import { TOOLS } from "@/lib/tools-data";
 import {
@@ -179,7 +180,7 @@ export default function HomePage() {
               return (
                 <div
                   key={item.title}
-                  className="rounded-[32px] border border-orange-100 bg-white p-10 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+                  className="rounded-[32px] border border-orange-100 bg-white p-10 shadow-sm transition-all"
                 >
                   <div className={`h-14 w-14 rounded-2xl flex items-center justify-center mb-8 ${item.bgClass}`}>
                     <Icon className="h-8 w-8 shrink-0" />
@@ -192,6 +193,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeBlogPreview />
 
       <section className="py-28 bg-white overflow-hidden relative">
         <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
