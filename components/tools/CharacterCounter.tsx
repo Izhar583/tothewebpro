@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { X } from "lucide-react";
 
 export function CharacterCounter() {
@@ -19,15 +19,10 @@ export function CharacterCounter() {
     return { chars, noSpaces, lines, paragraphs, words, readingMinutes, speakingMinutes };
   }, [text]);
 
-  useEffect(() => {
-    console.log("DEBUG: Component State Updated:", text);
-  }, [text]);
+
 
   return (
     <div className="space-y-6">
-      <div className="p-4 bg-orange-100 rounded-xl text-xs font-mono text-orange-900 break-all">
-        DEBUG STATE: &quot;{text}&quot;
-      </div>
       <div>
         <div className="flex items-center justify-between gap-2">
           <label htmlFor="char-input" className="text-sm font-bold text-slate-700">

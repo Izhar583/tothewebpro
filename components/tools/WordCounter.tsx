@@ -1,12 +1,25 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useWordCounter } from "@/hooks/useWordCounter";
 import { X, Upload } from "lucide-react";
 
 export function WordCounter() {
   const { text, setText, stats, loadTextFile } = useWordCounter();
+  // Local state mirrors the textarea immediately for a responsive feel,
+  // while the heavy stats computation is debounced by 300ms.
+  const [localText, setLocalText] = useState(text);
+
+  useEffect(() => {
+    const id = setTimeout(() => setText(localText), 300);
+    return () => clearTimeout(id);
+  }, [localText, setText]);
+
+  // Keep localText in sync when text is reset externally (e.g. Clear button)
+  useEffect(() => {
+    if (text === "") setLocalText("");
+  }, [text]);
 
   const onDrop = useCallback(
     (files: File[]) => {
@@ -28,10 +41,10 @@ export function WordCounter() {
         <label htmlFor="word-counter-input" className="text-sm font-bold text-slate-700">
           Text to analyse
         </label>
-        {text && (
+        {localText && (
           <button
             type="button"
-            onClick={() => setText("")}
+            onClick={() => { setText(""); setLocalText(""); }}
             className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-red-500 transition-colors"
           >
             <X className="h-3.5 w-3.5" />
@@ -41,8 +54,8 @@ export function WordCounter() {
       </div>
       <textarea
         id="word-counter-input"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={localText}
+        onChange={(e) => setLocalText(e.target.value)}
         className="min-h-[250px] w-full rounded-xl border border-orange-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all resize-y"
         placeholder="Paste your article, brief, or notes here..."
       />

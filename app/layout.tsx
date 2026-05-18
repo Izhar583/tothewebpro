@@ -68,6 +68,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} min-h-screen font-sans antialiased text-navy`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-xl focus:bg-orange-600 focus:px-6 focus:py-3 focus:text-sm focus:font-bold focus:text-white focus:shadow-lg focus:outline-none"
+        >
+          Skip to main content
+        </a>
         {children}
         <Analytics />
       </body>
