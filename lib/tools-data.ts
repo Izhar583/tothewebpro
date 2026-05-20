@@ -18,63 +18,8 @@ export const TOOLS: ToolDefinition[] = [
       "Meta Title Checker — Preview Your Title in Google Search Results",
     metaDescription:
       "Write meta titles that work. Get a real-time pixel-width simulation that mirrors how Google renders titles in the SERP — catch truncation before your client does.",
-    howToUseParagraphs: [
-      paragraph(
-        "A meta title is the first piece of copy your potential visitor reads in the SERP. ",
-        "If it truncates at 'The Complete Guide to Optim...' you've already lost the click. ",
-        "This tool simulates how Google renders your title tag down to the pixel-width, ",
-        "so you can catch truncation before it hurts your click-through rate.",
-      ),
-      paragraph(
-        "Choose your input mode: in manual mode, paste the title and description you plan to publish. ",
-        "In URL mode, enter a public page address and click Fetch — the tool retrieves the HTML, ",
-        "parses the title and description tags, and fills the fields for you. ",
-        "URL fetching runs server-side to avoid browser CORS limits.",
-      ),
-      paragraph(
-        "Watch the live SERP preview while you edit. Toggle desktop and mobile to compare layouts. ",
-        "Google's display limit is approximately 600px — the pixel counter shows exactly where you stand. ",
-        "Scores out of 100 summarise title and description length quality, ",
-        "and the recommendation line explains whether to expand, trim, or keep your copy.",
-      ),
-      paragraph(
-        "Use the copy buttons to move polished text into your CMS or spreadsheet. ",
-        "Re-check after template changes, A/B tests, or internationalisation updates. ",
-        "Pair this workflow with your canonical URL and on-page H1 to keep messaging consistent across surfaces.",
-      ),
-    ],
-    faqs: [
-      {
-        question: "How long should a meta title be?",
-        answer:
-          "Google's SERP display limit is approximately 600px, which fits roughly 50–60 characters in most fonts. Because pixel width — not character count — determines truncation, use the pixel counter in this tool for an accurate read.",
-      },
-      {
-        question: "Does Google rewrite meta titles?",
-        answer:
-          "Yes. Google may substitute alternatives from your on-page content, especially if your title is too long, keyword-stuffed, or mismatches the page content. This tool helps you present the strongest candidate title and reduce the chance of an unwanted rewrite.",
-      },
-      {
-        question: "What happens if my title is too long for Google?",
-        answer:
-          "Google truncates it mid-sentence, often cutting off your brand name or key differentiator. The live preview shows exactly where the cut will happen so you can adjust before publishing.",
-      },
-      {
-        question: "What is a meta title?",
-        answer:
-          "The meta title is the HTML title element and primary blue link text Google usually shows in search results. It should describe the page accurately and include the main keyword near the front.",
-      },
-      {
-        question: "Will Google always show my description?",
-        answer:
-          "No. Google may substitute alternatives from on-page content. This tool helps you present the best candidate snippet and spot truncation risk before it reaches the SERP.",
-      },
-      {
-        question: "Can I use this for localised pages?",
-        answer:
-          "Yes. Check each language variant separately and align titles with hreflang and local keyword intent for UK, US, and other markets.",
-      },
-    ],
+    howToUseParagraphs: [],
+    faqs: [],
     relatedSlugs: ["word-counter", "character-counter", "case-converter"],
   },
   {
@@ -91,52 +36,8 @@ export const TOOLS: ToolDefinition[] = [
     metaTitle: "Word Counter — Count Words, Characters, and Reading Time",
     metaDescription:
       "Count words, characters, sentences, and reading time instantly. Built for SEO page targets, content briefs, and copy QA — free, private, no account needed.",
-    howToUseParagraphs: [
-      paragraph(
-        "Every piece of content you publish has a performance context — SEO page targets, ",
-        "social character limits, meta descriptions, email subject lines. ",
-        "Paste content from your CMS, Google Docs, or email to see word count, character count, ",
-        "reading time, and sentence density update in real time.",
-      ),
-      paragraph(
-        "Below the editor you will see cards for words, characters with and without spaces, ",
-        "sentences, paragraphs, and line breaks. ",
-        "Reading time assumes roughly 200 words per minute; speaking time assumes 130 — useful for scripts and webinars. ",
-        "The top words table filters stop words so you can spot accidental repetition or gaps in topical coverage.",
-      ),
-      paragraph(
-        "Pair this tool with your editorial guidelines: set minimum depth for pillar pages, ",
-        "cap intro length for news posts, or check character counts against social platform limits. ",
-        "Everything runs in your session without server-side storage — client copy stays under your control.",
-      ),
-    ],
-    faqs: [
-      {
-        question: "How many words should a blog post be for SEO?",
-        answer:
-          "There is no universal target. Content length should match search intent — some queries need concise 300-word answers, others reward comprehensive 2,000-word guides. Focus on topical coverage and depth rather than hitting an arbitrary word count.",
-      },
-      {
-        question: "What is the character limit for a meta description?",
-        answer:
-          "A practical target is 120–160 characters on desktop. Mobile snippets are narrower, so shorter often performs better. Google may rewrite descriptions regardless, but a strong default improves relevance signals.",
-      },
-      {
-        question: "Does word count affect Google rankings?",
-        answer:
-          "Not directly. Word count correlates with ranking on competitive queries because longer content tends to cover more sub-topics. The underlying driver is topical depth and information quality, not character volume.",
-      },
-      {
-        question: "How accurate is reading time?",
-        answer:
-          "It is an estimate based on average adult reading speed of around 200 words per minute. Dense technical content may read slower; skim-friendly list posts may read faster.",
-      },
-      {
-        question: "Does this check grammar or spelling?",
-        answer:
-          "No. The tool focuses on quantitative statistics. Use a dedicated grammar checker alongside this counter for copy quality review.",
-      },
-    ],
+    howToUseParagraphs: [],
+    faqs: [],
     relatedSlugs: [
       "character-counter",
       "case-converter",
@@ -414,50 +315,8 @@ export const TOOLS: ToolDefinition[] = [
     metaTitle: "Free Character Counter Online",
     metaDescription:
       "Count characters with and without spaces, lines, and paragraphs. Perfect for tweets, titles, and ads.",
-    howToUseParagraphs: [
-      paragraph(
-        "The Character Counter supports teams working against hard limits—social posts, paid search lines, SMS, and UI microcopy. ",
-        "Paste your string to see counts update instantly, including characters excluding spaces for platforms that ignore whitespace. ",
-        "Line and paragraph totals help when migrating content from spreadsheets or markdown.",
-      ),
-      paragraph(
-        "Combine with the Meta Title & Description Checker when you tune SERP snippets: align character totals with the live preview. ",
-        "For accessibility, shorter sentences often help comprehension even when limits allow more characters. ",
-        "Everything processes locally, so drafts remain private while you iterate.",
-      ),
-      paragraph(
-        "Document your house limits for writers: for example maximum button labels, notification text, or hero subheads. ",
-        "Recount after localisation because translated strings frequently expand. ",
-        "Export final copy to your CMS once counts meet governance rules.",
-      ),
-    ],
-    faqs: [
-      {
-        question: "Does this count emojis as one character?",
-        answer:
-          "JavaScript string length may count some emoji sequences as multiple code units—verify on the target platform.",
-      },
-      {
-        question: "Can I count selected fields only?",
-        answer:
-          "Paste exactly the text you need; the stats always reflect the textarea content.",
-      },
-      {
-        question: "Is there a server upload?",
-        answer:
-          "No. Counting happens entirely in your browser.",
-      },
-      {
-        question: "How is this different from the Word Counter?",
-        answer:
-          "This tool emphasises character-centric metrics and quick limits, while the Word Counter adds reading time and keyword tables.",
-      },
-      {
-        question: "Can I count multi-language text?",
-        answer:
-          "Yes. Paste any Unicode text; counts reflect the string you provide.",
-      },
-    ],
+    howToUseParagraphs: [],
+    faqs: [],
     relatedSlugs: ["word-counter", "case-converter", "meta-title-description-checker"],
   },
   {
