@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { 
   X, Copy, Check, ChevronDown, ChevronUp, ShieldCheck, 
   HelpCircle, Cpu, BookOpen, ListChecks, UserCheck, 
-  Globe, Search, Sparkles, FileText, Smartphone 
+  Search, Sparkles, FileText, Smartphone 
 } from "lucide-react";
 
 // Helper to determine SMS encoding, segments, and current character count
