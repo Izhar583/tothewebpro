@@ -37,13 +37,14 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
             <AdSlot id="tool-inline-primary" />
           </div>
 
+          {/* FIX 1: Type safe map for paragraphs */}
           {tool.howToUseParagraphs && tool.howToUseParagraphs.length > 0 && (
             <section className="mt-12 space-y-6" aria-labelledby="how-to-use">
               <h2 id="how-to-use" className="text-2xl font-black text-slate-900">
                 How to use this tool
               </h2>
               <div className="prose prose-orange max-w-none text-slate-700">
-                {tool.howToUseParagraphs.map((p, index) => (
+                {tool.howToUseParagraphs.map((p: string, index: number) => (
                   <p key={index} className="mb-4 leading-relaxed">
                     {p}
                   </p>
@@ -57,7 +58,7 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
               <h2 id="faq-heading" className="text-2xl font-black text-slate-900 mb-8">
                 Frequently asked questions
               </h2>
-              <dl className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2">
                 {tool.faqs.map((faq) => (
                   <div
                     key={faq.question}
@@ -67,20 +68,23 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
                     <dd className="text-sm text-slate-600 leading-relaxed font-medium">{faq.answer}</dd>
                   </div>
                 ))}
-              </dl>
+              </div>
             </section>
           )}
 
-          <section className="mt-16 pt-16 border-t border-orange-100" aria-labelledby="related-tools">
-            <h2 id="related-tools" className="text-2xl font-black text-slate-900">
-              You may also like
-            </h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tool.relatedSlugs.map((slug) => (
-                <RelatedToolCard key={slug} slug={slug} />
-              ))}
-            </div>
-          </section>
+          {/* FIX 2 & 3: Added Safe-check (&&) and strict type for related slugs */}
+          {tool.relatedSlugs && tool.relatedSlugs.length > 0 && (
+            <section className="mt-16 pt-16 border-t border-orange-100" aria-labelledby="related-tools">
+              <h2 id="related-tools" className="text-2xl font-black text-slate-900">
+                You may also like
+              </h2>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {tool.relatedSlugs.map((slug: string) => (
+                  <RelatedToolCard key={slug} slug={slug} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>
