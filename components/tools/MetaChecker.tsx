@@ -613,7 +613,7 @@ function MetaCheckerLandingPage() {
             <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
-            <h4 className="font-bold text-slate-900 text-base">Quick Value Hook</h4>
+            <h4 className="font-bold text-slate-900 text-base">Secure Client-Side Processing</h4>
             <p className="mt-1 text-sm text-slate-600 leading-relaxed font-medium">
               <strong>ToTheWebPro&apos;s Meta Tag Checker runs 100% client-side</strong> — your URL, HTML source, and meta content never leave your browser, never touch a server, and are never logged. Unlike cloud-based SEO crawlers that queue your requests and retain your data, this tool processes everything locally at native browser speed.
             </p>
