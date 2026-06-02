@@ -979,11 +979,6 @@ function MetaCheckerLandingPage() {
           />
         </div>
       </section>
-
-      {/* Footer credit branding block exactly per user content */}
-      <div className="pt-8 border-t border-orange-100 text-center text-xs font-semibold text-slate-400">
-        ToTheWebPro | <a href="https://tothewebpro.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">https://tothewebpro.vercel.app/</a> | Free Web Developer &amp; SEO Utilities
-      </div>
     </div>
   );
 }

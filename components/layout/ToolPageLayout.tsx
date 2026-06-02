@@ -33,45 +33,6 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
 
           <div className="mt-8">{children}</div>
 
-
-
-          {/* FIX 1: Type safe map for paragraphs */}
-          {tool.howToUseParagraphs && tool.howToUseParagraphs.length > 0 && (
-            <section className="mt-12 space-y-6" aria-labelledby="how-to-use">
-              <h2 id="how-to-use" className="text-2xl font-black text-slate-900">
-                How to use this tool
-              </h2>
-              <div className="prose prose-orange max-w-none text-slate-700">
-                {tool.howToUseParagraphs.map((p: string, index: number) => (
-                  <p key={index} className="mb-4 leading-relaxed">
-                    {p}
-                  </p>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {tool.faqs && tool.faqs.length > 0 && (
-            <section className="mt-16" aria-labelledby="faq-heading">
-              <h2 id="faq-heading" className="text-2xl font-black text-slate-900 mb-8">
-                Frequently asked questions
-              </h2>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {tool.faqs.map((faq) => (
-                  <div
-                    key={faq.question}
-                    className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition-shadow"
-                  >
-                    <dl>
-                      <dt className="font-bold text-slate-900 mb-2">{faq.question}</dt>
-                      <dd className="text-sm text-slate-600 leading-relaxed font-medium">{faq.answer}</dd>
-                    </dl>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
           {/* FIX 2 & 3: Added Safe-check (&&) and strict type for related slugs */}
           {tool.relatedSlugs && tool.relatedSlugs.length > 0 && (
             <section className="mt-16 pt-16 border-t border-orange-100" aria-labelledby="related-tools">
