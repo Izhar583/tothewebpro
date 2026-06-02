@@ -81,7 +81,7 @@ export function ImageCompressor() {
           {isDragActive ? "Drop images here..." : "Drop images here or click to upload"}
         </p>
         <p className="mt-2 text-sm text-slate-500 font-medium">
-          JPG, PNG, WebP, or GIF — up to 20 files per batch.
+          JPG, PNG, WebP, or GIF (up to 20 files per batch).
         </p>
       </div>
 

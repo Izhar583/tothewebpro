@@ -44,7 +44,7 @@ export function CaseConverter() {
           onChange={(e) => setInput(e.target.value)}
           rows={5}
           className="mt-2 w-full rounded-xl border border-orange-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all resize-y"
-          placeholder="Type or paste any text — all conversions update live."
+          placeholder="Type or paste any text (all conversions update live)."
         />
       </div>
 
@@ -98,7 +98,7 @@ function OutputBox({
         </button>
       </div>
       <pre className="mt-3 max-h-32 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-orange-50/50 p-4 text-sm text-slate-900 border border-orange-100 font-mono">
-        {value || "—"}
+        {value || ""}
       </pre>
     </div>
   );

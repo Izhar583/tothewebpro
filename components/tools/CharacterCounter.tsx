@@ -156,44 +156,44 @@ export function CharacterCounter() {
         <h3 className="text-lg font-black text-slate-800 mb-6">Social Media &amp; Messaging Limits</h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <SocialLimit 
-            label="Twitter / X — Tweet" 
+            label="Twitter / X: Tweet" 
             current={stats.twitter} 
             max={280} 
             tooltip="Counts surrogate pairs (like emoji) as 2 units, matching server validation." 
           />
           <SocialLimit 
-            label={`SMS — [${stats.sms.encoding}]`} 
+            label={`SMS: [${stats.sms.encoding}]`} 
             current={stats.sms.current} 
             max={stats.sms.limit} 
             subtitle={`Segments: ${stats.sms.segments}`}
             tooltip="Curly quotes or emojis switch encoding to UCS-2, lowering limit to 70/segment."
           />
           <SocialLimit 
-            label="LinkedIn — Post" 
+            label="LinkedIn: Post" 
             current={stats.chars} 
             max={3000} 
             tooltip="Truncates at ~210 characters with a 'See more' link in user feeds." 
           />
           <SocialLimit 
-            label="LinkedIn — Headline" 
+            label="LinkedIn: Headline" 
             current={stats.chars} 
             max={220} 
             tooltip="Highly critical for SEO and profile preview truncation caps." 
           />
           <SocialLimit 
-            label="LinkedIn — Connection Note" 
+            label="LinkedIn: Connection Note" 
             current={stats.chars} 
             max={300} 
             tooltip="Hard cutoff cap for invitation notes." 
           />
           <SocialLimit 
-            label="Instagram — Caption" 
+            label="Instagram: Caption" 
             current={stats.chars} 
             max={2200} 
             tooltip="Display limits truncate captions at ~125 characters." 
           />
           <SocialLimit 
-            label="Meta (Facebook) — Post" 
+            label="Meta (Facebook): Post" 
             current={stats.chars} 
             max={63206} 
             tooltip="Practical truncation at ~477 characters before fold." 
@@ -313,11 +313,11 @@ function CharacterCounterLandingPage() {
           Live Platform Checking
         </div>
         <h2 className="text-3xl font-black text-slate-900 tracking-tight md:text-4xl">
-          Free Character Counter Online — Live Twitter/X, SMS &amp; Social Media Limit Tracker by ToTheWebPro
+          Free Character Counter Online: Live Twitter/X, SMS &amp; Social Media Limit Tracker by ToTheWebPro
         </h2>
         <div className="max-w-4xl text-slate-600 space-y-4 font-medium leading-relaxed">
           <p>
-            Type or paste your text and watch the character count update on every keystroke — with real-time threshold warnings for Twitter/X, LinkedIn, Meta, and SMS, all firing before you hit the wall. No submit button. No refresh. No truncated posts.
+            Type or paste your text and watch the character count update on every keystroke, with real-time threshold warnings for Twitter/X, LinkedIn, Meta, and SMS, all firing before you hit the wall. No submit button. No refresh. No truncated posts.
           </p>
           <p>
             Platform-specific character limits are not uniform, not static, and not always what the native editor shows you. Twitter/X counts certain Unicode characters as two units. LinkedIn has separate caps for posts versus headlines. SMS messages fragment at 160 characters for GSM-7 encoding and at 153 per segment for multi-part messages. Getting these wrong means truncated copy, split messages that bill as two texts, and social posts that get cut mid-sentence after publishing.
@@ -332,7 +332,7 @@ function CharacterCounterLandingPage() {
           <div>
             <h4 className="font-bold text-slate-900 text-base">Quick Value Hook</h4>
             <p className="mt-1 text-sm text-slate-600 leading-relaxed font-medium">
-              <strong>ToTheWebPro&apos;s Character Counter runs 100% client-side</strong> — your text, drafts, and message content are processed entirely within your browser&apos;s JavaScript runtime, never transmitted to a server, and never logged or cached on Vercel&apos;s infrastructure. Unlike social media scheduling tools and cloud-based copy editors that process your input on remote servers to enforce character limits, this tool gives you instant, private, platform-accurate counts with zero round-trip latency.
+              <strong>ToTheWebPro&apos;s Character Counter runs 100% client-side</strong>. Your text, drafts, and message content are processed entirely within your browser&apos;s JavaScript runtime, never transmitted to a server, and never logged or cached on Vercel&apos;s infrastructure. Unlike social media scheduling tools and cloud-based copy editors that process your input on remote servers to enforce character limits, this tool gives you instant, private, platform-accurate counts with zero round-trip latency.
             </p>
           </div>
         </div>
@@ -345,10 +345,10 @@ function CharacterCounterLandingPage() {
         </h3>
         <div className="max-w-4xl text-slate-600 font-medium leading-relaxed">
           <p>
-            A <strong>live character counter</strong> is a browser-based text analysis utility that measures the length of an input string — in characters, bytes, or Unicode code points — and compares that measurement against a predefined set of platform-specific thresholds in real time, triggering visual warnings as the input approaches or exceeds each limit.
+            A <strong>live character counter</strong> is a browser-based text analysis utility that measures the length of an input string (in characters, bytes, or Unicode code points) and compares that measurement against a predefined set of platform-specific thresholds in real time, triggering visual warnings as the input approaches or exceeds each limit.
           </p>
           <p className="mt-4">
-            The critical technical distinction is between a <em>character</em> and a <em>byte</em>. In ASCII and basic Latin text, one character equals one byte. In UTF-8 encoded text — which covers emoji, accented characters, Arabic, Chinese, Japanese, Korean, and most non-Latin scripts — a single character can occupy 2, 3, or 4 bytes. Twitter/X specifically counts characters in Unicode code points (not bytes), with one important exception: characters outside the Basic Multilingual Plane (BMP), including most emoji, are encoded as UTF-16 surrogate pairs and counted as <strong>two characters</strong> against the 280-character limit. This is why a tweet with 10 emoji can hit the limit faster than 280 Latin characters.
+            The critical technical distinction is between a <em>character</em> and a <em>byte</em>. In ASCII and basic Latin text, one character equals one byte. In UTF-8 encoded text—which covers emoji, accented characters, Arabic, Chinese, Japanese, Korean, and most non-Latin scripts—a single character can occupy 2, 3, or 4 bytes. Twitter/X specifically counts characters in Unicode code points (not bytes), with one important exception: characters outside the Basic Multilingual Plane (BMP), including most emoji, are encoded as UTF-16 surrogate pairs and counted as <strong>two characters</strong> against the 280-character limit. This is why a tweet with 10 emoji can hit the limit faster than 280 Latin characters.
           </p>
           <p className="mt-4">
             ToTheWebPro&apos;s counter tracks all three measurement layers simultaneously and maps each against the correct platform encoding model.
@@ -373,67 +373,67 @@ function CharacterCounterLandingPage() {
               </thead>
               <tbody className="divide-y divide-orange-50 text-sm font-medium text-slate-700">
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">Twitter/X — Standard Tweet</td>
+                  <td className="p-4 font-bold text-slate-900">Twitter/X: Standard Tweet</td>
                   <td className="p-4">280 chars</td>
                   <td className="p-4">Unicode code points (BMP=1, surrogate=2)</td>
                   <td className="p-4 text-slate-600">URLs always count as 23 characters regardless of actual length (t.co shortener)</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">Twitter/X — Username Reply</td>
+                  <td className="p-4 font-bold text-slate-900">Twitter/X: Username Reply</td>
                   <td className="p-4">280 minus prefix</td>
                   <td className="p-4">Unicode code points</td>
                   <td className="p-4 text-slate-600">@mention prefix auto-deducted from available character budget</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">LinkedIn — Post</td>
+                  <td className="p-4 font-bold text-slate-900">LinkedIn: Post</td>
                   <td className="p-4">3,000 chars</td>
                   <td className="p-4">UTF-16 code units</td>
                   <td className="p-4 text-slate-600">First 210 characters visible before &quot;See more&quot; truncation</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">LinkedIn — Headline</td>
+                  <td className="p-4 font-bold text-slate-900">LinkedIn: Headline</td>
                   <td className="p-4">220 chars</td>
                   <td className="p-4">UTF-16 code units</td>
                   <td className="p-4 text-slate-600">Critical for SEO and search visibility within LinkedIn</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">LinkedIn — Connection Request Note</td>
+                  <td className="p-4 font-bold text-slate-900">LinkedIn: Connection Request Note</td>
                   <td className="p-4">300 chars</td>
                   <td className="p-4">UTF-16 code units</td>
                   <td className="p-4 text-slate-600">Hard cut-off; no truncation warning in native UI</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">Meta (Facebook) — Post</td>
+                  <td className="p-4 font-bold text-slate-900">Meta (Facebook): Post</td>
                   <td className="p-4">63,206 chars</td>
                   <td className="p-4">UTF-8 characters</td>
                   <td className="p-4 text-slate-600">Practical visibility truncation at ~477 characters before &quot;See more&quot;</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">Instagram — Caption</td>
+                  <td className="p-4 font-bold text-slate-900">Instagram: Caption</td>
                   <td className="p-4">2,200 chars</td>
                   <td className="p-4">UTF-8 characters</td>
                   <td className="p-4 text-slate-600">Display truncation at ~125 characters; hashtags count toward total</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">SMS — Single Segment (GSM-7)</td>
+                  <td className="p-4 font-bold text-slate-900">SMS: Single Segment (GSM-7)</td>
                   <td className="p-4">160 chars</td>
                   <td className="p-4">GSM-7 encoding (7-bit)</td>
                   <td className="p-4 text-slate-600">Uses 128-character alphabet; special characters trigger UCS-2 mode</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">SMS — Multi-Segment (GSM-7)</td>
+                  <td className="p-4 font-bold text-slate-900">SMS: Multi-Segment (GSM-7)</td>
                   <td className="p-4">153 per segment</td>
                   <td className="p-4">GSM-7 encoding</td>
                   <td className="p-4 text-slate-600">7 header bytes per segment consumed for concatenation; billed per segment</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">SMS — Single Segment (UCS-2)</td>
+                  <td className="p-4 font-bold text-slate-900">SMS: Single Segment (UCS-2)</td>
                   <td className="p-4">70 chars</td>
                   <td className="p-4">UCS-2 encoding (16-bit)</td>
                   <td className="p-4 text-slate-600">Triggered by any character outside the GSM-7 alphabet (emoji, accents)</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
-                  <td className="p-4 font-bold text-slate-900">SMS — Multi-Segment (UCS-2)</td>
+                  <td className="p-4 font-bold text-slate-900">SMS: Multi-Segment (UCS-2)</td>
                   <td className="p-4">67 per segment</td>
                   <td className="p-4">UCS-2 encoding</td>
                   <td className="p-4 text-slate-600">Dropping to 67/segment from 70; billed per segment</td>
@@ -707,7 +707,7 @@ function CharacterCounterLandingPage() {
 
       {/* Footer credit branding block exactly per user content */}
       <div className="pt-8 border-t border-orange-100 text-center text-xs font-semibold text-slate-400">
-        ToTheWebPro — <a href="https://tothewebpro.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">https://tothewebpro.vercel.app/</a> | Free Web Developer &amp; SEO Utilities
+        ToTheWebPro | <a href="https://tothewebpro.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">https://tothewebpro.vercel.app/</a> | Free Web Developer &amp; SEO Utilities
       </div>
     </div>
   );

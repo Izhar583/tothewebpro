@@ -73,7 +73,7 @@ export function WordCounter() {
           <p className="flex items-center justify-center gap-2">
             <Upload className="h-4 w-4" />
             <span className="font-bold text-orange-600">Upload .txt</span>
-            <span>— drag & drop or click</span>
+            <span>(drag & drop or click)</span>
           </p>
         )}
       </div>
@@ -176,14 +176,14 @@ function WordCounterLandingPage() {
           Live Text Analysis
         </div>
         <h2 className="text-3xl font-black text-slate-900 tracking-tight md:text-4xl">
-          Free Word Counter Online — Live Word, Character &amp; Reading Time Analyzer by ToTheWebPro
+          Free Word Counter Online: Live Word, Character &amp; Reading Time Analyzer by ToTheWebPro
         </h2>
         <div className="max-w-4xl text-slate-600 space-y-4 font-medium leading-relaxed">
           <p>
-            Paste your text and every metric updates before your finger leaves the key. Word count, character count, paragraph count, estimated reading time, and keyword density — all computed instantly, all displayed without a single page reload.
+            Paste your text and every metric updates before your finger leaves the key. Word count, character count, paragraph count, estimated reading time, and keyword density are all computed instantly and displayed without a single page reload.
           </p>
           <p>
-            The problem is specific: most word counters give you one number and stop there. Serious content professionals need a full analytical snapshot — sentence rhythm, reading-level proxies, keyword frequency — not just a tally. Generic tools force you to copy-paste into three separate apps to get what ToTheWebPro delivers in one view.
+            The problem is specific: most word counters give you one number and stop there. Serious content professionals need a full analytical snapshot—sentence rhythm, reading-level proxies, keyword frequency—not just a tally. Generic tools force you to copy-paste into three separate apps to get what ToTheWebPro delivers in one view.
           </p>
         </div>
 
@@ -195,7 +195,7 @@ function WordCounterLandingPage() {
           <div>
             <h4 className="font-bold text-slate-900 text-base">Quick Value Hook</h4>
             <p className="mt-1 text-sm text-slate-600 leading-relaxed font-medium">
-              <strong>ToTheWebPro&apos;s Word Counter runs 100% client-side using a natively optimized JavaScript engine</strong> — your manuscript, client copy, legal brief, or source code never leaves your browser, never touches a server, and is never logged or retained. Unlike SaaS writing tools that process your text on remote servers and retain session data, this tool gives you sub-millisecond real-time updates on documents of any size with zero privacy exposure.
+              <strong>ToTheWebPro&apos;s Word Counter runs 100% client-side using a natively optimized JavaScript engine</strong>. Your manuscript, client copy, legal brief, or source code never leaves your browser, never touches a server, and is never logged or retained. Unlike SaaS writing tools that process your text on remote servers and retain session data, this tool gives you sub-millisecond real-time updates on documents of any size with zero privacy exposure.
             </p>
           </div>
         </div>
@@ -208,7 +208,7 @@ function WordCounterLandingPage() {
         </h3>
         <div className="max-w-4xl text-slate-600 font-medium leading-relaxed">
           <p>
-            A <strong>live word counter</strong> is a browser-based text analysis engine that tokenizes your input string on every keystroke and computes a set of linguistic and structural metrics in real time — without requiring a form submission, API call, or page refresh. The term &quot;live&quot; is the critical differentiator: the analysis state is always synchronized with the current document state, with zero visible latency.
+            A <strong>live word counter</strong> is a browser-based text analysis engine that tokenizes your input string on every keystroke and computes a set of linguistic and structural metrics in real time, without requiring a form submission, API call, or page refresh. The term &quot;live&quot; is the critical differentiator: the analysis state is always synchronized with the current document state with zero visible latency.
           </p>
           <p className="mt-4">
             ToTheWebPro&apos;s tool goes beyond simple tokenization. It parses your text across multiple analytical layers simultaneously: lexical (words, characters), structural (sentences, paragraphs), temporal (reading time, speaking time), and semantic (keyword frequency, density percentage).
@@ -269,7 +269,7 @@ function WordCounterLandingPage() {
                 <tr className="hover:bg-orange-50/10 transition-colors">
                   <td className="p-4 font-bold text-slate-900">Top Keywords &amp; Density</td>
                   <td className="p-4">Strips stop words, ranks remaining tokens by frequency, calculates % of total words</td>
-                  <td className="p-4 text-slate-600">Ranked list with % (e.g., &quot;content — 2.4%&quot;)</td>
+                  <td className="p-4 text-slate-600">Ranked list with % (e.g., &quot;content: 2.4%&quot;)</td>
                 </tr>
                 <tr className="hover:bg-orange-50/10 transition-colors">
                   <td className="p-4 font-bold text-slate-900">Average Word Length</td>
@@ -294,7 +294,7 @@ function WordCounterLandingPage() {
           Step-by-Step Guide: How to Use the ToTheWebPro Live Word Counter
         </h3>
         <p className="max-w-3xl text-slate-600 font-medium">
-          The interface is built for immediate productivity — no configuration, no account, no tutorial required. Here is the exact workflow from landing on the page to extracting your full analytics report:
+          The interface is built for immediate productivity with no configuration, no account, and no tutorial required. Here is the exact workflow from landing on the page to extracting your full analytics report:
         </p>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 mt-6">
@@ -357,7 +357,7 @@ function WordCounterLandingPage() {
           Why Technical Accuracy Matters for Word Count and Reading Time Metrics
         </h3>
         <p className="max-w-3xl text-slate-600 font-medium">
-          The number your word counter returns is only as useful as the algorithm behind it. Naive implementations get this wrong in ways that produce meaningfully incorrect outputs — and for professionals, &quot;close enough&quot; is not good enough.
+          The number your word counter returns is only as useful as the algorithm behind it. Naive implementations get this wrong in ways that produce meaningfully incorrect outputs, and for professionals, &quot;close enough&quot; is not good enough.
         </p>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-6">
@@ -553,14 +553,14 @@ function WordCounterLandingPage() {
           />
           <FaqAccordionItem
             question="Is this word counter tool completely free with no word limit?"
-            answer="Yes. ToTheWebPro's Live Word Counter is entirely free with no word count cap, no session limit, and no registration requirement. Because the tool runs entirely in your browser with no server-side processing, there is no compute cost per analysis and therefore no basis for a usage limit. Paste documents of any length — the tool has been tested on inputs exceeding 50,000 words without performance degradation on modern hardware."
+            answer="Yes. ToTheWebPro's Live Word Counter is entirely free with no word count cap, no session limit, and no registration requirement. Because the tool runs entirely in your browser with no server-side processing, there is no compute cost per analysis and therefore no basis for a usage limit. Paste documents of any length; the tool has been tested on inputs exceeding 50,000 words without performance degradation on modern hardware."
           />
         </div>
       </section>
 
       {/* Footer credit branding block exactly per user content */}
       <div className="pt-8 border-t border-orange-100 text-center text-xs font-semibold text-slate-400">
-        ToTheWebPro — <a href="https://tothewebpro.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">https://tothewebpro.vercel.app/</a> | Free Web Developer &amp; SEO Utilities
+        ToTheWebPro | <a href="https://tothewebpro.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">https://tothewebpro.vercel.app/</a> | Free Web Developer &amp; SEO Utilities
       </div>
     </div>
   );

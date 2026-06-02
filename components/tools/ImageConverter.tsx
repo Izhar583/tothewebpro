@@ -40,7 +40,7 @@ export function ImageConverter() {
     <div className="space-y-6">
       <div className="inline-flex items-center gap-2 rounded-xl bg-green-50 border border-green-100 px-4 py-2.5 text-sm font-bold text-green-700">
         <Lock className="h-4 w-4" />
-        Conversion runs locally — no uploads
+        Conversion runs locally (no uploads)
       </div>
 
       <div

@@ -121,19 +121,19 @@ export function PasswordGenerator() {
         <legend className="text-sm font-bold text-slate-700 mb-4">Character sets</legend>
         <Toggle
           id="pwd-lower"
-          label="Lowercase (a–z)"
+          label="Lowercase (a-z)"
           checked={useLower}
           onChange={setUseLower}
         />
         <Toggle
           id="pwd-upper"
-          label="Uppercase (A–Z)"
+          label="Uppercase (A-Z)"
           checked={useUpper}
           onChange={setUseUpper}
         />
         <Toggle
           id="pwd-digits"
-          label="Digits (0–9)"
+          label="Digits (0-9)"
           checked={useDigits}
           onChange={setUseDigits}
         />

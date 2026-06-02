@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { AdSlot } from "@/components/ui/AdSlot";
+
 import { getToolCardIcon } from "@/lib/tool-card-icons";
 import {
   HomeIcon,
@@ -41,6 +41,11 @@ export function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(true);
   const [toolsOpen, setToolsOpen] = useState(false);
+
+  // Return null if not on the homepage
+  if (pathname !== "/") {
+    return null;
+  }
 
   const isHomeOrExplore = pathname === "/" || pathname === "/#categories";
 
@@ -176,9 +181,7 @@ export function Sidebar() {
             </div>
 
             <div className="mt-auto pt-6 border-t border-orange-100">
-              <div className="mb-6">
-                <AdSlot id="sidebar-footer" className="min-h-[120px]" />
-              </div>
+
               <Link
                 href="/contact"
                 className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-all hover:text-orange-600 hover:bg-orange-50"

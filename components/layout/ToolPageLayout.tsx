@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Breadcrumb, type BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { TOOL_BY_SLUG } from "@/lib/tools-data";
 import type { ToolDefinition } from "@/lib/types";
-import { AdSlot } from "@/components/ui/AdSlot";
+
 import { getToolCardIcon } from "@/lib/tool-card-icons";
 
 interface ToolPageLayoutProps {
@@ -33,9 +33,7 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
 
           <div className="mt-8">{children}</div>
 
-          <div className="mt-12 py-12 border-y border-orange-100">
-            <AdSlot id="tool-inline-primary" />
-          </div>
+
 
           {/* FIX 1: Type safe map for paragraphs */}
           {tool.howToUseParagraphs && tool.howToUseParagraphs.length > 0 && (
@@ -64,8 +62,10 @@ export function ToolPageLayout({ tool, children }: ToolPageLayoutProps) {
                     key={faq.question}
                     className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm transition-shadow"
                   >
-                    <dt className="font-bold text-slate-900 mb-2">{faq.question}</dt>
-                    <dd className="text-sm text-slate-600 leading-relaxed font-medium">{faq.answer}</dd>
+                    <dl>
+                      <dt className="font-bold text-slate-900 mb-2">{faq.question}</dt>
+                      <dd className="text-sm text-slate-600 leading-relaxed font-medium">{faq.answer}</dd>
+                    </dl>
                   </div>
                 ))}
               </div>
