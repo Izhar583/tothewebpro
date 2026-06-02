@@ -5,6 +5,21 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'tothewebpro.vercel.app',
+          },
+        ],
+        destination: 'https://tothewebpro.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     const isProduction = process.env.VERCEL_ENV === "production";
     const securityHeaders = [
@@ -33,8 +48,8 @@ const nextConfig = {
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           // Fonts: Google Fonts CDN
           "font-src 'self' https://fonts.gstatic.com",
-          // Images: self + data URIs (canvas exports) + Google ad images
-          "img-src 'self' data: https:",
+          // Images: self + data URIs + blob URIs (canvas exports) + Google ad images
+          "img-src 'self' data: blob: https:",
           // Connect: self + Vercel analytics + fetch-meta API
           "connect-src 'self' https://va.vercel-scripts.com",
           // Frames: deny all (no iframes used)
@@ -48,11 +63,6 @@ const nextConfig = {
         ].join("; "),
       },
     ];
-
-    securityHeaders.push({
-      key: "X-Robots-Tag",
-      value: "noindex, nofollow",
-    });
 
     return [
       {

@@ -39,7 +39,7 @@ const TOOL_LINKS = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
 
   // Return null if not on the homepage
@@ -76,6 +76,7 @@ export function Sidebar() {
             <div className="px-3 mb-8">
               <Link
                 href="/"
+                onClick={() => setIsOpen(false)}
                 className="group flex items-center transition-all hover:opacity-90"
               >
                 <div className="relative h-16 w-36 bg-transparent">
@@ -102,6 +103,7 @@ export function Sidebar() {
                     <Link
                       key={tool.href}
                       href={tool.href}
+                      onClick={() => setIsOpen(false)}
                       className="flex flex-col items-center gap-2 p-3 rounded-xl border border-orange-50 bg-orange-50/20 text-center transition-all hover:bg-orange-50 hover:border-orange-100 group"
                     >
                       <div className="h-7 w-7 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
@@ -127,6 +129,7 @@ export function Sidebar() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={() => setIsOpen(false)}
                     className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 border-l-[3px] ${
                       isActive
                         ? "bg-orange-50/70 text-orange-600 border-orange-600 font-black"
@@ -166,6 +169,7 @@ export function Sidebar() {
                       <Link
                         key={link.href}
                         href={link.href}
+                        onClick={() => setIsOpen(false)}
                         className={`block rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 ${
                           isActive
                             ? "bg-orange-100 text-orange-700"
@@ -184,6 +188,7 @@ export function Sidebar() {
 
               <Link
                 href="/contact"
+                onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-all hover:text-orange-600 hover:bg-orange-50"
               >
                 <span className="text-lg">💬</span>
@@ -192,9 +197,9 @@ export function Sidebar() {
               <div className="flex items-center justify-between px-3 py-3 mt-2">
                 <span className="text-xs font-medium text-slate-400">v1.0.5</span>
                 <div className="flex gap-2">
-                  <Link href="/privacy-policy" className="text-xs text-slate-400 hover:text-orange-600 transition-colors">Privacy</Link>
+                  <Link href="/privacy-policy" onClick={() => setIsOpen(false)} className="text-xs text-slate-400 hover:text-orange-600 transition-colors">Privacy</Link>
                   <span className="text-slate-200">•</span>
-                  <Link href="/terms" className="text-xs text-slate-400 hover:text-orange-600 transition-colors">Terms</Link>
+                  <Link href="/terms" onClick={() => setIsOpen(false)} className="text-xs text-slate-400 hover:text-orange-600 transition-colors">Terms</Link>
                 </div>
               </div>
             </div>
