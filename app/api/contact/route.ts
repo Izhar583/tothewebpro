@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   // Option A — Resend (recommended, 100 free emails/day):
   //   import { Resend } from "resend";
   //   const resend = new Resend(process.env.RESEND_API_KEY);
-  //   await resend.emails.send({ from: "noreply@yourdomain.com", to: "contact@tothewebpro.com", subject, html: `<p>${message}</p>` });
+  //   await resend.emails.send({ from: "noreply@yourdomain.com", to: "izharjoiya0@gmail.com", subject, html: `<p>${message}</p>` });
   //
   // Option B — SendGrid:
   //   Use @sendgrid/mail with process.env.SENDGRID_API_KEY
@@ -72,12 +72,34 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Email delivery is not yet configured. Please email us directly at contact@tothewebpro.com.",
+          "Email delivery is not yet configured. Please email us directly at izharjoiya0@gmail.com.",
       },
       { status: 501 },
     );
   }
 
-  // If you reach here in dev or with a provider wired, treat as success.
+  // If an email provider is configured, send the email via SMTP
+  if (hasEmailProvider) {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_USER,
+      subject: `[Contact] ${subject}`,
+      replyTo: email,
+      text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+      html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message}</p>`,
+    });
+  }
+
+  // Return success response
   return NextResponse.json({ ok: true }, { status: 200 });
 }

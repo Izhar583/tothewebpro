@@ -51,8 +51,8 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">Email Us</h3>
                   <p className="text-sm text-slate-500 font-medium">For general inquiries and support</p>
-                  <a href="mailto:contact@tothewebpro.com" className="mt-2 inline-flex items-center font-bold text-orange-600 hover:text-orange-700 hover:underline">
-                    contact@tothewebpro.com
+                  <a href="mailto:izharjoiya0@gmail.com" className="mt-2 inline-flex items-center font-bold text-orange-600 hover:text-orange-700 hover:underline">
+                    izharjoiya0@gmail.com
                     <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>

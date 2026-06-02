@@ -132,8 +132,8 @@ export default function PrivacyPolicyPage() {
             erase, restrict, or port personal data, and to object to processing.
             You may also lodge a complaint with your local supervisory authority.
             To exercise rights, email{" "}
-            <a href="mailto:contact@tothewebpro.com" className="font-semibold text-emerald-600 hover:text-emerald-700 underline underline-offset-2">
-              contact@tothewebpro.com
+            <a href="mailto:izharjoiya0@gmail.com" className="font-semibold text-emerald-600 hover:text-emerald-700 underline underline-offset-2">
+              izharjoiya0@gmail.com
             </a>
             {" "}with sufficient detail for us to verify and fulfil your request.
           </p>
@@ -148,8 +148,8 @@ export default function PrivacyPolicyPage() {
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Questions about privacy?</h2>
             <p className="text-slate-400 mb-6">Reach out to us directly and we&apos;ll get back to you.</p>
-            <a href="mailto:contact@tothewebpro.com" className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold transition-colors">
-              contact@tothewebpro.com
+            <a href="mailto:izharjoiya0@gmail.com" className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold transition-colors">
+              izharjoiya0@gmail.com
             </a>
           </div>
         </section>

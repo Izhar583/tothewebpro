@@ -101,9 +101,9 @@ export function ContactForm() {
           it&apos;s urgent, email us directly at{" "}
           <a
             className="text-primary hover:underline"
-            href="mailto:contact@tothewebpro.com"
+            href="mailto:izharjoiya0@gmail.com"
           >
-            contact@tothewebpro.com
+            izharjoiya0@gmail.com
           </a>
           .
         </p>
