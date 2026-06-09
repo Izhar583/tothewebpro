@@ -476,7 +476,7 @@ export function MetaChecker() {
         <div className="overflow-x-auto">
           <div
             className={`rounded-xl border border-orange-100 bg-white p-6 shadow-sm transition-all duration-300 ${
-              serpVariant === "desktop" ? "w-[600px] max-w-[600px]" : "w-[400px] max-w-[400px]"
+              serpVariant === "desktop" ? "w-[648px] max-w-[648px]" : "w-[400px] max-w-[400px]"
             }`}
           >
             {/* Title */}
@@ -488,7 +488,9 @@ export function MetaChecker() {
                 lineHeight: "1.3",
                 fontWeight: "normal",
               }}
-              className="hover:underline cursor-pointer transition-all"
+              className={`hover:underline cursor-pointer transition-all ${
+                serpVariant === "desktop" ? "whitespace-nowrap overflow-hidden text-ellipsis" : "line-clamp-2 overflow-hidden"
+              }`}
             >
               {serpVariant === "desktop" ? previewTitleDesktop : previewTitleMobile}
             </p>
