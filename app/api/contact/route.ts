@@ -80,6 +80,8 @@ export async function POST(request: NextRequest) {
 
   // If an email provider is configured, send the email via SMTP
   if (hasEmailProvider) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const nodemailer = require("nodemailer") as typeof import("nodemailer");
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT) || 587,

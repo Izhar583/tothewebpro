@@ -35,6 +35,60 @@ function StatusCircleIcon({ type }: { type: "green" | "amber" | "red" }) {
   );
 }
 
+function truncateTextByPixels(text: string, font: string, maxPixels: number): string {
+  if (typeof window === "undefined" || !text) return text || "";
+  try {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return text;
+    ctx.font = font;
+    if (ctx.measureText(text).width <= maxPixels) {
+      return text;
+    }
+    const words = text.split(/\s+/);
+    let currentText = "";
+    for (let i = 0; i < words.length; i++) {
+      const testText = currentText ? `${currentText} ${words[i]}` : words[i];
+      const testWidth = ctx.measureText(`${testText} ...`).width;
+      if (testWidth > maxPixels) {
+        if (currentText === "") {
+          let charIndex = words[i].length;
+          while (charIndex > 0) {
+            const charTest = words[i].substring(0, charIndex) + "...";
+            if (ctx.measureText(charTest).width <= maxPixels) {
+              return charTest;
+            }
+            charIndex--;
+          }
+          return "...";
+        }
+        break;
+      }
+      currentText = testText;
+    }
+    return currentText + " ...";
+  } catch {
+    return text;
+  }
+}
+
+function PixelProgressBar({ value, max, color }: { value: number; max: number; color: "green" | "amber" | "red" }) {
+  const percentage = Math.min(100, (value / max) * 100);
+  const barColor = color === "green" 
+    ? "bg-emerald-500" 
+    : color === "amber"
+    ? "bg-amber-500"
+    : "bg-red-500";
+  return (
+    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1.5 relative">
+      <div 
+        className={`h-full transition-all duration-300 ease-out ${barColor}`} 
+        style={{ width: `${percentage}%` }}
+      />
+    </div>
+  );
+}
+
 export function MetaChecker() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -57,6 +111,8 @@ export function MetaChecker() {
     robots,
     ogImage,
     wordCount,
+    titlePixelWidth,
+    descPixelWidth,
   } = useMetaChecker();
 
   const [serpVariant, setSerpVariant] = useState<SerpVariant>("desktop");
@@ -94,108 +150,58 @@ export function MetaChecker() {
     return "www.example.com/page";
   }, [mode, urlInput]);
 
-  // Client-side canvas-based pixel width calculations
-  const titlePixelWidth = useMemo(() => {
-    if (typeof window === "undefined") return 0;
-    try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return 0;
-      ctx.font = "20px Arial";
-      return Math.round(ctx.measureText(title).width);
-    } catch {
-      return 0;
-    }
-  }, [title]);
-
-  const descPixelWidth = useMemo(() => {
-    if (typeof window === "undefined") return 0;
-    try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return 0;
-      ctx.font = "14px Arial";
-      return Math.round(ctx.measureText(description).width);
-    } catch {
-      return 0;
-    }
-  }, [description]);
-
-  // Title Pixel Threshold Logic
+  // Title and Description State computed directly from the hook scoring
   const titlePixelState = useMemo(() => {
     const w = titlePixelWidth;
-    if (w <= 300) {
-      return {
-        color: "text-red-500 font-medium flex items-center gap-2",
-        message: `Page title is ${w} pixel(s) long — Your page title is too short.`,
-        type: "red" as const
-      };
-    }
-    if (w <= 499) {
-      return {
-        color: "text-amber-500 font-medium flex items-center gap-2",
-        message: `Page title is ${w} pixel(s) long — Your page title could be longer.`,
-        type: "amber" as const
-      };
-    }
-    if (w <= 580) {
-      return {
-        color: "text-emerald-600 font-medium flex items-center gap-2",
-        message: `Page title is ${w} pixel(s) long — Your page title is an acceptable length.`,
-        type: "green" as const
-      };
-    }
-    if (w <= 600) {
-      return {
-        color: "text-amber-500 font-medium flex items-center gap-2",
-        message: `Page title is ${w} pixel(s) long — Your page title is close to the limit.`,
-        type: "amber" as const
-      };
-    }
+    const scoreColor = titleScore.color;
+    const colorClass = scoreColor === "green" 
+      ? "text-emerald-600 font-medium flex items-center gap-2" 
+      : scoreColor === "amber"
+      ? "text-amber-500 font-medium flex items-center gap-2"
+      : "text-red-500 font-medium flex items-center gap-2";
     return {
-      color: "text-red-500 font-medium flex items-center gap-2",
-      message: `Page title is ${w} pixel(s) long — Page titles should be around 580 pixels in length.`,
-      type: "red" as const
+      color: colorClass,
+      message: `Page title is ${w} pixel(s) long — ${titleScore.message}`,
+      type: scoreColor
     };
-  }, [titlePixelWidth]);
+  }, [titlePixelWidth, titleScore]);
 
-  // Description Pixel Threshold Logic
   const descPixelState = useMemo(() => {
     const w = descPixelWidth;
-    if (w <= 400) {
-      return {
-        color: "text-red-500 font-medium flex items-center gap-2",
-        message: `Meta description is ${w} pixel(s) long — Your meta description is too short.`,
-        type: "red" as const
-      };
-    }
-    if (w <= 699) {
-      return {
-        color: "text-amber-500 font-medium flex items-center gap-2",
-        message: `Meta description is ${w} pixel(s) long — Your meta description could be longer.`,
-        type: "amber" as const
-      };
-    }
-    if (w <= 900) {
-      return {
-        color: "text-emerald-600 font-medium flex items-center gap-2",
-        message: `Meta description is ${w} pixel(s) long — Your meta description is an acceptable length.`,
-        type: "green" as const
-      };
-    }
-    if (w <= 920) {
-      return {
-        color: "text-amber-500 font-medium flex items-center gap-2",
-        message: `Meta description is ${w} pixel(s) long — Your meta description is close to the limit.`,
-        type: "amber" as const
-      };
-    }
+    const scoreColor = descriptionScore.color;
+    const colorClass = scoreColor === "green" 
+      ? "text-emerald-600 font-medium flex items-center gap-2" 
+      : scoreColor === "amber"
+      ? "text-amber-500 font-medium flex items-center gap-2"
+      : "text-red-500 font-medium flex items-center gap-2";
     return {
-      color: "text-red-500 font-medium flex items-center gap-2",
-      message: `Meta description is ${w} pixel(s) long — Meta descriptions should be around 900 pixels in length.`,
-      type: "red" as const
+      color: colorClass,
+      message: `Meta description is ${w} pixel(s) long — ${descriptionScore.message}`,
+      type: scoreColor
     };
-  }, [descPixelWidth]);
+  }, [descPixelWidth, descriptionScore]);
+
+  // Word-boundary truncated text for desktop and mobile preview rendering
+  const previewTitleDesktop = useMemo(() => {
+    return truncateTextByPixels(title || "Your title appears here", "20px Arial", 580);
+  }, [title]);
+
+  const previewTitleMobile = useMemo(() => {
+    return truncateTextByPixels(title || "Your title appears here", "20px Arial", 640);
+  }, [title]);
+
+  const previewDescDesktop = useMemo(() => {
+    return truncateTextByPixels(description || "Your meta description will appear here — aim for 120–160 characters.", "13px Arial", 920);
+  }, [description]);
+
+  const previewDescMobile = useMemo(() => {
+    return truncateTextByPixels(description || "Your mobile meta description will appear here...", "13px Arial", 680);
+  }, [description]);
+
+  const formattedBreadcrumb = useMemo(() => {
+    const domainAndPath = displayUrl || "www.example.com";
+    return domainAndPath.split("/").join(" › ");
+  }, [displayUrl]);
 
   async function onFetch() {
     setError(null);
@@ -315,9 +321,9 @@ export function MetaChecker() {
                 Meta title
               </label>
               <span
-                className={`text-xs font-bold ${titleCharClass(title.length)}`}
+                className={`text-xs font-bold ${titleCharClass(title.length, titlePixelWidth)}`}
               >
-                {title.length} chars &middot; ~{titlePixelWidth}px / 600px max &middot; {titleScore.score}/100
+                {title.length} chars &middot; {titlePixelWidth}px / 580px limit &middot; Score: {titleScore.score}/100
               </span>
             </div>
             <textarea
@@ -328,6 +334,13 @@ export function MetaChecker() {
               className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
               placeholder="Enter page title..."
             />
+            {title && (
+              <PixelProgressBar 
+                value={titlePixelWidth} 
+                max={580} 
+                color={titleScore.color} 
+              />
+            )}
             {/* Visual Pixel Indicator */}
             {title && (
               <div className={`mt-2 flex items-start gap-2 text-sm ${titlePixelState.color}`} role="status">
@@ -363,9 +376,9 @@ export function MetaChecker() {
               Meta description
             </label>
             <span
-              className={`text-xs font-bold ${descriptionCharClass(description.length)}`}
+              className={`text-xs font-bold ${descriptionCharClass(description.length, descPixelWidth)}`}
             >
-              {description.length} chars &middot; ~{descPixelWidth}px total / 920px desktop max &middot; {descriptionScore.score}/100
+              {description.length} chars &middot; {descPixelWidth}px / 920px limit &middot; Score: {descriptionScore.score}/100
             </span>
           </div>
           <textarea
@@ -376,6 +389,13 @@ export function MetaChecker() {
             className="w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
             placeholder="Enter meta description..."
           />
+          {description && (
+            <PixelProgressBar 
+              value={descPixelWidth} 
+              max={920} 
+              color={descriptionScore.color} 
+            />
+          )}
           {/* Visual Pixel Indicator */}
           {description && (
             <div className={`mt-2 flex items-start gap-2 text-sm ${descPixelState.color}`} role="status">
@@ -468,13 +488,9 @@ export function MetaChecker() {
                 lineHeight: "1.3",
                 fontWeight: "normal",
               }}
-              className={
-                serpVariant === "desktop"
-                  ? "overflow-hidden text-ellipsis whitespace-nowrap"
-                  : "line-clamp-2 overflow-hidden"
-              }
+              className="hover:underline cursor-pointer transition-all"
             >
-              {title || "Your title appears here"}
+              {serpVariant === "desktop" ? previewTitleDesktop : previewTitleMobile}
             </p>
 
             {/* URL/breadcrumb */}
@@ -483,26 +499,23 @@ export function MetaChecker() {
               style={{
                 fontFamily: "Arial, sans-serif",
                 fontSize: "14px",
-                color: "#006621",
+                color: "#202124",
               }}
             >
-              {displayUrl}
+              {formattedBreadcrumb}
             </p>
 
             {/* Description */}
             <p
-              className="mt-2 line-clamp-2 overflow-hidden"
+              className="mt-2"
               style={{
                 fontFamily: "Arial, sans-serif",
-                fontSize: "14px",
+                fontSize: "13px",
                 color: description ? "#4d5156" : "#94a3b8",
-                lineHeight: "1.58",
+                lineHeight: "1.57",
               }}
             >
-              {serpVariant === "mobile"
-                ? (description ? description.slice(0, 115) + (description.length > 115 ? "..." : "") : "Your mobile meta description will appear here...")
-                : (description || "Your meta description will appear here — aim for 120–160 characters.")
-              }
+              {serpVariant === "desktop" ? previewDescDesktop : previewDescMobile}
             </p>
           </div>
         </div>

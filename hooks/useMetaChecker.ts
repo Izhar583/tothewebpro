@@ -5,6 +5,7 @@ import type { FetchMetaResponse } from "@/lib/types";
 import {
   scoreDescription,
   scoreTitle,
+  getTextWidth,
 } from "@/lib/metaScore";
 
 export type InputMode = "text" | "url";
@@ -21,10 +22,18 @@ export function useMetaChecker() {
   const [ogImage, setOgImage] = useState("");
   const [wordCount, setWordCount] = useState(0);
 
-  const titleScore = useMemo(() => scoreTitle(title.length), [title]);
+  const titlePixelWidth = useMemo(() => {
+    return getTextWidth(title, "20px Arial");
+  }, [title]);
+
+  const descPixelWidth = useMemo(() => {
+    return getTextWidth(description, "13px Arial");
+  }, [description]);
+
+  const titleScore = useMemo(() => scoreTitle(title.length, titlePixelWidth), [title, titlePixelWidth]);
   const descriptionScore = useMemo(
-    () => scoreDescription(description.length),
-    [description],
+    () => scoreDescription(description.length, descPixelWidth),
+    [description, descPixelWidth],
   );
 
   const fetchMeta = useCallback(async (rawUrl: string) => {
@@ -91,5 +100,7 @@ export function useMetaChecker() {
     robots,
     ogImage,
     wordCount,
+    titlePixelWidth,
+    descPixelWidth,
   };
 }

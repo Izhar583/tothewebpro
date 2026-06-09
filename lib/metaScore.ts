@@ -8,24 +8,36 @@ export interface FieldScore {
   message: string;
 }
 
-export function getTitleState(length: number): LengthState {
-  if (length <= 10) return "too-short";
-  if (length <= 49) return "short";
-  if (length <= 55) return "good";
-  if (length <= 60) return "acceptable";
+export function getTextWidth(text: string, font: string): number {
+  if (typeof window === "undefined" || !text) return 0;
+  try {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return 0;
+    ctx.font = font;
+    return Math.round(ctx.measureText(text).width);
+  } catch {
+    return 0;
+  }
+}
+
+export function getTitleState(length: number, pixelWidth?: number): LengthState {
+  const w = pixelWidth !== undefined ? pixelWidth : Math.round(length * 10.5);
+  if (w < 250) return "too-short";
+  if (w <= 580) return "good";
   return "too-long";
 }
 
-export function getDescriptionState(length: number): LengthState {
-  if (length <= 50) return "too-short";
-  if (length <= 104) return "short";
-  if (length <= 155) return "good";
-  if (length <= 160) return "acceptable";
+export function getDescriptionState(length: number, pixelWidth?: number): LengthState {
+  const w = pixelWidth !== undefined ? pixelWidth : Math.round(length * 6.0);
+  if (w < 400) return "too-short";
+  if (w <= 920) return "good";
   return "too-long";
 }
 
-export function scoreTitle(length: number): FieldScore {
-  const state = getTitleState(length);
+export function scoreTitle(length: number, pixelWidth?: number): FieldScore {
+  const state = getTitleState(length, pixelWidth);
+  const w = pixelWidth !== undefined ? pixelWidth : Math.round(length * 10.5);
   let score = 0;
   let color: "red" | "amber" | "green" = "green";
   let label = "";
@@ -43,43 +55,36 @@ export function scoreTitle(length: number): FieldScore {
 
   switch (state) {
     case "too-short":
-      score = Math.max(0, Math.min(19, length * 1.8));
+      score = Math.max(10, Math.min(59, Math.round((w / 250) * 60)));
       color = "red";
       label = "Too short";
-      message = "Add more detail — short titles miss keyword opportunities.";
-      break;
-    case "short":
-      score = Math.max(40, Math.min(69, 40 + (length - 11) * 2));
-      if (length >= 45) score = Math.max(70, Math.min(89, 70 + (length - 45) * 4));
-      color = "amber";
-      label = "Could be longer";
-      message = "Consider expanding to 50–55 characters for best visibility.";
+      message = "Your page title is too short. Try to expand it to at least 250 pixels (approx. 30 characters).";
       break;
     case "good":
-      score = Math.max(90, Math.min(100, 95 + (length - 50)));
+      score = Math.round(90 + ((w - 250) / 330) * 10);
       color = "green";
-      label = "Good";
-      message = "Great length. Fits Google desktop and mobile without truncation.";
-      break;
-    case "acceptable":
-      score = Math.max(70, Math.min(89, 89 - (length - 56) * 4));
-      color = "amber";
-      label = "Slightly long";
-      message = "Close to the limit. Check the pixel width — may truncate on some screens.";
+      label = "Acceptable length";
+      message = "Your page title is an acceptable length. It fits Google desktop and mobile search results.";
       break;
     case "too-long":
-      score = Math.max(20, Math.min(39, 39 - (length - 61) * 0.8));
+      score = Math.max(10, Math.round(60 - ((w - 580) / 200) * 40));
       color = "red";
-      label = "Too long — may truncate";
-      message = "Too long. Google will cut this in search results — trim to under 60 characters.";
+      label = "Too long — will truncate";
+      message = "Page titles should be around 580 pixels in length. Google will truncate this in search results.";
       break;
+    default:
+      score = 50;
+      color = "amber";
+      label = "Review length";
+      message = "Check the pixel width to ensure optimal display.";
   }
 
   return { score: Math.round(score), state, color, label, message };
 }
 
-export function scoreDescription(length: number): FieldScore {
-  const state = getDescriptionState(length);
+export function scoreDescription(length: number, pixelWidth?: number): FieldScore {
+  const state = getDescriptionState(length, pixelWidth);
+  const w = pixelWidth !== undefined ? pixelWidth : Math.round(length * 6.0);
   let score = 0;
   let color: "red" | "amber" | "green" = "green";
   let label = "";
@@ -91,60 +96,50 @@ export function scoreDescription(length: number): FieldScore {
       state: "too-short",
       color: "red",
       label: "Too short",
-      message: "Too brief. Expand to 120–150 characters for better CTR."
+      message: "Too brief. Expand to 400–920 pixels (approx. 120–160 characters) for better CTR."
     };
   }
 
   switch (state) {
     case "too-short":
-      score = Math.max(0, Math.min(14, length * 0.28));
+      score = Math.max(10, Math.min(59, Math.round((w / 400) * 60)));
       color = "red";
       label = "Too short";
-      message = "Too brief. Expand to 120–150 characters for better CTR.";
-      break;
-    case "short":
-      score = Math.max(40, Math.min(59, 40 + (length - 51) * 0.36));
-      if (length >= 105) score = Math.max(75, Math.min(89, 75 + (length - 105) * 1));
-      color = "amber";
-      label = "Could be longer";
-      message = "A bit short. Aim for 120–150 characters to fill the Google snippet.";
+      message = "Your meta description is too short. Try to expand it to at least 400 pixels to optimize SERP visibility.";
       break;
     case "good":
-      score = Math.max(90, Math.min(100, 90 + (length - 105) * 0.2));
-      if (length >= 120 && length <= 155) {
-        score = Math.max(95, Math.min(100, 95 + (length - 120) * 0.14));
-      }
+      score = Math.round(90 + ((w - 400) / 520) * 10);
       color = "green";
-      label = "Good";
-      message = "Good length for desktop and mobile Google results.";
-      break;
-    case "acceptable":
-      score = Math.max(60, Math.min(74, 74 - (length - 156) * 3));
-      color = "amber";
-      label = "May truncate on mobile";
-      message = "Fine for desktop but may be trimmed on mobile. Consider keeping under 150 chars.";
+      label = "Acceptable length";
+      message = "Your meta description is an acceptable length. It fits desktop Google search results.";
       break;
     case "too-long":
-      score = Math.max(15, Math.min(39, 39 - (length - 161) * 0.4));
+      score = Math.max(10, Math.round(60 - ((w - 920) / 300) * 40));
       color = "red";
       label = "Too long — will truncate";
-      message = "Too long. Google will truncate this on desktop. Cut to under 155 characters.";
+      message = "Meta descriptions should be around 920 pixels in length. Google will truncate this on desktop results.";
       break;
+    default:
+      score = 50;
+      color = "amber";
+      label = "Review length";
+      message = "Check the pixel width to ensure optimal display.";
   }
 
   return { score: Math.round(score), state, color, label, message };
 }
 
-export function titleCharClass(length: number): string {
-  const score = scoreTitle(length);
+export function titleCharClass(length: number, pixelWidth?: number): string {
+  const score = scoreTitle(length, pixelWidth);
   if (score.color === "green") return "text-emerald-600";
   if (score.color === "amber") return "text-amber-500";
   return "text-red-500";
 }
 
-export function descriptionCharClass(length: number): string {
-  const score = scoreDescription(length);
+export function descriptionCharClass(length: number, pixelWidth?: number): string {
+  const score = scoreDescription(length, pixelWidth);
   if (score.color === "green") return "text-emerald-600";
   if (score.color === "amber") return "text-amber-500";
   return "text-red-500";
 }
+
