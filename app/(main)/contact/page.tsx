@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact ToTheWebPro | Get in Touch With Our Team",
   description:
-    "Reach the ToTheWebPro team for partnerships, press, or product feedback. We usually reply within 24 hours.",
+    "Have a question or feedback? Contact the ToTheWebPro team. We are happy to help with tool requests, partnerships, or general inquiries.",
   alternates: { canonical: "https://tothewebpro.com/contact" },
 };
 

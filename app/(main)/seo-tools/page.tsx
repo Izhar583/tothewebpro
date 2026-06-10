@@ -3,9 +3,9 @@ import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
 
 export const metadata: Metadata = {
-  title: "SEO Tools",
+  title: "Free SEO Tools Online | Meta Checker & More | ToTheWebPro",
   description:
-    "Free SEO utilities from ToTheWebPro including meta title and description analysis.",
+    "Free SEO tools to check meta titles, descriptions, and on-page SEO. Optimize websites for better Google ranking and visibility.",
   alternates: { canonical: "https://tothewebpro.com/seo-tools" },
 };
 

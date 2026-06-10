@@ -3,9 +3,9 @@ import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
 
 export const metadata: Metadata = {
-  title: "Image Tools",
+  title: "Free Online Image Tools | Compress, Resize & Convert Images",
   description:
-    "Compress, resize, and convert images locally with ToTheWebPro.",
+    "Free online image compression, resizing, and conversion tools. Optimize images for faster websites without quality loss and no upload limits.",
   alternates: { canonical: "https://tothewebpro.com/image-tools" },
 };
 

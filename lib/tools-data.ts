@@ -14,10 +14,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔎",
     schemaDescription:
       "Free meta tag checker with pixel-width simulation for title and description truncation, Open Graph and Twitter Card audit, canonical tag detection, and robots directive display. 100% client-side, no data transmitted.",
-    metaTitle:
-      "Free Meta Tag Checker: Pixel-Accurate SERP Preview & Open Graph Audit",
+    metaTitle: "Free Meta Title and Description Checker | SEO Preview Tool",
     metaDescription:
-      "Audit your title tag, meta description, canonical, Open Graph, and Twitter Card tags in one pass. Pixel-accurate truncation preview, color-coded status flags, and zero server contact. Free, instant, no account needed.",
+      "Free SEO tool to check meta title and description length with live SERP preview for better optimization and higher click-through rates.",
     howToUseParagraphs: [
       paragraph(
         "Choose between URL input and HTML source input at the top of the tool. ",
@@ -80,10 +79,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "📝",
     schemaDescription:
       "Free live word counter with real-time word, character, sentence, and paragraph counts, reading time, speaking time, and keyword frequency table. 100% client-side, no data sent to any server.",
-    metaTitle:
-      "Free Word Counter Online: Live Word, Character & Reading Time Analyzer",
+    metaTitle: "Free Word Counter Online | Count Words & Characters Instantly",
     metaDescription:
-      "Count words, characters, sentences, reading time, and keyword density in real time. Built for content writers, SEO professionals, and developers. Free, private, no account needed.",
+      "Free online tool to count words, characters, sentences, and paragraphs for blogs, essays, SEO content, and social media writing.",
     howToUseParagraphs: [
       paragraph(
         "Paste any volume of text directly into the input area — from a single tweet to a 10,000-word whitepaper. ",
@@ -150,10 +148,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔠",
     schemaDescription:
       "Free online case converter and string manipulator with eight transformations: UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, and kebab-case. Runs entirely client-side with no server logging.",
-    metaTitle:
-      "Free Online Case Converter: Smart Text Case & String Manipulator",
+    metaTitle: "Free Case Converter Online | UPPER, lower, Title Case Tool",
     metaDescription:
-      "Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and more in one click. 100% client-side, no data sent to any server. Free, instant, and private.",
+      "Free online case converter tool to convert text to uppercase, lowercase, title case, and sentence case instantly with no signup required.",
     howToUseParagraphs: [
       paragraph(
         "Paste your text into the input area and pick any of the eight case transformation buttons below it. ",
@@ -218,9 +215,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🗜️",
     schemaDescription:
       "Browser-based image compressor with lossless and lossy modes, quality slider, savings preview, and ZIP download. No server upload.",
-    metaTitle: "Free Image Compressor — Reduce File Size Without Losing Quality",
+    metaTitle: "Free Image Compressor Online | Reduce Image Size Without Quality Loss",
     metaDescription:
-      "Compress JPG, PNG, and WebP images instantly in your browser. Lossless and lossy modes, no upload limits, no account required. Built for developers and SEO professionals.",
+      "Free online tool to compress JPG, PNG, and WebP images. Reduce file size without losing quality for faster websites and SEO performance.",
     howToUseParagraphs: [
       paragraph(
         "Every kilobyte your images carry is a kilobyte your users wait for. ",
@@ -290,10 +287,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "📐",
     schemaDescription:
       "Free batch image resizer supporting exact pixel width, percentage scaling, and aspect ratio lock. Supports JPEG, PNG, WebP, and GIF. 100% client-side via Canvas API, no server upload.",
-    metaTitle:
-      "Free Image Resizer Online: Resize Images by Pixels or Percentage",
+    metaTitle: "Free Image Resizer Online | Resize Images to Any Dimension",
     metaDescription:
-      "Resize JPEG, PNG, WebP, and GIF images in your browser by exact pixel width or percentage scale. Aspect ratio lock, social media presets, batch ZIP export. No upload, no account, no watermarks.",
+      "Free online image resizer to set custom width and height or maintain aspect ratio for web and social media optimization.",
     howToUseParagraphs: [
       paragraph(
         "Drop one or more image files onto the upload area or click to browse. ",
@@ -360,9 +356,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔄",
     schemaDescription:
       "Convert images between PNG, JPEG, and WebP formats using local canvas processing. Private, instant, no server upload.",
-    metaTitle: "Image Converter: Convert Between WebP, PNG, JPG, and More",
+    metaTitle: "Free Image Converter Online | Convert JPG, PNG, WebP & More",
     metaDescription:
-      "Convert images between WebP, PNG, and JPG directly in your browser. No plugins, no cloud queues, no account required. Instant download.",
+      "Free online image converter to convert JPG, PNG, WebP, and other formats quickly without signing up.",
     howToUseParagraphs: [
       paragraph(
         "Format compatibility problems cost time. You have a PNG that needs to be WebP ",
@@ -424,10 +420,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔢",
     schemaDescription:
       "Free live character counter with real-time platform threshold indicators for Twitter/X, LinkedIn, Instagram, Facebook, and SMS. Shows characters with spaces, without spaces, word count, and UTF-8 byte count. 100% client-side.",
-    metaTitle:
-      "Free Character Counter Online: Live Twitter/X, SMS & Social Media Limit Tracker",
+    metaTitle: "Free Character Counter Online | Count Letters and Spaces",
     metaDescription:
-      "Count characters in real time with threshold warnings for Twitter/X (280), LinkedIn (3,000), Instagram (2,200), and SMS. Shows characters with and without spaces, word count, and byte count. Free and private.",
+      "Free online character counter tool to instantly count characters, letters, spaces, and words for SEO and social media content.",
     howToUseParagraphs: [
       paragraph(
         "Paste your text into the input area and the metrics dashboard updates on every keystroke. ",
@@ -489,10 +484,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔐",
     schemaDescription:
       "Free secure password generator powered by window.crypto.getRandomValues(). Control length, character classes, and custom exclusions. Shows real-time entropy score. 100% client-side, zero server contact.",
-    metaTitle:
-      "Free Secure Password Generator Online: Cryptographic Entropy & Zero Data Exposure",
+    metaTitle: "Free Strong Password Generator Online | Secure and Random",
     metaDescription:
-      "Generate strong, cryptographically secure passwords in your browser. Control length, character classes, and see a real-time entropy score. No data is ever sent to any server. Free and instant.",
+      "Free online password generator to create strong, secure passwords with customizable length and characters for better account protection.",
     howToUseParagraphs: [
       paragraph(
         "Use the length slider or input field to set your required character count. ",

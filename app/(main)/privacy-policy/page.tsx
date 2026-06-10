@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ShieldCheck, Database, Cookie, Megaphone, UserCheck, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy | ToTheWebPro",
   description:
-    "How ToTheWebPro handles personal data, cookies, analytics, and advertising partners including Google AdSense.",
+    "Read the ToTheWebPro privacy policy to understand how we collect, use, and protect your data when you use our free online tools.",
   alternates: { canonical: "https://tothewebpro.com/privacy-policy" },
 };
 

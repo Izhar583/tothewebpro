@@ -3,9 +3,9 @@ import Link from "next/link";
 import { BLOG_POSTS } from "@/lib/blog-posts";
 
 export const metadata: Metadata = {
-  title: "SEO & Performance Blog",
+  title: "Blog | SEO Tips, Web Tools and Digital Marketing Guides",
   description:
-    "Practical SEO and web performance articles from ToTheWebPro — written for UK and US teams who want results, not theory.",
+    "Read practical guides on SEO, website optimization, and digital tools. Actionable tips for beginners and professionals alike.",
   alternates: { canonical: "https://tothewebpro.com/blog" },
 };
 
