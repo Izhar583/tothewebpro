@@ -14,11 +14,11 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tothewebpro.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "ToTheWebPro | Free SEO, Text & Image Tools",
+    default: "Free Online Tools for SEO, Images, Text & More | ToTheWebPro",
     template: "%s | ToTheWebPro",
   },
   description:
-    "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
+    "Free online tools for SEO analysis, image compression, text editing, and developer utilities. Fast and no signup required.",
   alternates: {
     canonical: baseUrl,
     languages: {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     locale: "en_GB",
     type: "website",
     siteName: "ToTheWebPro",
-    title: "ToTheWebPro | Free SEO, Text & Image Tools",
+    title: "Free Online Tools for SEO, Images, Text & More | ToTheWebPro",
     description:
-      "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
+      "Free online tools for SEO analysis, image compression, text editing, and developer utilities. Fast and no signup required.",
     images: [
       {
         url: `${baseUrl}/og-default.png`,
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@tothewebpro",
     creator: "@tothewebpro",
-    title: "ToTheWebPro | Free SEO, Text & Image Tools",
+    title: "Free Online Tools for SEO, Images, Text & More | ToTheWebPro",
     description:
-      "Free browser-based tools for SEO professionals, content creators, and developers. Word counter, meta title checker, image compressor, and more — no account required.",
+      "Free online tools for SEO analysis, image compression, text editing, and developer utilities. Fast and no signup required.",
     images: [`${baseUrl}/og-default.png`],
   },
 };

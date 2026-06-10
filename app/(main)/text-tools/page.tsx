@@ -3,9 +3,9 @@ import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
 
 export const metadata: Metadata = {
-  title: "Text Tools",
+  title: "Free Online Text Tools | Word Counter, Case Converter & More",
   description:
-    "Word counters, case converters, and character utilities for writers and editors.",
+    "Free online text tools including word counter, character counter, and case converter for writers, students, and content creators.",
   alternates: { canonical: "https://tothewebpro.com/text-tools" },
 };
 

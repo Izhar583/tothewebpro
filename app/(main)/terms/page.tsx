@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { CheckCircle2, AlertTriangle, ShieldAlert, Copyright, ExternalLink, RefreshCw, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
+  title: "Terms of Service | ToTheWebPro",
   description:
-    "Terms governing use of ToTheWebPro tools, acceptable use, disclaimers, and intellectual property.",
+    "Read the Terms of Service for ToTheWebPro. By using our free online tools, you agree to the conditions outlined in this page.",
   alternates: { canonical: "https://tothewebpro.com/terms" },
 };
 

@@ -10,9 +10,9 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "write-meta-descriptions-that-earn-clicks",
-    title: "Write Meta Descriptions That Earn Clicks in UK and US SERPs",
+    title: "How to Write Meta Descriptions That Earn More Clicks in 2026",
     excerpt:
-      "Practical patterns for clarity, intent match, and measurable CTR improvements without keyword stuffing.",
+      "Learn how to write compelling meta descriptions that boost your CTR in Google search results. Includes examples, tips, and character limits explained.",
     date: "2026-05-01",
     readMinutes: 6,
     content: [
@@ -24,9 +24,9 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "core-web-vitals-for-content-teams",
-    title: "Core Web Vitals: What Content Teams Should Know in 2026",
+    title: "Core Web Vitals for Content Teams | What You Need to Know",
     excerpt:
-      "How image choices, embeds, and layout decisions influence LCP, INP, and CLS for publishers.",
+      "Understand Core Web Vitals and how they affect your content rankings. A simple guide for non technical content teams to improve page experience scores.",
     date: "2026-05-02",
     readMinutes: 7,
     content: [

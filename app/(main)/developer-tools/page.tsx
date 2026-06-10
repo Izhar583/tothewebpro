@@ -3,9 +3,9 @@ import { ToolCard } from "@/components/ToolCard";
 import { TOOLS } from "@/lib/tools-data";
 
 export const metadata: Metadata = {
-  title: "Developer Tools",
+  title: "Free Developer Tools Online | JSON, Code & Web Utilities",
   description:
-    "Developer-focused utilities from ToTheWebPro including secure password generation.",
+    "Free developer tools for JSON formatting, code utilities, and web helpers. Fast solutions for developers with no signup required.",
   alternates: { canonical: "https://tothewebpro.com/developer-tools" },
 };
 

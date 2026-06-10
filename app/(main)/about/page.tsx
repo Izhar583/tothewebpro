@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Users, Zap, Shield, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About ToTheWebPro",
+  title: "About ToTheWebPro | Free Web Tools Built for Everyone",
   description:
-    "Learn about ToTheWebPro's mission, audience, and how we build fast, free tools for SEO and content teams.",
+    "Learn about ToTheWebPro and our mission to provide free, easy to use web tools for marketers, developers, and content creators worldwide.",
   alternates: { canonical: "https://tothewebpro.com/about" },
 };
 
