@@ -5,6 +5,7 @@ import { type ReactNode } from "react";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { Spinner } from "@/components/ui/Spinner";
 import { TOOL_BY_SLUG } from "@/lib/tools-data";
+import { MetaCheckerFallback } from "@/components/tools/MetaCheckerFallback";
 
 // Each tool is loaded dynamically so only the active tool's bundle is fetched.
 const CaseConverter = dynamic(
@@ -32,10 +33,11 @@ const ImageResizer = dynamic(
   () => import("@/components/tools/ImageResizer").then((m) => m.ImageResizer),
   { loading: () => <Spinner label="Loading tool…" /> },
 );
+
 const MetaChecker = dynamic(
   () => import("@/components/tools/MetaChecker").then((m) => m.MetaChecker),
   {
-    loading: () => <Spinner label="Loading tool…" />,
+    loading: () => <MetaCheckerFallback />,
   },
 );
 const PasswordGenerator = dynamic(
