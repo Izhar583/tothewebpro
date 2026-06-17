@@ -15,8 +15,8 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tothewebpro.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Free Online Tools for SEO, Images, Text & More | ToTheWebPro",
-    template: "%s | ToTheWebPro",
+    default: "Free Online Tools for SEO, Images, Text & More",
+    template: "%s",
   },
   description:
     "Free online tools for SEO analysis, image compression, text editing, and developer utilities. Fast and no signup required.",
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/icon.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
     locale: "en_GB",

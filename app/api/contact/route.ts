@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 interface ContactPayload {
   name: string;
@@ -39,36 +40,28 @@ export async function POST(request: NextRequest) {
   }
 
   // -------------------------------------------------------------------------
-  // EMAIL DELIVERY
-  // To go live, replace this block with your preferred provider:
-  //
-  // Option A — Resend (recommended, 100 free emails/day):
-  //   import { Resend } from "resend";
-  //   const resend = new Resend(process.env.RESEND_API_KEY);
-  //   await resend.emails.send({ from: "noreply@yourdomain.com", to: "izharjoiya0@gmail.com", subject, html: `<p>${message}</p>` });
-  //
-  // Option B — SendGrid:
-  //   Use @sendgrid/mail with process.env.SENDGRID_API_KEY
-  //
-  // Option C — Nodemailer (SMTP):
-  //   Use process.env.SMTP_HOST / SMTP_USER / SMTP_PASS
+  // SMTP Configuration
   // -------------------------------------------------------------------------
+  const requiredEnv = [
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "CONTACT_EMAIL",
+  ];
+  const missingEnv = requiredEnv.filter((key) => !process.env[key]);
 
-  // Development / demo: log to console so you can verify the route works
-  // before wiring a real email provider.
-  if (process.env.NODE_ENV === "development") {
-    console.info("[contact form]", { name, email, subject, message });
-  }
+  if (missingEnv.length > 0) {
+    console.error("Missing SMTP environment variables:", missingEnv);
+    
+    // In development, show error. In production, return 501.
+    if (process.env.NODE_ENV === "development") {
+      return NextResponse.json(
+        { error: `Missing configuration: ${missingEnv.join(", ")}` },
+        { status: 500 },
+      );
+    }
 
-  // In production without an email provider configured, return 501 so the
-  // form shows an actionable error rather than silently eating the message.
-  const hasEmailProvider = Boolean(
-    process.env.RESEND_API_KEY ||
-      process.env.SENDGRID_API_KEY ||
-      process.env.SMTP_HOST,
-  );
-
-  if (!hasEmailProvider && process.env.NODE_ENV === "production") {
     return NextResponse.json(
       {
         error:
@@ -78,30 +71,43 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // If an email provider is configured, send the email via SMTP
-  if (hasEmailProvider) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const nodemailer = require("nodemailer") as typeof import("nodemailer");
+  try {
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === "true",
+      host: process.env.SMTP_HOST?.trim(),
+      port: Number(process.env.SMTP_PORT?.trim()),
+      secure: process.env.SMTP_SECURE?.trim().toLowerCase() === "true", // true for port 465, false for 587
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.SMTP_USER?.trim(),
+        pass: process.env.SMTP_PASS?.trim(),
       },
     });
 
     await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.CONTACT_EMAIL,
-      subject: `[Contact] ${subject}`,
-      replyTo: email,
-      text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
-      html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message}</p>`,
+      from: `"${name}" <${process.env.SMTP_USER}>`, // From user (authenticated)
+      to: process.env.CONTACT_EMAIL, // To owner
+      replyTo: email, // Reply to the person who sent the form
+      subject: `[Contact Form] ${subject}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Contact Message</h2>
+          <p><strong>From:</strong> ${name} &lt;${email}&gt;</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <p style="white-space: pre-wrap;">${message}</p>
+          </div>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
+          <p style="font-size: 12px; color: #888;">Sent from ToTheWebPro Contact Form</p>
+        </div>
+      `,
     });
-  }
 
-  // Return success response
-  return NextResponse.json({ ok: true }, { status: 200 });
+    return NextResponse.json({ ok: true }, { status: 200 });
+  } catch (error) {
+    console.error("SMTP Error:", error);
+    return NextResponse.json(
+      { error: "Failed to send email. Please try again later." },
+      { status: 500 },
+    );
+  }
 }

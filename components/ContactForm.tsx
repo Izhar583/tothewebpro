@@ -46,6 +46,7 @@ export function ContactForm() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    e.stopPropagation();
     if (!validate()) return;
 
     setSubmitting(true);
@@ -58,28 +59,32 @@ export function ContactForm() {
         body: JSON.stringify(values),
       });
 
-      const data = (await res.json()) as
-        | { ok: true }
-        | { error: string }
-        | { errors: FieldErrors };
+      let data: { ok?: true; error?: string; errors?: FieldErrors };
+      try {
+        data = await res.json();
+      } catch {
+        setServerError("Server returned an unexpected response. Please try again.");
+        return;
+      }
 
       if (res.ok) {
         setSubmitted(true);
         return;
       }
 
-      if ("errors" in data) {
+      if (data.errors) {
         setErrors(data.errors);
         return;
       }
 
-      if ("error" in data) {
+      if (data.error) {
         setServerError(data.error);
         return;
       }
 
       setServerError("Something went wrong. Please try again.");
-    } catch {
+    } catch (err) {
+      console.error("Contact form error:", err);
       setServerError(
         "Could not reach the server. Check your connection and try again.",
       );
@@ -101,9 +106,9 @@ export function ContactForm() {
           it&apos;s urgent, email us directly at{" "}
           <a
             className="text-primary hover:underline"
-            href="mailto:izharjoiya0@gmail.com"
+            href="mailto:tothewebpro@gmail.com"
           >
-            izharjoiya0@gmail.com
+            tothewebpro@gmail.com
           </a>
           .
         </p>
@@ -112,7 +117,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4" noValidate>
+    <form onSubmit={onSubmit} method="post" action="#" className="space-y-4" noValidate>
       {serverError ? (
         <div
           role="alert"
