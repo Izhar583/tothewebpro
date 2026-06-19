@@ -43,7 +43,7 @@ const nextConfig = {
         value: [
           "default-src 'self'",
           // Scripts: self, Vercel analytics, Google AdSense scripts
-          "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://pagead2.googlesyndication.com https://www.googletagmanager.com",
+          `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"} https://va.vercel-scripts.com https://pagead2.googlesyndication.com https://www.googletagmanager.com`,
           // Styles: self + Google Fonts + inline (Tailwind)
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           // Fonts: Google Fonts CDN

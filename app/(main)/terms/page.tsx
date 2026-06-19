@@ -152,8 +152,8 @@ export default function TermsPage() {
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Legal Enquiries</h2>
             <p className="text-slate-400 mb-6">If you have any questions regarding these terms, please contact us.</p>
-            <a href="mailto:izharjoiya0@gmail.com" className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-slate-900 font-bold transition-colors">
-              izharjoiya0@gmail.com
+            <a href="mailto:tothewebpro@gmail.com" className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-slate-900 font-bold transition-colors">
+              tothewebpro@gmail.com
             </a>
           </div>
         </section>

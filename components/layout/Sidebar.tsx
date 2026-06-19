@@ -18,7 +18,6 @@ import {
 
 const SIDEBAR_LINKS = [
   { title: "Home", href: "/", Icon: HomeIcon },
-  { title: "Explore", href: "/#categories", Icon: ExploreIcon },
   { title: "SEO Tools", href: "/seo-tools", Icon: MetaCheckerIcon },
   { title: "Text Tools", href: "/text-tools", Icon: WordCounterIcon },
   { title: "Image Tools", href: "/image-tools", Icon: ImageCompressorIcon },
