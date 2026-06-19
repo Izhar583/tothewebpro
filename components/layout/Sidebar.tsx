@@ -29,8 +29,10 @@ const TOOL_LINKS = [
   { href: "/tools/meta-title-description-checker", label: "Meta Checker" },
   { href: "/tools/word-counter", label: "Word Counter" },
   { href: "/tools/case-converter", label: "Case Converter" },
+  { href: "/tools/text-to-html", label: "Text to HTML" },
   { href: "/tools/character-counter", label: "Char Counter" },
   { href: "/tools/image-compressor", label: "Image Compressor" },
+  { href: "/tools/background-remover", label: "BG Remover" },
   { href: "/tools/image-resizer", label: "Image Resizer" },
   { href: "/tools/image-converter", label: "Image Converter" },
   { href: "/tools/password-generator", label: "Password Gen" },
@@ -40,14 +42,10 @@ export function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
-
-  // Return null if not on the homepage
   if (pathname !== "/") {
     return null;
   }
-
   const isHomeOrExplore = pathname === "/" || pathname === "/#categories";
-
   return (
     <>
       <button
@@ -57,18 +55,15 @@ export function Sidebar() {
       >
         <span className="text-xl">{isOpen ? "✕" : "☰"}</span>
       </button>
-
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-slate-900/60 backdrop-blur-sm lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
-
       <aside
-        className={`fixed right-0 top-[52px] z-40 h-[calc(100vh-52px)] w-full max-w-[320px] transform transition-transform duration-300 ease-out lg:sticky lg:top-[72px] lg:h-[calc(100vh-100px)] lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed right-0 top-[52px] z-40 h-[calc(100vh-52px)] w-full max-w-[320px] transform transition-transform duration-300 ease-out lg:sticky lg:top-[72px] lg:h-[calc(100vh-100px)] lg:translate-x-0 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="h-full w-full bg-white rounded-3xl border border-orange-100 shadow-sm shadow-orange-900/5 lg:mr-4 overflow-y-auto">
           <nav className="flex h-full flex-col py-6 px-4">
@@ -89,7 +84,6 @@ export function Sidebar() {
                 </div>
               </Link>
             </div>
-
             <div className="mb-8">
               <h3 className="px-3 mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
                 Top Tools
@@ -116,24 +110,21 @@ export function Sidebar() {
                 })}
               </div>
             </div>
-
             <div className="space-y-1">
               {SIDEBAR_LINKS.map((link) => {
                 const isActive = isHomeOrExplore && link.href === "/"
                   ? true
                   : pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
                 const LinkIcon = link.Icon;
-
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 border-l-[3px] ${
-                      isActive
+                    className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 border-l-[3px] ${isActive
                         ? "bg-orange-50/70 text-orange-600 border-orange-600 font-black"
                         : "text-slate-600 hover:text-orange-600 hover:bg-orange-50 border-transparent"
-                    }`}
+                      }`}
                   >
                     <span className="h-6 w-6 flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
                       <LinkIcon className="h-5 w-5 shrink-0" />
@@ -143,7 +134,6 @@ export function Sidebar() {
                 );
               })}
             </div>
-
             <div className="mt-6">
               <button
                 onClick={() => setToolsOpen(!toolsOpen)}
@@ -159,7 +149,6 @@ export function Sidebar() {
                   ▼
                 </span>
               </button>
-
               {toolsOpen && (
                 <div className="mt-2 ml-2 space-y-1 border-l-2 border-orange-100 pl-3">
                   {TOOL_LINKS.map((link) => {
@@ -169,11 +158,10 @@ export function Sidebar() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className={`block rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 ${
-                          isActive
+                        className={`block rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 ${isActive
                             ? "bg-orange-100 text-orange-700"
                             : "text-slate-500 hover:text-orange-600 hover:bg-orange-50/50"
-                        }`}
+                          }`}
                       >
                         {link.label}
                       </Link>
@@ -182,9 +170,7 @@ export function Sidebar() {
                 </div>
               )}
             </div>
-
             <div className="mt-auto pt-6 border-t border-orange-100">
-
               <Link
                 href="/contact"
                 onClick={() => setIsOpen(false)}

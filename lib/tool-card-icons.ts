@@ -1,4 +1,3 @@
-import React from "react";
 import {
   MetaCheckerIcon,
   WordCounterIcon,
@@ -8,6 +7,8 @@ import {
   ImageConverterIcon,
   CharacterCounterIcon,
   PasswordGeneratorIcon,
+  TextToHtmlIcon,
+  BackgroundRemoverIcon,
 } from "@/components/ui/PremiumIcons";
 
 const ICON_STROKE = "#7c2d12"; // Deep Orange (Orange 900) for better theme matching
@@ -49,6 +50,14 @@ export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
   },
   "password-generator": {
     Icon: PasswordGeneratorIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
+  "text-to-html": {
+    Icon: TextToHtmlIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "background-remover": {
+    Icon: BackgroundRemoverIcon,
     iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
 };
