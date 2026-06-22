@@ -1,113 +1,66 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-interface ContactPayload {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  let body: ContactPayload;
-
   try {
-    body = (await request.json()) as ContactPayload;
-  } catch {
-    return NextResponse.json(
-      { error: "Invalid request body." },
-      { status: 400 },
-    );
-  }
+    const body = await request.json();
+    const { name, email, subject, message } = body as {
+      name?: string;
+      email?: string;
+      subject?: string;
+      message?: string;
+    };
 
-  const { name, email, subject, message } = body;
-
-  // Server-side validation
-  const errors: Record<string, string> = {};
-  if (!name?.trim()) errors.name = "Name is required.";
-  if (!email?.trim()) {
-    errors.email = "Email is required.";
-  } else if (!emailPattern.test(email.trim())) {
-    errors.email = "Enter a valid email address.";
-  }
-  if (!subject?.trim()) errors.subject = "Subject is required.";
-  if (!message?.trim()) errors.message = "Message is required.";
-
-  if (Object.keys(errors).length > 0) {
-    return NextResponse.json({ errors }, { status: 422 });
-  }
-
-  // -------------------------------------------------------------------------
-  // SMTP Configuration
-  // -------------------------------------------------------------------------
-  const requiredEnv = [
-    "SMTP_HOST",
-    "SMTP_PORT",
-    "SMTP_USER",
-    "SMTP_PASS",
-    "CONTACT_EMAIL",
-  ];
-  const missingEnv = requiredEnv.filter((key) => !process.env[key]);
-
-  if (missingEnv.length > 0) {
-    console.error("Missing SMTP environment variables:", missingEnv);
-    
-    // In development, show error. In production, return 501.
-    if (process.env.NODE_ENV === "development") {
-      return NextResponse.json(
-        { error: `Missing configuration: ${missingEnv.join(", ")}` },
-        { status: 500 },
-      );
+    if (!name?.trim() || !email?.trim() || !subject?.trim() || !message?.trim()) {
+      return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
     }
 
-    return NextResponse.json(
-      {
-        error:
-          "Email delivery is not yet configured. Please email us directly at izharjoiya0@gmail.com.",
-      },
-      { status: 501 },
-    );
-  }
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    const to = process.env.CONTACT_EMAIL || user;
 
-  try {
+    if (!user || !pass || !to) {
+      console.error("[contact] Missing SMTP env vars");
+      return NextResponse.json({ error: "Email service not configured." }, { status: 500 });
+    }
+
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST?.trim(),
-      port: Number(process.env.SMTP_PORT?.trim()),
-      secure: process.env.SMTP_SECURE?.trim().toLowerCase() === "true", // true for port 465, false for 587
-      auth: {
-        user: process.env.SMTP_USER?.trim(),
-        pass: process.env.SMTP_PASS?.trim(),
-      },
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: { user, pass },
+      tls: { rejectUnauthorized: false },
     });
 
     await transporter.sendMail({
-      from: `"${name}" <${process.env.SMTP_USER}>`, // From user (authenticated)
-      to: process.env.CONTACT_EMAIL, // To owner
-      replyTo: email, // Reply to the person who sent the form
-      subject: `[Contact Form] ${subject}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      from: `"ToTheWebPro Contact" <${user}>`,
+      to,
+      replyTo: email.trim(),
+      subject: `[Contact] ${subject.trim()}`,
+      text: `From: ${name.trim()} <${email.trim()}>\n\n${message.trim()}`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-          <h2 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Contact Message</h2>
-          <p><strong>From:</strong> ${name} &lt;${email}&gt;</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
-            <p style="white-space: pre-wrap;">${message}</p>
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;border:1px solid #eee;border-radius:12px;">
+          <h2 style="color:#ea580c;border-bottom:2px solid #fed7aa;padding-bottom:12px;margin-top:0;">New Contact Form Message</h2>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+            <tr><td style="padding:8px 0;color:#374151;font-weight:bold;width:80px;">Name:</td><td style="padding:8px 0;color:#111827;">${name.trim()}</td></tr>
+            <tr><td style="padding:8px 0;color:#374151;font-weight:bold;">Email:</td><td style="padding:8px 0;"><a href="mailto:${email.trim()}" style="color:#ea580c;">${email.trim()}</a></td></tr>
+            <tr><td style="padding:8px 0;color:#374151;font-weight:bold;">Subject:</td><td style="padding:8px 0;color:#111827;">${subject.trim()}</td></tr>
+          </table>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:16px;">
+            <p style="margin:0;color:#374151;white-space:pre-wrap;line-height:1.6;">${message.trim()}</p>
           </div>
-          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-          <p style="font-size: 12px; color: #888;">Sent from ToTheWebPro Contact Form</p>
+          <p style="margin-top:20px;font-size:12px;color:#9ca3af;">Sent via ToTheWebPro Contact Form</p>
         </div>
       `,
     });
 
-    return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (error) {
-    console.error("SMTP Error:", error);
-    return NextResponse.json(
-      { error: "Failed to send email. Please try again later." },
-      { status: 500 },
-    );
+    console.log(`[contact] Email sent — from: ${email}, subject: ${subject}`);
+    return NextResponse.json({ ok: true });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    console.error("[contact] Error:", msg);
+    return NextResponse.json({ error: "Failed to send email. Please try again or email us directly." }, { status: 500 });
   }
 }

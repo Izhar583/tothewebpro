@@ -51,6 +51,15 @@ const WordCounter = dynamic(
   () => import("@/components/tools/WordCounter").then((m) => m.WordCounter),
   { loading: () => <Spinner label="Loading tool…" /> },
 );
+const TextToHtml = dynamic(
+  () => import("@/components/tools/TextToHtml").then((m) => m.TextToHtml),
+  { loading: () => <Spinner label="Loading tool…" /> },
+);
+
+const BackgroundRemover = dynamic(
+  () => import("@/components/tools/BackgroundRemover").then((m) => m.BackgroundRemover),
+  { loading: () => <Spinner label="Loading tool…" /> },
+);
 
 interface ToolRendererProps {
   slug: string;
@@ -81,6 +90,10 @@ export function ToolRenderer({ slug }: ToolRendererProps) {
       return wrap(<CharacterCounter />);
     case "password-generator":
       return wrap(<PasswordGenerator />);
+    case "text-to-html":
+      return wrap(<TextToHtml />);
+    case "background-remover":
+      return wrap(<BackgroundRemover />);
     default:
       return null;
   }

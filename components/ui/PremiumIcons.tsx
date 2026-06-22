@@ -29,7 +29,7 @@ export function MetaCheckerIcon({ className = "h-6 w-6" }: IconProps) {
       {/* Outer circular radar lines */}
       <circle cx="20" cy="20" r="16" stroke="url(#meta-grad-2)" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
       <circle cx="20" cy="20" r="11" stroke="url(#meta-grad-1)" strokeWidth="1" opacity="0.4" />
-      
+
       {/* Background document preview grid */}
       <rect x="8" y="12" width="10" height="2" rx="1" fill="#cbd5e1" opacity="0.8" />
       <rect x="8" y="17" width="16" height="1.5" rx="0.75" fill="#cbd5e1" opacity="0.5" />
@@ -42,7 +42,7 @@ export function MetaCheckerIcon({ className = "h-6 w-6" }: IconProps) {
         {/* Shiny glass highlight reflection */}
         <path d="M23 21C24.5 19.5 26.5 19 28 19.5" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" opacity="0.8" />
       </g>
-      
+
       {/* Glowing scanning target dot */}
       <circle cx="28" cy="24" r="2" fill="url(#meta-grad-2)" />
     </svg>
@@ -67,14 +67,14 @@ export function WordCounterIcon({ className = "h-6 w-6" }: IconProps) {
           <stop offset="100%" stopColor="#f97316" />
         </linearGradient>
       </defs>
-      
+
       {/* Curved background stat badge */}
       <circle cx="36" cy="14" r="9" fill="url(#word-grad-2)" opacity="0.15" />
       <circle cx="36" cy="14" r="6" stroke="url(#word-grad-2)" strokeWidth="1.5" strokeDasharray="2 2" />
 
       {/* Main 3D sheet of paper */}
       <rect x="6" y="8" width="28" height="34" rx="4" fill="#ffffff" stroke="url(#word-grad-1)" strokeWidth="2" />
-      
+
       {/* Folded paper corner effect */}
       <path d="M28 8V14H34" fill="#fef3c7" stroke="url(#word-grad-1)" strokeWidth="1.5" strokeLinejoin="round" />
 
@@ -138,7 +138,7 @@ export function CaseConverterIcon({ className = "h-6 w-6" }: IconProps) {
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      
+
       <path
         d="M27 32C25 35 22.5 35 21 33"
         stroke="url(#case-grad-1)"
@@ -176,13 +176,13 @@ export function ImageCompressorIcon({ className = "h-6 w-6" }: IconProps) {
 
       {/* Picture Frame with sleek rounded corners */}
       <rect x="6" y="10" width="36" height="28" rx="5" fill="#ffffff" stroke="url(#comp-grad-1)" strokeWidth="2.5" />
-      
+
       {/* Glossy inner background */}
       <rect x="9" y="13" width="30" height="22" rx="3.5" fill="#f8fafc" />
 
       {/* Mountain vectors inside picture */}
       <path d="M9 30L18 20L26 28L33 22L39 30" stroke="url(#comp-grad-1)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      
+
       {/* Gradient glowing sun inside image */}
       <circle cx="16" cy="18" r="3.5" fill="url(#comp-grad-1)" />
 
@@ -190,7 +190,7 @@ export function ImageCompressorIcon({ className = "h-6 w-6" }: IconProps) {
       <g opacity="0.9">
         {/* Top down compression arrow */}
         <path d="M24 3V10M24 10L21 7M24 10L27 7" stroke="url(#comp-grad-1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        
+
         {/* Bottom up compression arrow */}
         <path d="M24 45V38M24 38L21 41M24 38L27 41" stroke="url(#comp-grad-1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       </g>
@@ -215,7 +215,7 @@ export function ImageResizerIcon({ className = "h-6 w-6" }: IconProps) {
 
       {/* Outer original boundary frame (dotted) */}
       <rect x="6" y="6" width="36" height="36" rx="4" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="3 3" />
-      
+
       {/* Inner resized preview boundary (solid) */}
       <rect x="6" y="16" width="26" height="26" rx="4" fill="#ffffff" stroke="url(#resize-grad-1)" strokeWidth="2.5" />
 
@@ -310,16 +310,16 @@ export function CharacterCounterIcon({ className = "h-6 w-6" }: IconProps) {
       <rect x="6" y="8" width="10" height="8" rx="2" fill="#ffffff" stroke="url(#char-grad-1)" strokeWidth="1.5" />
       <rect x="19" y="8" width="10" height="8" rx="2" fill="#ffffff" stroke="url(#char-grad-1)" strokeWidth="1.5" />
       <rect x="32" y="8" width="10" height="8" rx="2" fill="#ffffff" stroke="url(#char-grad-1)" strokeWidth="1.5" opacity="0.5" />
-      
+
       {/* Row 2 */}
       <rect x="6" y="19" width="10" height="8" rx="2" fill="#ffffff" stroke="url(#char-grad-1)" strokeWidth="1.5" opacity="0.5" />
-      
+
       {/* Center glowing key with 'C' */}
       <g>
         <rect x="19" y="19" width="10" height="8" rx="2" fill="url(#char-grad-1)" />
         <text x="22" y="25" fill="#ffffff" fontSize="7" fontWeight="bold" fontFamily="sans-serif">C</text>
       </g>
-      
+
       <rect x="32" y="19" width="10" height="8" rx="2" fill="#ffffff" stroke="url(#char-grad-1)" strokeWidth="1.5" />
 
       {/* Row 3 - Spacebar and modifiers */}
@@ -364,7 +364,7 @@ export function PasswordGeneratorIcon({ className = "h-6 w-6" }: IconProps) {
         strokeWidth="2.5"
         strokeLinejoin="round"
       />
-      
+
       {/* Inner accent shield */}
       <path
         d="M24 9.5C17.5 12 13.5 17 13.5 24C13.5 30.5 19.5 35 24 37.5C28.5 35 34.5 30.5 34.5 24C34.5 17 30.5 12 24 9.5Z"
@@ -379,10 +379,10 @@ export function PasswordGeneratorIcon({ className = "h-6 w-6" }: IconProps) {
       <g filter="url(#pass-glow)">
         <circle cx="20" cy="22" r="5" stroke="url(#pass-grad-1)" strokeWidth="3" fill="#ffffff" />
         <circle cx="20" cy="22" r="1.5" fill="url(#pass-grad-1)" />
-        
+
         {/* Key shaft */}
         <path d="M25 22H33" stroke="url(#pass-grad-1)" strokeWidth="3" strokeLinecap="round" />
-        
+
         {/* Key teeth */}
         <path d="M30 22V25M33 22V25" stroke="url(#pass-grad-1)" strokeWidth="2.5" strokeLinecap="round" />
       </g>
@@ -469,7 +469,7 @@ export function AccuracyIcon({ className = "h-8 w-8" }: IconProps) {
       <circle cx="24" cy="24" r="18" stroke="url(#acc-grad-1)" strokeWidth="3" fill="#ffffff" filter="url(#acc-glow)" />
       <circle cx="24" cy="24" r="12" stroke="url(#acc-grad-1)" strokeWidth="1.5" strokeDasharray="3 3" />
       <circle cx="24" cy="24" r="7" stroke="url(#acc-grad-1)" strokeWidth="2" fill="url(#acc-grad-2)" fillOpacity="0.3" />
-      
+
       {/* Precision Crosshairs */}
       <path d="M24 2V10M24 38V46M2 24H10M38 24H46" stroke="url(#acc-grad-1)" strokeWidth="2" strokeLinecap="round" />
 
@@ -477,7 +477,7 @@ export function AccuracyIcon({ className = "h-8 w-8" }: IconProps) {
       <g>
         {/* Arrow shaft */}
         <path d="M40 8L25.5 22.5" stroke="#475569" strokeWidth="3.5" strokeLinecap="round" />
-        
+
         {/* Arrow feathers */}
         <path d="M37 5L42 10M34 8L39 13" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" />
 
@@ -528,7 +528,7 @@ export function ClarityIcon({ className = "h-8 w-8" }: IconProps) {
 
         {/* Facet lines */}
         <path d="M14 14L24 22M34 14L24 22M7 22H41M24 22V40M7 22L24 22M41 22L24 22" stroke="url(#clar-grad-1)" strokeWidth="1.5" strokeLinejoin="round" />
-        
+
         {/* Diamond table facets */}
         <path d="M14 14H24H34" stroke="url(#clar-grad-1)" strokeWidth="2.5" />
       </g>
@@ -600,7 +600,7 @@ export function ExploreIcon({ className = "h-6 w-6" }: IconProps) {
       {/* Outer compass ring */}
       <circle cx="24" cy="24" r="18" stroke="url(#exp-grad-1)" strokeWidth="2.5" fill="#ffffff" />
       <circle cx="24" cy="24" r="14" stroke="url(#exp-grad-1)" strokeWidth="1" strokeDasharray="2 2" />
-      
+
       {/* Compass cardinal dots */}
       <circle cx="24" cy="10" r="1" fill="url(#exp-grad-1)" />
       <circle cx="24" cy="38" r="1" fill="url(#exp-grad-1)" />
@@ -613,7 +613,7 @@ export function ExploreIcon({ className = "h-6 w-6" }: IconProps) {
         <path d="M24 24L28 16L24 10L20 16L24 24Z" fill="url(#exp-grad-1)" stroke="url(#exp-grad-1)" strokeWidth="1" strokeLinejoin="round" />
         {/* South pointer (Amber) */}
         <path d="M24 24L20 32L24 38L28 32L24 24Z" fill="url(#exp-grad-2)" stroke="url(#exp-grad-1)" strokeWidth="1" strokeLinejoin="round" />
-        
+
         <circle cx="24" cy="24" r="2.5" fill="#ffffff" stroke="url(#exp-grad-1)" strokeWidth="1.5" />
       </g>
     </svg>
@@ -659,4 +659,66 @@ export function BlogIcon({ className = "h-6 w-6" }: IconProps) {
   );
 }
 
+export function TextToHtmlIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="html-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+      </defs>
+      {/* Document Base */}
+      <rect x="8" y="6" width="32" height="36" rx="4" fill="#ffffff" stroke="url(#html-grad-1)" strokeWidth="2.5" />
 
+      {/* Code Brackets < > */}
+      <path d="M18 20L12 24L18 28" stroke="url(#html-grad-1)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M30 20L36 24L30 28" stroke="url(#html-grad-1)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M26 18L22 30" stroke="url(#html-grad-1)" strokeWidth="2.5" strokeLinecap="round" />
+
+      {/* Accents / Text Lines */}
+      <rect x="14" y="12" width="20" height="2" rx="1" fill="#cbd5e1" />
+      <rect x="14" y="34" width="12" height="2" rx="1" fill="#cbd5e1" />
+    </svg>
+  );
+}
+
+export function BackgroundRemoverIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="bg-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+        <filter id="bg-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      {/* Main Image Frame */}
+      <rect x="6" y="10" width="36" height="28" rx="5" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="3 3" />
+
+      {/* Extracted Subject (Sillouette) */}
+      <g filter="url(#bg-glow)">
+        <path d="M16 30C16 24 22 22 24 16C26 22 32 24 32 30" stroke="url(#bg-grad-1)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="24" cy="14" r="4" fill="url(#bg-grad-1)" />
+      </g>
+
+      {/* Magic Wand */}
+      <path d="M34 10L42 2M34 10L36 8M34 10L32 12" stroke="url(#bg-grad-1)" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="42" cy="2" r="1.5" fill="url(#bg-grad-1)" />
+    </svg>
+  );
+}

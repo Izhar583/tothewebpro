@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="relative overflow-hidden py-16 lg:py-24">
-      {/* Premium ambient light background glow */}
       <div className="absolute top-0 left-1/2 -z-10 h-[600px] w-[1000px] -translate-x-1/2 opacity-30 [mask-image:radial-gradient(closest-side,white,transparent)]" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-300 via-amber-200 to-orange-400 blur-3xl" />
       </div>

@@ -539,6 +539,102 @@ export const TOOLS: ToolDefinition[] = [
     ],
     relatedSlugs: ["case-converter", "word-counter", "image-compressor"],
   },
+  {
+    slug: "text-to-html",
+    name: "Text to HTML Converter",
+    shortDescription:
+      "Convert your formatted text into clean, semantic HTML instantly. Ideal for webmasters, developers, and content creators who need to export web-ready code without the mess.",
+    category: "text",
+    categoryLabel: "Text Tools",
+    categoryPath: "/text-tools",
+    icon: "📜",
+    schemaDescription:
+      "Free online text to HTML converter. Paste formatted text or write directly into the editor to generate clean, semantic HTML code. 100% client-side processing.",
+    metaTitle: "Free Text to HTML Converter | Convert Text to HTML Online",
+    metaDescription:
+      "Easily convert formatted text into clean, semantic HTML code with our free online tool. Perfect for bloggers, developers, and SEO experts.",
+    howToUseParagraphs: [
+      paragraph(
+        "Paste your formatted text directly into the visual editor or type from scratch. ",
+        "The tool automatically identifies headings, lists, bold, and italic text, converting them into valid HTML tags in real-time. ",
+        "Click the 'Show HTML' button to see the generated code instantly.",
+      ),
+      paragraph(
+        "Our converter cleans up messy code often left behind by other word processors. ",
+        "You get semantic tags like <h1>, <p>, <ul>, and <li> instead of inline styles or redundant <span> tags. ",
+        "This is critical for SEO and accessibility compliance.",
+      ),
+      paragraph(
+        "Once you are happy with the output, click Copy to Clipboard to grab the HTML code for your CMS, blog, or website. ",
+        "Like all ToTheWebPro tools, your text stays 100% private in your browser.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "Does this tool produce clean HTML code?",
+        answer:
+          "Yes. Our engine is designed to strip away non-semantic formatting and produce clean, valid HTML tags. It focuses on structure (headings, lists, paragraphs) rather than complex layout styles, ensuring your code is lightweight and SEO-friendly.",
+      },
+      {
+        question: "Can I paste text from Word or Google Docs?",
+        answer:
+          "Absolutely. Simply copy from your document and paste it into the editor. The tool will parse the formatting and translate it into the nearest HTML equivalent.",
+      },
+      {
+        question: "Is there a limit on how much text I can convert?",
+        answer:
+          "No. Since the processing happens entirely on your machine, there is no technical limit to the length of the document you can convert. It remains fast even for long articles.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "case-converter", "character-counter"],
+  },
+  {
+    slug: "background-remover",
+    name: "AI Background Remover",
+    shortDescription:
+      "Remove image backgrounds automatically in seconds with a single click. Powered by on-device AI for maximum speed and privacy.",
+    category: "image",
+    categoryLabel: "Image Tools",
+    categoryPath: "/image-tools",
+    icon: "🎭",
+    schemaDescription:
+      "Free AI-powered background remover. Remove backgrounds from JPG, PNG, and WebP images instantly in your browser. Private, secure, and pro-quality results.",
+    metaTitle: "Free AI Background Remover Online | Remove BG Instantly",
+    metaDescription:
+      "Remove backgrounds from any image for free with our AI background remover. High-quality results in seconds without uploading files to a server.",
+    howToUseParagraphs: [
+      paragraph(
+        "Upload your image (JPEG, PNG, or WebP) by dragging it into the drop zone or clicking to browse. ",
+        "For best results, use images with a clear subject (people, products, animals) and a relatively contrasting background.",
+      ),
+      paragraph(
+        "The AI model runs directly in your browser. It analyzes the image and isolates the foreground subject from the background automatically. ",
+        "You can see a live preview of the transparent result immediately.",
+      ),
+      paragraph(
+        "Download your high-resolution PNG with a transparent background in one click. ",
+        "Since the model runs on your device, your images never touch a server, ensuring 100% privacy for your creative work.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "How does the AI Background Remover work without a server?",
+        answer:
+          "We use modern machine learning models (like Segment Anything or MODNet) optimized for the web. These models run using WASM or WebGL in your browser, allowing your computer's own hardware to perform the heavy lifting locally.",
+      },
+      {
+        question: "Which image formats work best for background removal?",
+        answer:
+          "JPG and PNG are standard and work perfectly. High-contrast images where the subject is sharp and the background is slightly blurred (bokeh) produce the cleanest professional results.",
+      },
+      {
+        question: "Is this tool free for commercial use?",
+        answer:
+          "Yes. ToTheWebPro provides these tools for free for all users. You can use the processed images for your business, social media, or personal projects without any attribution or cost.",
+      },
+    ],
+    relatedSlugs: ["image-compressor", "image-resizer", "image-converter"],
+  },
 ];
 
 export const TOOL_BY_SLUG: Record<string, ToolDefinition> = Object.fromEntries(

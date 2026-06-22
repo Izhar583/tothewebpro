@@ -101,7 +101,7 @@ export function Header() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search tools..."
-                className="w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-slate-100/50 dark:bg-slate-800/50 py-2 pl-10 pr-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:border-orange-500/50 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
+                className="w-full rounded-xl border border-slate-200/60 dark:border-slate-700/60 py-2 pl-10 pr-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:border-orange-500/50 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
               />
             </div>
           </form>

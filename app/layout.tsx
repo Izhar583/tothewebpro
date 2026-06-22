@@ -14,6 +14,12 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tothewebpro.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  applicationName: "ToTheWebPro",
+  appleWebApp: {
+    title: "ToTheWebPro",
+    statusBarStyle: "default",
+    capable: true,
+  },
   title: {
     default: "Free Online Tools for SEO, Images, Text & More",
     template: "%s",

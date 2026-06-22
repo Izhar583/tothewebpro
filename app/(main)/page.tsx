@@ -90,9 +90,25 @@ export default function HomePage() {
     }
   };
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ToTheWebPro",
+    "url": "https://tothewebpro.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://tothewebpro.com/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <div>
       <JsonLd data={orgSchema} />
+      <JsonLd data={websiteSchema} />
       <section className="bg-white border-b border-orange-100">
         <div className="mx-auto max-w-6xl px-4 py-20 md:py-28 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-6">
@@ -104,7 +120,7 @@ export default function HomePage() {
             <span className="text-orange-600">Smart Creators</span>
           </h1>
           <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
-            Get instant, browser-local results with our professional-grade utilities. 
+            Get instant, browser-local results with our professional-grade utilities.
             No accounts, no trackers, no limits.
           </p>
           <form
@@ -146,8 +162,8 @@ export default function HomePage() {
                     </h2>
                     <p className="mt-3 text-lg text-slate-600 font-medium leading-relaxed">{cat.description}</p>
                   </div>
-                  <Link 
-                    href={`/${cat.id}-tools`} 
+                  <Link
+                    href={`/${cat.id}-tools`}
                     className="inline-flex items-center gap-2 text-sm font-bold text-orange-600 hover:text-orange-700 transition-colors group"
                   >
                     View All {cat.id} Tools
