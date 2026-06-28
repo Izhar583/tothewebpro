@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { BLOG_BY_SLUG, BLOG_POSTS, BlogContentBlock } from "@/lib/blog-posts";
-import { MessageCircle, Mail } from "lucide-react";
+
 import { FaqAccordion } from "./FaqAccordion";
 
 const Facebook = ({ size = 24, className = "" }) => (
@@ -202,7 +202,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <Link href="#" className="w-8 h-8 rounded-full bg-[#E4405F] flex items-center justify-center hover:opacity-80"><Instagram size={14} className="text-white" /></Link>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Hi, I'm Izhar Haq, a professional content writer and SEO specialist. I create high-impact, search-optimized content that drives organic traffic, improves search visibility, and delivers meaningful user experiences.
+              Hi, I&apos;m Izhar Haq, a professional content writer and SEO specialist. I create high-impact, search-optimized content that drives organic traffic, improves search visibility, and delivers meaningful user experiences.
             </p>
           </div>
 
