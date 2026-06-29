@@ -53,7 +53,7 @@ export default function BlogIndexPage() {
             
             {/* If the featured post has an image, we display it (optional, fallback to a pattern) */}
             <div className="relative z-10 w-full md:w-1/2 aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hidden md:block">
-               <Image src="/blog/meta_title_hero.png" alt="Featured Post" fill className="object-cover" />
+               <Image src={featuredPost.featureImage || "/blog/meta_title_hero.png"} alt={featuredPost.title} fill className="object-cover" />
             </div>
           </article>
         </div>
