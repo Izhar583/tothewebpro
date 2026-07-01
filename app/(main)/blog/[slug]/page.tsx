@@ -124,34 +124,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300 font-medium text-sm md:text-base">
             <div className="flex items-center gap-2">
               <span className="text-slate-400">BY</span>
-              <span className="text-white font-bold tracking-wide uppercase">Izhar Haq</span>
+              <span className="text-white font-bold tracking-wide uppercase">Izhar Ul Haq</span>
             </div>
             <span className="text-slate-500">•</span>
             <span>{post.date}</span>
           </div>
         </div>
 
-        {/* Social Icons Right Side (Desktop) */}
-        {/* <div className="absolute right-4 top-1/2 -translate-y-1/2 flex-col gap-3 z-20 hidden xl:flex">
-          <Link href="#" className="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center hover:opacity-80 transition-opacity">
-            <Facebook size={18} className="text-white" />
-          </Link>
-          <Link href="#" className="w-10 h-10 rounded-full bg-[#1DA1F2] flex items-center justify-center hover:opacity-80 transition-opacity">
-            <Twitter size={18} className="text-white" />
-          </Link>
-          <Link href="#" className="w-10 h-10 rounded-full bg-[#0A66C2] flex items-center justify-center hover:opacity-80 transition-opacity">
-            <Linkedin size={18} className="text-white" />
-          </Link>
-          <Link href="#" className="w-10 h-10 rounded-full bg-[#E4405F] flex items-center justify-center hover:opacity-80 transition-opacity">
-            <Instagram size={18} className="text-white" />
-          </Link>
-          <Link href="#" className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:opacity-80 transition-opacity">
-            <MessageCircle size={18} className="text-white" />
-          </Link>
-          <Link href="#" className="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center hover:opacity-80 transition-opacity">
-            <Mail size={18} className="text-white" />
-          </Link>
-        </div> */}
       </div>
 
       {/* Main Content Layout */}
@@ -159,24 +138,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Left: Main Content */}
         <article className="flex-1 w-full lg:max-w-[750px] xl:max-w-[800px]">
-          {/* Mobile Social Icons */}
-          {/* <div className="flex xl:hidden gap-3 mb-8 pb-8 border-b border-slate-100">
-            <Link href="#" className="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center hover:opacity-80 transition-opacity">
-              <Facebook size={18} className="text-white" />
-            </Link>
-            <Link href="#" className="w-10 h-10 rounded-full bg-[#1DA1F2] flex items-center justify-center hover:opacity-80 transition-opacity">
-              <Twitter size={18} className="text-white" />
-            </Link>
-            <Link href="#" className="w-10 h-10 rounded-full bg-[#0A66C2] flex items-center justify-center hover:opacity-80 transition-opacity">
-              <Linkedin size={18} className="text-white" />
-            </Link>
-            <Link href="#" className="w-10 h-10 rounded-full bg-[#E4405F] flex items-center justify-center hover:opacity-80 transition-opacity">
-              <Instagram size={18} className="text-white" />
-            </Link>
-            <Link href="#" className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:opacity-80 transition-opacity">
-              <MessageCircle size={18} className="text-white" />
-            </Link>
-          </div> */}
 
           <div className="prose prose-slate max-w-none">
             {post.content.map((block, index) => (
@@ -194,7 +155,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <span className="text-4xl">🧑‍💻</span>
             </div>
             <h3 className="text-xl font-black text-slate-900 mb-1">Izhar Ul Haq</h3>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">Web Developer</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">SEO Specialist & Content Writer</p>
             <div className="flex gap-2 justify-center mb-6">
               <Link href="#" className="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center hover:opacity-80"><Facebook size={14} className="text-white" /></Link>
               <Link href="#" className="w-8 h-8 rounded-full bg-[#1DA1F2] flex items-center justify-center hover:opacity-80"><Twitter size={14} className="text-white" /></Link>
