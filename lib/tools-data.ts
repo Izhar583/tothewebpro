@@ -14,9 +14,9 @@ export const TOOLS: ToolDefinition[] = [
     icon: "🔎",
     schemaDescription:
       "Free meta tag checker with pixel-width simulation for title and description truncation, Open Graph and Twitter Card audit, canonical tag detection, and robots directive display. 100% client-side, no data transmitted.",
-    metaTitle: "Free Meta Title and Description Checker | SEO Preview Tool",
+    metaTitle: "Free Meta Title and Description Checker | Fix Length Instantly",
     metaDescription:
-      "Free SEO tool to check meta title and description length with live SERP preview for better optimization and higher click-through rates.",
+      "Paste your title & description, get instant character + pixel count, Google preview, and fixes. 100% free, no signup.",
     howToUseParagraphs: [
       paragraph(
         "Choose between URL input and HTML source input at the top of the tool. ",
