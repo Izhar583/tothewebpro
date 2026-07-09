@@ -49,8 +49,8 @@ const nextConfig = {
           "font-src 'self' https://fonts.gstatic.com",
           // Images: self + data URIs + blob URIs (canvas exports) + Google ad images
           "img-src 'self' data: blob: https:",
-          // Connect: self + Vercel analytics + fetch-meta API + jsdelivr (WASM/Models)
-          "connect-src 'self' blob: https://va.vercel-scripts.com https://cdn.jsdelivr.net",
+          // Connect: self + Vercel analytics + fetch-meta API + jsdelivr (WASM/Models) + Google Analytics/Tag Manager
+          "connect-src 'self' blob: https://va.vercel-scripts.com https://cdn.jsdelivr.net https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com",
           // Workers: allow blob workers
           "worker-src 'self' blob:",
           // Frames: deny all (no iframes used)
