@@ -225,9 +225,11 @@ export function BackgroundRemover() {
       
       const localOrigin = typeof window !== "undefined" ? window.location.origin : "";
       const publicPaths = [
+        "/static/imgly/",
         `${localOrigin}/static/imgly/`,
-        "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/",
-        "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/"
+        "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/",
+        "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/",
+        "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/"
       ];
 
       let blob: Blob | null = null;
