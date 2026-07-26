@@ -222,18 +222,41 @@ export function BackgroundRemover() {
       }, 350);
 
       setProgressText("Running AI removal (WASM)...");
-      const config: any = {
-        debug: false,
-        model: "small", // "small" works faster and offline
-        output: {
-          format: "image/png",
-          quality: 0.8,
-          type: "foreground"
-        },
-        publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/"
-      };
+      
+      const localOrigin = typeof window !== "undefined" ? window.location.origin : "";
+      const publicPaths = [
+        `${localOrigin}/static/imgly/`,
+        "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/",
+        "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/"
+      ];
 
-      const blob = await removeBackground(fileToProcess, config);
+      let blob: Blob | null = null;
+      let lastErr: any = null;
+
+      for (const path of publicPaths) {
+        try {
+          const config: any = {
+            debug: false,
+            model: "small",
+            output: {
+              format: "image/png",
+              quality: 0.8,
+              type: "foreground"
+            },
+            publicPath: path
+          };
+          blob = await removeBackground(fileToProcess, config);
+          if (blob) break;
+        } catch (e: any) {
+          console.warn(`Background removal attempt failed with path: ${path}`, e);
+          lastErr = e;
+        }
+      }
+
+      if (!blob) {
+        throw lastErr || new Error("Failed to load background removal model assets.");
+      }
+
       const url = URL.createObjectURL(blob);
       setResult(url);
       setProgress(100);
