@@ -53,3 +53,11 @@ body {
     @apply rounded-card border border-white/50 bg-white/75 shadow-md shadow-teal-900/5 backdrop-blur-sm;
   }
 }
+
+@layer components {
+  .prose a {
+    @apply font-bold text-blue-600 underline hover:text-blue-700;
+  }
+}
+
+

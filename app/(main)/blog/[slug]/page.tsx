@@ -149,24 +149,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Right: Sidebar */}
         <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-24 space-y-8">
 
-          {/* Author Box */}
-          <div className="bg-slate-50 rounded-2xl p-8 flex flex-col items-center text-center shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-100">
-            <div className="w-24 h-24 rounded-full bg-slate-200 mb-4 overflow-hidden border-4 border-white shadow-sm flex items-center justify-center">
-              <span className="text-4xl">🧑‍💻</span>
-            </div>
-            <h3 className="text-xl font-black text-slate-900 mb-1">Izhar Ul Haq</h3>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">SEO Specialist & Content Writer</p>
-            <div className="flex gap-2 justify-center mb-6">
-              <Link href="#" className="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center hover:opacity-80"><Facebook size={14} className="text-white" /></Link>
-              <Link href="#" className="w-8 h-8 rounded-full bg-[#1DA1F2] flex items-center justify-center hover:opacity-80"><Twitter size={14} className="text-white" /></Link>
-              <Link href="#" className="w-8 h-8 rounded-full bg-[#0A66C2] flex items-center justify-center hover:opacity-80"><Linkedin size={14} className="text-white" /></Link>
-              <Link href="#" className="w-8 h-8 rounded-full bg-[#E4405F] flex items-center justify-center hover:opacity-80"><Instagram size={14} className="text-white" /></Link>
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              Hi, I&apos;m Izhar Haq, a professional content writer and SEO specialist. I create high-impact, search-optimized content that drives organic traffic, improves search visibility, and delivers meaningful user experiences.
-            </p>
-          </div>
-
           {/* Table of Contents */}
           <div className="bg-slate-50 rounded-2xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-100">
             <h4 className="text-lg font-black text-slate-900 mb-4 pb-3 border-b border-slate-200">Contents</h4>

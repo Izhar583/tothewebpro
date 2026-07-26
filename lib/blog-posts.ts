@@ -18,6 +18,296 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+  "slug": "how-to-write-meta-title-seo",
+  "title": "How to Write a Meta Title: SEO Best Practices (2026)",
+  "excerpt": "Learn how to write SEO-friendly meta titles that rank on Google and drive clicks. Step-by-step process, formulas, pixel limits, and real examples.",
+  "date": "2026-07-26",
+  "readMinutes": 8,
+  "featureImage": "/blog/3blog-1.webp",
+  "content": [
+    {
+      "type": "h3",
+      "text": "Quick Summary / Key Takeaways",
+      "id": "-quick-summary-key-takeaways"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Optimal Length: Keep titles between 50–60 characters (or under 580–600 pixels) to avoid getting cut off on search results.",
+        "Front-Load Keywords: Place your main keyword near the beginning for immediate SEO signals and better readability.",
+        "Match Search Intent: Align your title's hook with what the user is actually searching for (informational, commercial, or transactional).",
+        "Standard Structure: [Primary Keyword] - [Secondary Keyword / Modifier] | [Brand Name]"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "A <b>meta title</b> is the first thing a searcher sees before they ever visit a web page, and it often single-handedly decides whether they click your link or scroll past to a competitor."
+    },
+    {
+      "type": "p",
+      "text": "Learning how to <a href='/tools/meta-title-description-checker' class='text-blue-600 hover:text-blue-700 underline font-bold' target='_blank'>Check Meta Title Length</a> and how to write a meta title SEO experts recommend is not about stuffing keywords into a sentence it is about balancing clarity, relevance, and copywriting in a single line of text. In this comprehensive guide, you will learn a simple step-by-step process, copy-paste formulas, and key mistakes to avoid so your pages rank higher on Google and earn more clicks."
+    },
+    {
+      "type": "img",
+      "url": "/blog/3blog-1.webp",
+      "alt": "How to Write Meta Title SEO",
+      "caption": "How to Write Meta Title SEO"
+    },
+    {
+      "type": "h2",
+      "text": "1. What Is a Meta Title and Why Does It Matter?",
+      "id": "1-what-is-a-meta-title-and-why-does-it-matter"
+    },
+    {
+      "type": "p",
+      "text": "A meta title (often called a title tag) is an HTML element that defines the official title of a web page. It appears as the clickable headline in search engine result pages (SERPs), browser tabs, and social media preview links."
+    },
+    {
+      "type": "p",
+      "text": "<code class=\"bg-slate-100 text-slate-800 px-3 py-1.5 rounded border border-slate-200 font-mono text-base block my-4\">&lt;title&gt;How to Write a Meta Title: SEO Best Practices | SearchPro&lt;/title&gt;</code>"
+    },
+    {
+      "type": "h3",
+      "text": "1.1 How Meta Titles Impact Search Rankings",
+      "id": "11-how-meta-titles-impact-search-rankings"
+    },
+    {
+      "type": "p",
+      "text": "Search engines scan your title tag to quickly understand the primary topic of your page. Including your main target keyword in the title tag helps search algorithms match your page with relevant user search queries."
+    },
+    {
+      "type": "h3",
+      "text": "1.2 How Meta Titles Impact Click-Through Rate (CTR)",
+      "id": "12-how-meta-titles-impact-click-through-rate-ctr"
+    },
+    {
+      "type": "p",
+      "text": "Even if a page reaches the top 3 spots on Google, an unappealing or generic title will lose traffic to lower-ranked pages. A clear, benefit-driven title acts as digital advertising copy that convinces the user to click."
+    },
+    {
+      "type": "h2",
+      "text": "2. Step-by-Step Process to Write an SEO-Friendly Meta Title",
+      "id": "2-step-by-step-process-to-write-an-seo-friendly-meta-title"
+    },
+    {
+      "type": "p",
+      "text": "Writing an effective meta title requires following a structured process that satisfies both search engines and human readers."
+    },
+    {
+      "type": "h3",
+      "text": "Step 1: Front-Load Your Primary Keyword",
+      "id": "step-1-front-load-your-primary-keyword"
+    },
+    {
+      "type": "p",
+      "text": "Search engines and readers both scan content from left to right. Placing your primary target keyword at or near the beginning signals topical relevance instantly."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Good: Meta Title SEO Guide: How to Write Titles That Rank",
+        "Avoid: Learn Everything About Online Content Optimization and How to Write a Meta Title SEO"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Step 2: Keep It Within Character and Pixel Limits",
+      "id": "step-2-keep-it-within-character-and-pixel-limits"
+    },
+    {
+      "type": "p",
+      "text": "Google cuts off titles that are too wide, replacing the trailing text with an ellipsis (...)."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Character Limit: Aim for 50 to 60 characters.",
+        "Pixel Limit: Keep text under 580–600 pixels (wider letters like 'W' or 'M' take up more pixel space than 'I' or 'L')."
+      ]
+    },
+    {
+      "type": "img",
+      "url": "/blog/3blog-2.webp",
+      "alt": "Meta Title SEO",
+      "caption": "Step 2: Keep It Within Character and Pixel Limits"
+    },
+    {
+      "type": "h3",
+      "text": "Step 3: Match the User's Search Intent",
+      "id": "step-3-match-the-users-search-intent"
+    },
+    {
+      "type": "p",
+      "text": "Identify what the searcher wants to accomplish:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Informational Queries: Use modifiers like How to, Guide, Tips, Ways, Examples.",
+        "Commercial Queries: Use modifiers like Best, Review, Comparison, Top.",
+        "Transactional Queries: Use action words like Buy, Order, Discount, Pricing."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Step 4: Add a Unique Angle or Modifier",
+      "id": "step-4-add-a-unique-angle-or-modifier"
+    },
+    {
+      "type": "p",
+      "text": "Differentiate your title from competing search results by adding specific hooks:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Add the current year (2026)",
+        "Use numbers (7 Easy Steps)",
+        "Highlight key benefits (Boost Your CTR)"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Step 5: Avoid Duplicate Titles Across Pages",
+      "id": "step-5-avoid-duplicate-titles-across-pages"
+    },
+    {
+      "type": "p",
+      "text": "Every single URL on your website needs a unique meta title. Duplicate titles confuse search crawlers about which page to rank and split your click data across multiple links."
+    },
+    {
+      "type": "h3",
+      "text": "Step 6: Write for Humans First, Algorithms Second",
+      "id": "step-6-write-for-humans-first-algorithms-second"
+    },
+    {
+      "type": "p",
+      "text": "Never sacrifice natural readability for keyword placement. A natural, readable title will always achieve a better CTR and lower bounce rate than a stiff, keyword-stuffed phrase."
+    },
+    {
+      "type": "h2",
+      "text": "3. Proven Meta Title Formulas & Examples",
+      "id": "3-proven-meta-title-formulas-examples"
+    },
+    {
+      "type": "p",
+      "text": "You can use these field-tested templates to quickly generate optimized meta titles for different types of pages on your site:"
+    },
+    {
+      "type": "img",
+      "url": "/blog/3blog-3.webp",
+      "alt": "Meta Title SEO",
+      "caption": "Step 4: Add a Unique Angle or Modifier"
+    },
+    {
+      "type": "h3",
+      "text": "3.1 Blog Posts & Educational Content",
+      "id": "31-blog-posts-educational-content"
+    },
+    {
+      "type": "p",
+      "text": "Formula: [How to / Guide Title] + [Value or Benefit] | [Brand]"
+    },
+    {
+      "type": "p",
+      "text": "Example: How to Write a Meta Title: 7-Step SEO Guide | SearchPro"
+    },
+    {
+      "type": "h3",
+      "text": "3.2 E-Commerce & Product Pages",
+      "id": "32-e-commerce-product-pages"
+    },
+    {
+      "type": "p",
+      "text": "Formula: Buy [Product Name] Online - [USP or Special Offer] | [Brand]"
+    },
+    {
+      "type": "p",
+      "text": "Example: Buy Wireless Headphones - Free Shipping & 20% Off | TechStore"
+    },
+    {
+      "type": "h3",
+      "text": "3.3 Local SEO & Service Pages",
+      "id": "33-local-seo-service-pages"
+    },
+    {
+      "type": "p",
+      "text": "Formula: [Service Name] in [City] - [CTA or Key Value] | [Brand]"
+    },
+    {
+      "type": "p",
+      "text": "Example: Emergency Plumber in Austin - 24/7 Fast Response | QuickFix"
+    },
+    {
+      "type": "h2",
+      "text": "4. Meta Title Best Practices: Do's vs. Don'ts",
+      "id": "4-meta-title-best-practices-dos-vs-donts"
+    },
+    {
+      "type": "p",
+      "text": "<div class=\"overflow-x-auto my-8 border border-slate-200 rounded-2xl shadow-sm\">\n  <table class=\"w-full text-left border-collapse min-w-[600px]\">\n    <thead>\n      <tr class=\"bg-slate-100 border-b border-slate-200\">\n        <th class=\"p-4 font-black text-slate-900 border-r border-slate-200\">Feature</th>\n        <th class=\"p-4 font-black text-slate-900 border-r border-slate-200\">Recommended Practice (DO)</th>\n        <th class=\"p-4 font-black text-slate-900 \">Poor Practice (DON'T)</th>\n      </tr>\n    </thead>\n    <tbody class=\"divide-y divide-slate-200 text-base\">\n      <tr class=\"hover:bg-slate-50 transition-colors\">\n        <td class=\"p-4 font-bold text-slate-900 border-r border-slate-200\">Length</td>\n        <td class=\"p-4 text-slate-700 border-r border-slate-200\">50–60 Characters (Max 580px)</td>\n        <td class=\"p-4 text-slate-700 \">> 70 Characters (Gets cut off with ...)</td>\n      </tr>\n      <tr class=\"hover:bg-slate-50 transition-colors\">\n        <td class=\"p-4 font-bold text-slate-900 border-r border-slate-200\">Keywords</td>\n        <td class=\"p-4 text-slate-700 border-r border-slate-200\">1 Primary Keyword placed naturally</td>\n        <td class=\"p-4 text-slate-700 \">Keyword Stuffing (Meta Title, SEO Title, Write Title)</td>\n      </tr>\n      <tr class=\"hover:bg-slate-50 transition-colors\">\n        <td class=\"p-4 font-bold text-slate-900 border-r border-slate-200\">Branding</td>\n        <td class=\"p-4 text-slate-700 border-r border-slate-200\">Place Brand Name at the end (| Brand)</td>\n        <td class=\"p-4 text-slate-700 \">Brand Name at the very start (unless globally famous)</td>\n      </tr>\n      <tr class=\"hover:bg-slate-50 transition-colors\">\n        <td class=\"p-4 font-bold text-slate-900 border-r border-slate-200\">Formatting</td>\n        <td class=\"p-4 text-slate-700 border-r border-slate-200\">Title Case or Sentence Case</td>\n        <td class=\"p-4 text-slate-700 \">ALL CAPS or all lowercase text</td>\n      </tr>\n    </tbody>\n  </table>\n</div>"
+    },
+    {
+      "type": "img",
+      "url": "/blog/3blog-4.webp",
+      "alt": "Meta Title SEO",
+      "caption": "Step 6: Write for Humans First, Algorithms Second"
+    },
+    {
+      "type": "h2",
+      "text": "5. Common Meta Title Mistakes to Avoid",
+      "id": "5-common-meta-title-mistakes-to-avoid"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Keyword Stuffing: Repeating the same word multiple times looks spammy, lowers user trust, and can lead to search ranking penalties.",
+        "Vague or Generic Titles: Using generic labels like \"Home\" or \"Blog Post\" provides zero contextual value to search crawlers.",
+        "Ignoring Brand Placement: Leaving off your brand name misses an opportunity to build long-term trust and domain awareness.",
+        "Relying Solely on CMS Auto-Generation: Default automated settings in platforms like WordPress or Shopify often result in overly long or awkwardly formatted titles if left unedited."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "6. Top Free Tools to Test and Preview Meta Titles",
+      "id": "6-top-free-tools-to-test-and-preview-meta-titles"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "To the Web SERP Preview Tool: Visualizes your title's exact pixel width and checks how it looks on both mobile and desktop screens.",
+        "Yoast / Rank Math SEO Plugins: Provides real-time character count feedback and SERP previews directly within WordPress.",
+        "Screaming Frog SEO Spider: Crawls your entire website to identify missing, duplicated, or truncated title tags across all URLs."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "7. Frequently Asked Questions (FAQ)",
+      "id": "7-frequently-asked-questions-faq"
+    },
+    {
+      "type": "faq",
+      "items": [
+        {
+          "question": "What is the ideal length for a meta title?",
+          "answer": "Most titles perform best between 50 and 60 characters (or under 580 pixels). This length ensures your headline displays fully without getting truncated on mobile or desktop search results."
+        },
+        {
+          "question": "Why does Google rewrite my meta title in search results?",
+          "answer": "Google may replace your meta title if it considers it too long, stuffed with keywords, inaccurate to the page content, or poorly matched to a user's specific search query."
+        },
+        {
+          "question": "Should the primary keyword always go first?",
+          "answer": "Front-loading keywords is ideal for topical relevance, but maintaining natural grammar and reader clarity should always take priority over forcing rigid word placement."
+        },
+        {
+          "question": "How often should I update my meta titles?",
+          "answer": "Review and update meta titles whenever you update older page content, notice a drop in keyword rankings, or identify low click-through rates (CTR) in Google Search Console."
+        }
+      ]
+    }
+  ]
+},
+  {
     slug: "meta-description-length-2026-pixel-rule-guide",
     title: "Meta Description Length 2026: Why Pixels Now Beat Character Counts",
     excerpt: "ToTheWeb Pro breaks down the 2026 meta description pixel limits with original audit data, helping writers stop snippet truncation before it happens.",
