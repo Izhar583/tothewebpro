@@ -67,17 +67,6 @@ const nextConfig = {
     ];
 
     return [
-      // ── Long-term cache for AI model assets (221 MB, hash-named, immutable) ──
-      {
-        source: "/static/imgly/:file*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      // ── Security headers for all other routes ────────────────────────
       {
         source: "/(.*)",
         headers: securityHeaders,
