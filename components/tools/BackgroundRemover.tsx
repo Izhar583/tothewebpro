@@ -9,6 +9,7 @@ import {
   AlertCircle, Check
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
+import imageCompression from "browser-image-compression";
 
 // Curated Background Photos
 const PRESET_BACKGROUNDS = [
@@ -194,81 +195,92 @@ export function BackgroundRemover() {
 
   const triggerRemoval = async (fileToProcess: File) => {
     setIsProcessing(true);
-    setProgress(20);
-    setProgressText("Loading AI model locally...");
+    setProgress(5);
+    setProgressText("Optimizing image...");
     setError(null);
 
+    const interval = { id: null as ReturnType<typeof setInterval> | null };
+
     try {
-      // Simulate progress updates for UI feedback
+      // ── 1. Detect mobile device ──────────────────────────────────────────
+      const isMobile =
+        typeof window !== "undefined" &&
+        /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+      // ── 2. Compress image before AI processing ───────────────────────────
+      // Mobile gets a smaller max dimension → AI processes less pixels → 3-5x faster
+      const compressionOptions = {
+        maxSizeMB: isMobile ? 1.5 : 3,
+        maxWidthOrHeight: isMobile ? 900 : 1600,
+        useWebWorker: true,
+        fileType: fileToProcess.type === "image/png" ? "image/png" : "image/jpeg",
+        initialQuality: isMobile ? 0.75 : 0.85,
+      };
+
+      setProgress(15);
+      setProgressText("Compressing image...");
+      const compressedFile = await imageCompression(fileToProcess, compressionOptions);
+
+      // ── 3. Simulate UI progress while AI runs ────────────────────────────
       const textStages = [
+        "Loading AI model...",
         "Analyzing outlines...",
         "Identifying background regions...",
         "Applying edge refining filters...",
-        "Extracting subject foreground..."
+        "Extracting subject foreground...",
       ];
       let textIdx = 0;
+      setProgress(25);
+      setProgressText(textStages[textIdx++]);
 
-      const interval = setInterval(() => {
+      interval.id = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 90) {
-            return 90;
-          }
-          // Increment text occasionally
-          if (prev % 20 === 0 && textIdx < textStages.length) {
+          if (prev >= 88) return 88;
+          if (prev % 15 === 0 && textIdx < textStages.length) {
             setProgressText(textStages[textIdx++]);
           }
-          return prev + 5;
+          return prev + 4;
         });
-      }, 350);
+      }, 400);
 
-      setProgressText("Running AI removal (WASM)...");
-      
-      const localOrigin = typeof window !== "undefined" ? window.location.origin : "";
-      const publicPaths = [
-        "/static/imgly/",
-        `${localOrigin}/static/imgly/`,
-        "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/",
-        "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/",
-        "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/"
-      ];
+      // ── 4. Run AI removal — local assets first, CDN as single fallback ───
+      const localPath = `${window.location.origin}/static/imgly/`;
+      const fallbackPath =
+        "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/";
+
+      const makeConfig = (publicPath: string): any => ({
+        debug: false,
+        model: "small",
+        output: {
+          format: "image/png",
+          quality: isMobile ? 0.75 : 0.85,
+          type: "foreground",
+        },
+        publicPath,
+      });
 
       let blob: Blob | null = null;
-      let lastErr: any = null;
-
-      for (const path of publicPaths) {
-        try {
-          const config: any = {
-            debug: false,
-            model: "small",
-            output: {
-              format: "image/png",
-              quality: 0.8,
-              type: "foreground"
-            },
-            publicPath: path
-          };
-          blob = await removeBackground(fileToProcess, config);
-          if (blob) break;
-        } catch (e: any) {
-          console.warn(`Background removal attempt failed with path: ${path}`, e);
-          lastErr = e;
-        }
+      try {
+        blob = await removeBackground(compressedFile, makeConfig(localPath));
+      } catch (localErr) {
+        console.warn("Local asset load failed, falling back to CDN:", localErr);
+        blob = await removeBackground(compressedFile, makeConfig(fallbackPath));
       }
 
-      if (!blob) {
-        throw lastErr || new Error("Failed to load background removal model assets.");
-      }
+      if (interval.id) clearInterval(interval.id);
 
       const url = URL.createObjectURL(blob);
       setResult(url);
       setProgress(100);
       setProgressText("Complete!");
-
-      clearInterval(interval);
     } catch (err: any) {
+      if (interval.id) clearInterval(interval.id);
       console.error("AI Error:", err);
-      setError(`Background removal failed: ${err.message || "Unknown error"}. Please try again.`);
-      setIsProcessing(false);
+      setError(
+        `Background removal failed: ${
+          err.message || "Unknown error"
+        }. Please try again.`
+      );
     } finally {
       setIsProcessing(false);
     }
