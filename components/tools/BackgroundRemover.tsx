@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { 
-  Upload, X, Download, ImageIcon, Loader2, Wand2, 
-  ShieldCheck, Undo, Redo, ZoomIn, 
-  ZoomOut, Eraser, Paintbrush, Sparkles, RotateCcw, 
+import {
+  Upload, X, Download, ImageIcon, Loader2, Wand2,
+  ShieldCheck, Undo, Redo, ZoomIn,
+  ZoomOut, Eraser, Paintbrush, Sparkles, RotateCcw,
   AlertCircle, Check
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
@@ -163,8 +164,7 @@ export function BackgroundRemover() {
     setProgressText("Initializing AI engine...");
     setError(null);
 
-    let progressTimer: any = null;
-
+    let progressTimer: ReturnType<typeof setInterval> | null = null;
     try {
       const textStages = [
         "Analyzing image outlines...",
@@ -196,10 +196,9 @@ export function BackgroundRemover() {
 
       let blob: Blob | null = null;
       let lastErr: any = null;
-
       for (const path of publicPaths) {
         try {
-          const config: any = {
+          const config = {
             debug: false,
             model: "small",
             output: {
@@ -281,16 +280,16 @@ export function BackgroundRemover() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    
+
     // Clear future history states if we were in the middle of undoing
     const newHistory = historyRef.current.slice(0, historyIndexRef.current + 1);
     newHistory.push(imgData);
-    
+
     // Cap memory footprint to 15 items
     if (newHistory.length > 15) {
       newHistory.shift();
     }
-    
+
     historyRef.current = newHistory;
     historyIndexRef.current = newHistory.length - 1;
     setCanUndo(historyIndexRef.current > 0);
@@ -546,10 +545,10 @@ export function BackgroundRemover() {
       // Expand source slightly to mask transparent blur borders
       const scaleOffset = blurPx * 1.5;
       tempCtx.drawImage(
-        origImg, 
-        -scaleOffset, 
-        -scaleOffset, 
-        tempCanvas.width + scaleOffset * 2, 
+        origImg,
+        -scaleOffset,
+        -scaleOffset,
+        tempCanvas.width + scaleOffset * 2,
         tempCanvas.height + scaleOffset * 2
       );
       tempCtx.filter = "none";
@@ -607,7 +606,7 @@ export function BackgroundRemover() {
             <h2 className="text-xl md:text-2xl font-black text-slate-900">
               Why use our Background Remover?
             </h2>
-            
+
             <div className="space-y-4">
               <div className="flex gap-3">
                 <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 text-orange-600">
@@ -703,7 +702,7 @@ export function BackgroundRemover() {
             </p>
           </div>
           <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-orange-500 transition-all duration-300 rounded-full"
               style={{ width: `${progress}%` }}
             />
@@ -719,28 +718,26 @@ export function BackgroundRemover() {
               <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
                 <button
                   onClick={() => setActiveTab("removed")}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === "removed" 
-                      ? "bg-white text-slate-900 shadow-sm" 
+                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "removed"
+                      ? "bg-white text-slate-900 shadow-sm"
                       : "text-slate-500 hover:text-slate-900"
-                  }`}
+                    }`}
                 >
                   Removed Background
                 </button>
                 <button
                   onClick={() => setActiveTab("original")}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === "original" 
-                      ? "bg-white text-slate-900 shadow-sm" 
+                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "original"
+                      ? "bg-white text-slate-900 shadow-sm"
                       : "text-slate-500 hover:text-slate-900"
-                  }`}
+                    }`}
                 >
                   Original
                 </button>
               </div>
 
               {/* Reset button */}
-              <button 
+              <button
                 onClick={reset}
                 className="flex items-center gap-1 text-slate-400 hover:text-slate-600 text-xs font-bold"
               >
@@ -758,12 +755,12 @@ export function BackgroundRemover() {
                     backgroundSize: "20px 20px"
                   }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img 
-                      src={result} 
-                      alt="Cutout Subject" 
-                      className="max-h-[480px] object-contain block select-none" 
+                    <img
+                      src={result}
+                      alt="Cutout Subject"
+                      className="max-h-[480px] object-contain block select-none"
                     />
-                    
+
                     {/* Overlay Edit Button */}
                     <button
                       onClick={() => setIsEditorOpen(true)}
@@ -776,10 +773,10 @@ export function BackgroundRemover() {
                 ) : (
                   preview && (
                     /* eslint-disable-next-line @next/next/no-img-element */
-                    <img 
-                      src={preview} 
-                      alt="Original Image Source" 
-                      className="max-h-[480px] object-contain block select-none" 
+                    <img
+                      src={preview}
+                      alt="Original Image Source"
+                      className="max-h-[480px] object-contain block select-none"
                     />
                   )
                 )}
@@ -791,7 +788,7 @@ export function BackgroundRemover() {
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
               <h3 className="text-lg font-black text-slate-900 text-left">Download Image</h3>
-              
+
               <div className="space-y-4">
                 {/* Standard Download Option */}
                 <div className="border border-slate-100 hover:border-orange-500/30 rounded-2xl p-4 text-left transition-colors bg-slate-50/50">
@@ -849,22 +846,20 @@ export function BackgroundRemover() {
                 <div className="flex gap-1 bg-slate-200/80 p-1 rounded-xl">
                   <button
                     onClick={() => setEditorTab("background")}
-                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                      editorTab === "background" 
-                        ? "bg-white text-slate-900 shadow-sm" 
+                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${editorTab === "background"
+                        ? "bg-white text-slate-900 shadow-sm"
                         : "text-slate-500 hover:text-slate-900"
-                    }`}
+                      }`}
                   >
                     <ImageIcon className="h-3.5 w-3.5" />
                     Background
                   </button>
                   <button
                     onClick={() => setEditorTab("eraseRestore")}
-                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                      editorTab === "eraseRestore" 
-                        ? "bg-white text-slate-900 shadow-sm" 
+                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${editorTab === "eraseRestore"
+                        ? "bg-white text-slate-900 shadow-sm"
                         : "text-slate-500 hover:text-slate-900"
-                    }`}
+                      }`}
                   >
                     <Eraser className="h-3.5 w-3.5" />
                     Restore
@@ -919,7 +914,7 @@ export function BackgroundRemover() {
                   <Download className="h-4 w-4" />
                   Download
                 </button>
-                
+
                 <button
                   onClick={() => setIsEditorOpen(false)}
                   className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-600"
@@ -931,7 +926,7 @@ export function BackgroundRemover() {
             </div>
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
               <div className="flex-1 bg-slate-900/95 overflow-auto flex items-center justify-center p-8 relative min-h-[300px]">
-                <div 
+                <div
                   ref={canvasWrapperRef}
                   className="relative transition-shadow duration-300 max-w-full shadow-2xl rounded-lg"
                   onMouseEnter={() => setShowBrushOutline(true)}
@@ -957,16 +952,16 @@ export function BackgroundRemover() {
                       <div className="absolute inset-0" style={{ background: bgColor }} />
                     )}
                     {bgType === "image" && bgImage && (
-                      <img 
-                        src={bgImage} 
-                        alt="Background Template" 
-                        className="w-full h-full object-cover" 
+                      <img
+                        src={bgImage}
+                        alt="Background Template"
+                        className="w-full h-full object-cover"
                       />
                     )}
                     {bgType === "blur" && preview && (
-                      <img 
-                        src={preview} 
-                        alt="Original Blurred Backdrop" 
+                      <img
+                        src={preview}
+                        alt="Original Blurred Backdrop"
                         className="w-full h-full object-cover scale-110"
                         style={{
                           filter: `blur(${blurLevel === "low" ? "8px" : blurLevel === "medium" ? "24px" : "48px"})`
@@ -1008,41 +1003,37 @@ export function BackgroundRemover() {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => setBgType("transparent")}
-                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${
-                            bgType === "transparent" 
-                              ? "bg-slate-900 border-slate-900 text-white" 
+                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "transparent"
+                              ? "bg-slate-900 border-slate-900 text-white"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           Transparent
                         </button>
                         <button
                           onClick={() => setBgType("blur")}
-                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${
-                            bgType === "blur" 
-                              ? "bg-slate-900 border-slate-900 text-white" 
+                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "blur"
+                              ? "bg-slate-900 border-slate-900 text-white"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           Blur Original
                         </button>
                         <button
                           onClick={() => setBgType("image")}
-                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${
-                            bgType === "image" 
-                              ? "bg-slate-900 border-slate-900 text-white" 
+                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "image"
+                              ? "bg-slate-900 border-slate-900 text-white"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           Scenic Photo
                         </button>
                         <button
                           onClick={() => setBgType("color")}
-                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${
-                            bgType === "color" 
-                              ? "bg-slate-900 border-slate-900 text-white" 
+                          className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "color"
+                              ? "bg-slate-900 border-slate-900 text-white"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           Color/Gradient
                         </button>
@@ -1056,11 +1047,10 @@ export function BackgroundRemover() {
                             <button
                               key={level}
                               onClick={() => setBlurLevel(level)}
-                              className={`py-1.5 border rounded-xl text-xs font-bold uppercase transition-colors ${
-                                blurLevel === level 
-                                  ? "bg-orange-500 border-orange-500 text-white" 
+                              className={`py-1.5 border rounded-xl text-xs font-bold uppercase transition-colors ${blurLevel === level
+                                  ? "bg-orange-500 border-orange-500 text-white"
                                   : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                              }`}
+                                }`}
                             >
                               {level}
                             </button>
@@ -1081,11 +1071,10 @@ export function BackgroundRemover() {
                                 setBgImage(item.url);
                                 setBgType("image");
                               }}
-                              className={`aspect-square rounded-xl overflow-hidden border-2 relative transition-transform hover:scale-105 ${
-                                bgImage === item.url && bgType === "image"
+                              className={`aspect-square rounded-xl overflow-hidden border-2 relative transition-transform hover:scale-105 ${bgImage === item.url && bgType === "image"
                                   ? "border-orange-500 shadow-md"
                                   : "border-transparent"
-                              }`}
+                                }`}
                               title={item.name}
                             >
                               <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
@@ -1098,14 +1087,14 @@ export function BackgroundRemover() {
                           ))}
                         </div>
                         <label className="mt-6 justify-center flex items-center gap-2 sm:text-xs md:text-sm bg-orange-500 text-white font-bold border p-2 rounded-xl cursor-pointer">
-                            Upload Custom
-                            <input 
-                              type="file" 
-                              accept="image/*" 
-                              className="hidden" 
-                              onChange={handleCustomBgUpload} 
-                            /> 
-                          </label>
+                          Upload Custom
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleCustomBgUpload}
+                          />
+                        </label>
                       </div>
                     )}
                     {bgType === "color" && (
@@ -1114,14 +1103,14 @@ export function BackgroundRemover() {
                           <label className="text-xs font-black text-slate-400 uppercase tracking-widest block font-bold">Colors & Gradients</label>
                           <div className="flex items-center gap-1.5">
                             <span className="text-[10px] text-slate-400 font-bold uppercase">Custom</span>
-                            <input 
-                              type="color" 
+                            <input
+                              type="color"
                               value={bgColor.startsWith("#") ? bgColor : "#FFFFFF"}
                               onChange={(e) => {
                                 setBgColor(e.target.value);
                                 setBgType("color");
                               }}
-                              className="w-5 h-5 rounded border border-slate-200 cursor-pointer p-0 shrink-0" 
+                              className="w-5 h-5 rounded border border-slate-200 cursor-pointer p-0 shrink-0"
                             />
                           </div>
                         </div>
@@ -1133,11 +1122,10 @@ export function BackgroundRemover() {
                                 setBgColor(col);
                                 setBgType("color");
                               }}
-                              className={`aspect-square rounded-xl border-2 transition-transform hover:scale-105 relative ${
-                                bgColor === col && bgType === "color"
+                              className={`aspect-square rounded-xl border-2 transition-transform hover:scale-105 relative ${bgColor === col && bgType === "color"
                                   ? "border-slate-800 scale-105"
                                   : "border-slate-100"
-                              }`}
+                                }`}
                               style={{
                                 background: col
                               }}
@@ -1161,22 +1149,20 @@ export function BackgroundRemover() {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => setBrushMode("erase")}
-                          className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${
-                            brushMode === "erase" 
-                              ? "bg-red-500 border-red-500 text-white shadow-md shadow-red-500/20" 
+                          className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${brushMode === "erase"
+                              ? "bg-red-500 border-red-500 text-white shadow-md shadow-red-500/20"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           <Eraser className="h-5 w-5" />
                           Erase Background
                         </button>
                         <button
                           onClick={() => setBrushMode("restore")}
-                          className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${
-                            brushMode === "restore" 
-                              ? "bg-green-600 border-green-600 text-white shadow-md shadow-green-600/20" 
+                          className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${brushMode === "restore"
+                              ? "bg-green-600 border-green-600 text-white shadow-md shadow-green-600/20"
                               : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           <Paintbrush className="h-5 w-5" />
                           Restore Original
