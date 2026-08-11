@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import { useState, useCallback, useEffect, useRef } from "react";
 import { 
   Upload, X, Download, ImageIcon, Loader2, Wand2, 
@@ -9,20 +7,14 @@ import {
   AlertCircle, Check
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
-
-// Curated Background Photos
 const PRESET_BACKGROUNDS = [
   { id: "studio1", name: "Soft Studio", url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&auto=format&fit=crop&q=80" },
   { id: "beach", name: "Sunny Beach", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" },
-  { id: "nature", name: "Green Field", url: "https://images.unsplash.com/photo-1472214222541-d510753a4907?w=800&auto=format&fit=crop&q=80" },
   { id: "city", name: "City Lights", url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&auto=format&fit=crop&q=80" },
-  { id: "brick", name: "Brick Wall", url: "https://images.unsplash.com/photo-1531685222403-f928502d2b30?w=800&auto=format&fit=crop&q=80" },
   { id: "office", name: "Modern Office", url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop&q=80" },
   { id: "garden", name: "Rose Garden", url: "https://images.unsplash.com/photo-1465146633011-14f8e0781093?w=800&auto=format&fit=crop&q=80" },
   { id: "neon", name: "Abstract Neon", url: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&auto=format&fit=crop&q=80" },
 ];
-
-// Curated Background Colors & Gradients
 const PRESET_COLORS = [
   "#FFFFFF",
   "#000000",
@@ -37,8 +29,6 @@ const PRESET_COLORS = [
   "linear-gradient(135deg, #654ea3 0%, #eaafc8 100%)",
   "linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)",
 ];
-
-// Sample Images for instant testing
 const SAMPLE_IMAGES = [
   {
     id: "portrait",
@@ -65,7 +55,6 @@ const SAMPLE_IMAGES = [
     url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop&q=80"
   }
 ];
-
 export function BackgroundRemover() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -75,46 +64,28 @@ export function BackgroundRemover() {
   const [progressText, setProgressText] = useState("Initializing...");
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"removed" | "original">("removed");
-
-  // Editor Modal States
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorTab, setEditorTab] = useState<"background" | "eraseRestore">("background");
-  
-  // Background selection state
   const [bgType, setBgType] = useState<"transparent" | "color" | "image" | "blur">("transparent");
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [bgImage, setBgImage] = useState<string | null>(null);
   const [blurLevel, setBlurLevel] = useState<"low" | "medium" | "high">("medium");
-
-  // Brush settings
   const [brushMode, setBrushMode] = useState<"erase" | "restore">("erase");
   const [brushSize, setBrushSize] = useState(30);
   const [zoom, setZoom] = useState(1);
-
-  // Undo/Redo tracking
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-
-  // Cache Image elements for drawing
   const originalImageRef = useRef<HTMLImageElement | null>(null);
   const cutoutImageRef = useRef<HTMLImageElement | null>(null);
-
-  // Canvas interaction refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const canvasWrapperRef = useRef<HTMLDivElement | null>(null);
   const isDrawing = useRef(false);
   const lastX = useRef(0);
   const lastY = useRef(0);
-
-  // Undo/Redo stacks
   const historyRef = useRef<ImageData[]>([]);
   const historyIndexRef = useRef(-1);
-
-  // Brush outline hover position
   const [brushPos, setBrushPos] = useState({ x: 0, y: 0 });
   const [showBrushOutline, setShowBrushOutline] = useState(false);
-
-  // Load original image into cache when preview changes
   useEffect(() => {
     if (preview) {
       const img = new Image();
@@ -127,8 +98,6 @@ export function BackgroundRemover() {
       originalImageRef.current = null;
     }
   }, [preview]);
-
-  // Load processed cutout image into cache when result changes
   useEffect(() => {
     if (result) {
       const img = new Image();
@@ -141,8 +110,6 @@ export function BackgroundRemover() {
       cutoutImageRef.current = null;
     }
   }, [result]);
-
-  // Listen to paste events for convenience
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
       const items = e.clipboardData?.items;
@@ -181,7 +148,6 @@ export function BackgroundRemover() {
       const blob = await response.blob();
       const sampleFile = new File([blob], "sample.jpg", { type: "image/jpeg" });
       handleFile(sampleFile);
-      // Wait for React state to process file
       setTimeout(() => {
         triggerRemoval(sampleFile);
       }, 100);
@@ -191,44 +157,40 @@ export function BackgroundRemover() {
       setIsProcessing(false);
     }
   };
-
   const triggerRemoval = async (fileToProcess: File) => {
     setIsProcessing(true);
-    setProgress(20);
-    setProgressText("Loading AI model locally...");
+    setProgress(0);
+    setProgressText("Initializing AI engine...");
     setError(null);
 
+    let progressTimer: any = null;
+
     try {
-      // Simulate progress updates for UI feedback
       const textStages = [
-        "Analyzing outlines...",
+        "Analyzing image outlines...",
         "Identifying background regions...",
         "Applying edge refining filters...",
         "Extracting subject foreground..."
       ];
-      let textIdx = 0;
 
-      const interval = setInterval(() => {
+      progressTimer = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 90) {
-            return 90;
-          }
-          // Increment text occasionally
-          if (prev % 20 === 0 && textIdx < textStages.length) {
-            setProgressText(textStages[textIdx++]);
-          }
-          return prev + 5;
+          if (prev >= 95) return 95;
+          const next = prev + 1;
+          const stageIndex = Math.min(
+            Math.floor((next / 95) * textStages.length),
+            textStages.length - 1
+          );
+          setProgressText(textStages[stageIndex]);
+          return next;
         });
-      }, 350);
+      }, 150);
 
-      setProgressText("Running AI removal (WASM)...");
-      
       const localOrigin = typeof window !== "undefined" ? window.location.origin : "";
       const publicPaths = [
-        "/static/imgly/",
         `${localOrigin}/static/imgly/`,
+        "/static/imgly/",
         "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/",
-        "https://staticimgly.com/@imgly/background-removal-data/1.4.5/dist/",
         "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/"
       ];
 
@@ -245,7 +207,13 @@ export function BackgroundRemover() {
               quality: 0.8,
               type: "foreground"
             },
-            publicPath: path
+            publicPath: path,
+            progress: (_key: string, current: number, total: number) => {
+              if (total && total > 0) {
+                const pct = Math.min(95, Math.round((current / total) * 95));
+                setProgress((prev) => Math.max(prev, pct));
+              }
+            }
           };
           blob = await removeBackground(fileToProcess, config);
           if (blob) break;
@@ -263,13 +231,13 @@ export function BackgroundRemover() {
       setResult(url);
       setProgress(100);
       setProgressText("Complete!");
-
-      clearInterval(interval);
     } catch (err: any) {
       console.error("AI Error:", err);
       setError(`Background removal failed: ${err.message || "Unknown error"}. Please try again.`);
-      setIsProcessing(false);
     } finally {
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
       setIsProcessing(false);
     }
   };
@@ -874,19 +842,14 @@ export function BackgroundRemover() {
       {/* 3. The Custom Premium Backdrop/Brush Editor Modal */}
       {isEditorOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-hidden animate-in fade-in duration-300">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
-            
-            {/* Editor Header */}
-            <div className="h-16 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between px-6 shrink-0">
-              {/* Title & Mode Selector */}
-              <div className="flex items-center gap-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
+            <div className="h-16 border-b gap-1 md:gap-4 border-slate-100 bg-slate-50/50 flex items-center justify-between px-1 md:px-6 shrink-0">
+              <div className="flex items-center gap-1 md:gap-4">
                 <h2 className="text-sm font-black text-slate-800 tracking-tight hidden sm:block">Editor Suite</h2>
-                
-                {/* Tabs switcher */}
                 <div className="flex gap-1 bg-slate-200/80 p-1 rounded-xl">
                   <button
                     onClick={() => setEditorTab("background")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
                       editorTab === "background" 
                         ? "bg-white text-slate-900 shadow-sm" 
                         : "text-slate-500 hover:text-slate-900"
@@ -897,19 +860,17 @@ export function BackgroundRemover() {
                   </button>
                   <button
                     onClick={() => setEditorTab("eraseRestore")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
                       editorTab === "eraseRestore" 
                         ? "bg-white text-slate-900 shadow-sm" 
                         : "text-slate-500 hover:text-slate-900"
                     }`}
                   >
                     <Eraser className="h-3.5 w-3.5" />
-                    Erase / Restore
+                    Restore
                   </button>
                 </div>
               </div>
-
-              {/* Utility Canvas Bar: Undo, Redo, Zoom */}
               <div className="flex items-center gap-2 sm:gap-4">
                 <div className="flex items-center border border-slate-200/80 rounded-xl bg-white px-1 py-0.5">
                   <button
@@ -930,7 +891,7 @@ export function BackgroundRemover() {
                   </button>
                 </div>
 
-                <div className="flex items-center border border-slate-200/80 rounded-xl bg-white px-1 py-0.5">
+                <div className="flex items-center border sm:block hidden md:block border-slate-200/80 rounded-xl bg-white px-1 py-0.5">
                   <button
                     onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}
                     className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600"
@@ -950,9 +911,7 @@ export function BackgroundRemover() {
                   </button>
                 </div>
               </div>
-
-              {/* Actions: Download, Close */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center">
                 <button
                   onClick={handleDownloadEdited}
                   className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md transform active:scale-95 transition-all"
@@ -970,14 +929,8 @@ export function BackgroundRemover() {
                 </button>
               </div>
             </div>
-
-            {/* Editor Workspace Splitter */}
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-              
-              {/* Left Panel: Canvas Display */}
               <div className="flex-1 bg-slate-900/95 overflow-auto flex items-center justify-center p-8 relative min-h-[300px]">
-                
-                {/* Visual canvas outer wrapper */}
                 <div 
                   ref={canvasWrapperRef}
                   className="relative transition-shadow duration-300 max-w-full shadow-2xl rounded-lg"
@@ -988,13 +941,11 @@ export function BackgroundRemover() {
                   }}
                   onMouseMove={handlePointerMove}
                   style={{
-                    // Height and width scaled dynamically by Zoom state
                     transform: `scale(${zoom})`,
                     transformOrigin: "center center",
                     transition: "transform 0.15s ease-out"
                   }}
                 >
-                  {/* Background Layer (Blur/Photo/Color/Grid) */}
                   <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-lg">
                     {bgType === "transparent" && (
                       <div className="absolute inset-0 bg-slate-200" style={{
@@ -1006,7 +957,6 @@ export function BackgroundRemover() {
                       <div className="absolute inset-0" style={{ background: bgColor }} />
                     )}
                     {bgType === "image" && bgImage && (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img 
                         src={bgImage} 
                         alt="Background Template" 
@@ -1014,7 +964,6 @@ export function BackgroundRemover() {
                       />
                     )}
                     {bgType === "blur" && preview && (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img 
                         src={preview} 
                         alt="Original Blurred Backdrop" 
@@ -1025,8 +974,6 @@ export function BackgroundRemover() {
                       />
                     )}
                   </div>
-
-                  {/* Interactive Canvas Rendering layer */}
                   <canvas
                     ref={canvasRef}
                     onMouseDown={handlePointerDown}
@@ -1037,15 +984,12 @@ export function BackgroundRemover() {
                     onTouchEnd={handlePointerUp}
                     className="relative z-10 block max-h-[60vh] max-w-full object-contain cursor-crosshair select-none bg-transparent"
                   />
-
-                  {/* Circular Hover Brush Outline indicator */}
                   {showBrushOutline && editorTab === "eraseRestore" && canvasRef.current && (
                     <div
                       className="pointer-events-none border border-white rounded-full absolute z-30 shadow-[0_0_0_1.5px_rgba(0,0,0,0.6)]"
                       style={{
                         left: brushPos.x,
                         top: brushPos.y,
-                        // BoundingClientRect handles scaling visual brush outline with zoom dynamically
                         width: brushSize * (canvasRef.current.getBoundingClientRect().width / canvasRef.current.width),
                         height: brushSize * (canvasRef.current.getBoundingClientRect().width / canvasRef.current.width),
                         transform: "translate(-50%, -50%)",
@@ -1056,14 +1000,9 @@ export function BackgroundRemover() {
                   )}
                 </div>
               </div>
-
-              {/* Right Panel: Side Controls Sidebar */}
               <div className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-100 bg-white p-6 overflow-y-auto flex flex-col gap-6 shrink-0 h-[40vh] md:h-full text-left">
-                
-                {/* TAB 1: BACKGROUND SELECTION LOGIC */}
                 {editorTab === "background" && (
                   <div className="space-y-6">
-                    {/* Background Category Selector */}
                     <div className="space-y-3">
                       <label className="text-xs font-black text-slate-400 uppercase tracking-widest block">Background Type</label>
                       <div className="grid grid-cols-2 gap-2">
@@ -1109,8 +1048,6 @@ export function BackgroundRemover() {
                         </button>
                       </div>
                     </div>
-
-                    {/* Blur selection options */}
                     {bgType === "blur" && (
                       <div className="space-y-3 animate-in slide-in-from-bottom-2 duration-300">
                         <label className="text-xs font-black text-slate-400 uppercase tracking-widest block">Blur Intensity</label>
@@ -1131,21 +1068,10 @@ export function BackgroundRemover() {
                         </div>
                       </div>
                     )}
-
-                    {/* Scenic photo presets */}
                     {bgType === "image" && (
                       <div className="space-y-4 animate-in slide-in-from-bottom-2 duration-300">
                         <div className="flex items-center justify-between">
                           <label className="text-xs font-black text-slate-400 uppercase tracking-widest block">Photos</label>
-                          <label className="text-[10px] font-bold text-blue-600 hover:underline cursor-pointer">
-                            Upload Custom
-                            <input 
-                              type="file" 
-                              accept="image/*" 
-                              className="hidden" 
-                              onChange={handleCustomBgUpload} 
-                            />
-                          </label>
                         </div>
                         <div className="grid grid-cols-4 gap-2">
                           {PRESET_BACKGROUNDS.map((item) => (
@@ -1162,7 +1088,6 @@ export function BackgroundRemover() {
                               }`}
                               title={item.name}
                             >
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
                               {bgImage === item.url && bgType === "image" && (
                                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
@@ -1172,10 +1097,17 @@ export function BackgroundRemover() {
                             </button>
                           ))}
                         </div>
+                        <label className="mt-6 justify-center flex items-center gap-2 sm:text-xs md:text-sm bg-orange-500 text-white font-bold border p-2 rounded-xl cursor-pointer">
+                            Upload Custom
+                            <input 
+                              type="file" 
+                              accept="image/*" 
+                              className="hidden" 
+                              onChange={handleCustomBgUpload} 
+                            /> 
+                          </label>
                       </div>
                     )}
-
-                    {/* Solid / gradient colors */}
                     {bgType === "color" && (
                       <div className="space-y-4 animate-in slide-in-from-bottom-2 duration-300">
                         <div className="flex items-center justify-between">
@@ -1222,11 +1154,8 @@ export function BackgroundRemover() {
                     )}
                   </div>
                 )}
-
-                {/* TAB 2: MANUAL ERASE / RESTORE BRUSH PAINTING */}
                 {editorTab === "eraseRestore" && (
                   <div className="space-y-6 animate-in fade-in duration-300">
-                    {/* Mode selector */}
                     <div className="space-y-3">
                       <label className="text-xs font-black text-slate-400 uppercase tracking-widest block">Brush Action</label>
                       <div className="grid grid-cols-2 gap-2">
@@ -1254,8 +1183,6 @@ export function BackgroundRemover() {
                         </button>
                       </div>
                     </div>
-
-                    {/* Size Slider */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Brush Size</label>
@@ -1270,8 +1197,6 @@ export function BackgroundRemover() {
                         className="w-full accent-slate-900 cursor-pointer"
                       />
                     </div>
-
-                    {/* Reset edits */}
                     <div className="pt-4 border-t border-slate-100">
                       <button
                         onClick={clearEdits}
