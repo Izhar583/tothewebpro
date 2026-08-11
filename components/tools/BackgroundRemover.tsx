@@ -198,13 +198,13 @@ export function BackgroundRemover() {
       let lastErr: any = null;
       for (const path of publicPaths) {
         try {
-          const config = {
+          const config: any = {
             debug: false,
             model: "small",
             output: {
               format: "image/png",
               quality: 0.8,
-              type: "foreground"
+              type: "foreground",
             },
             publicPath: path,
             progress: (_key: string, current: number, total: number) => {
@@ -212,7 +212,7 @@ export function BackgroundRemover() {
                 const pct = Math.min(95, Math.round((current / total) * 95));
                 setProgress((prev) => Math.max(prev, pct));
               }
-            }
+            },
           };
           blob = await removeBackground(fileToProcess, config);
           if (blob) break;
@@ -719,8 +719,8 @@ export function BackgroundRemover() {
                 <button
                   onClick={() => setActiveTab("removed")}
                   className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "removed"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-500 hover:text-slate-900"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-900"
                     }`}
                 >
                   Removed Background
@@ -728,8 +728,8 @@ export function BackgroundRemover() {
                 <button
                   onClick={() => setActiveTab("original")}
                   className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === "original"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-500 hover:text-slate-900"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-900"
                     }`}
                 >
                   Original
@@ -847,8 +847,8 @@ export function BackgroundRemover() {
                   <button
                     onClick={() => setEditorTab("background")}
                     className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${editorTab === "background"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-900"
+                      ? "bg-white text-slate-900 shadow-sm"
+                      : "text-slate-500 hover:text-slate-900"
                       }`}
                   >
                     <ImageIcon className="h-3.5 w-3.5" />
@@ -857,8 +857,8 @@ export function BackgroundRemover() {
                   <button
                     onClick={() => setEditorTab("eraseRestore")}
                     className={`px-1 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${editorTab === "eraseRestore"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-900"
+                      ? "bg-white text-slate-900 shadow-sm"
+                      : "text-slate-500 hover:text-slate-900"
                       }`}
                   >
                     <Eraser className="h-3.5 w-3.5" />
@@ -1004,8 +1004,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBgType("transparent")}
                           className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "transparent"
-                              ? "bg-slate-900 border-slate-900 text-white"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-slate-900 border-slate-900 text-white"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           Transparent
@@ -1013,8 +1013,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBgType("blur")}
                           className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "blur"
-                              ? "bg-slate-900 border-slate-900 text-white"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-slate-900 border-slate-900 text-white"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           Blur Original
@@ -1022,8 +1022,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBgType("image")}
                           className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "image"
-                              ? "bg-slate-900 border-slate-900 text-white"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-slate-900 border-slate-900 text-white"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           Scenic Photo
@@ -1031,8 +1031,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBgType("color")}
                           className={`py-2 px-3 border rounded-xl text-xs font-bold text-center transition-colors ${bgType === "color"
-                              ? "bg-slate-900 border-slate-900 text-white"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-slate-900 border-slate-900 text-white"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           Color/Gradient
@@ -1048,8 +1048,8 @@ export function BackgroundRemover() {
                               key={level}
                               onClick={() => setBlurLevel(level)}
                               className={`py-1.5 border rounded-xl text-xs font-bold uppercase transition-colors ${blurLevel === level
-                                  ? "bg-orange-500 border-orange-500 text-white"
-                                  : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                                ? "bg-orange-500 border-orange-500 text-white"
+                                : "border-slate-200 text-slate-600 hover:bg-slate-50"
                                 }`}
                             >
                               {level}
@@ -1072,8 +1072,8 @@ export function BackgroundRemover() {
                                 setBgType("image");
                               }}
                               className={`aspect-square rounded-xl overflow-hidden border-2 relative transition-transform hover:scale-105 ${bgImage === item.url && bgType === "image"
-                                  ? "border-orange-500 shadow-md"
-                                  : "border-transparent"
+                                ? "border-orange-500 shadow-md"
+                                : "border-transparent"
                                 }`}
                               title={item.name}
                             >
@@ -1123,8 +1123,8 @@ export function BackgroundRemover() {
                                 setBgType("color");
                               }}
                               className={`aspect-square rounded-xl border-2 transition-transform hover:scale-105 relative ${bgColor === col && bgType === "color"
-                                  ? "border-slate-800 scale-105"
-                                  : "border-slate-100"
+                                ? "border-slate-800 scale-105"
+                                : "border-slate-100"
                                 }`}
                               style={{
                                 background: col
@@ -1150,8 +1150,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBrushMode("erase")}
                           className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${brushMode === "erase"
-                              ? "bg-red-500 border-red-500 text-white shadow-md shadow-red-500/20"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-red-500 border-red-500 text-white shadow-md shadow-red-500/20"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           <Eraser className="h-5 w-5" />
@@ -1160,8 +1160,8 @@ export function BackgroundRemover() {
                         <button
                           onClick={() => setBrushMode("restore")}
                           className={`py-3 px-3 border rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-2 ${brushMode === "restore"
-                              ? "bg-green-600 border-green-600 text-white shadow-md shadow-green-600/20"
-                              : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            ? "bg-green-600 border-green-600 text-white shadow-md shadow-green-600/20"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                         >
                           <Paintbrush className="h-5 w-5" />
