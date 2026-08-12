@@ -17,6 +17,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
     }
 
+    const host = process.env.SMTP_HOST || "smtp.gmail.com";
+    const port = Number(process.env.SMTP_PORT) || 465;
+    const secure = process.env.SMTP_SECURE !== undefined ? process.env.SMTP_SECURE === "true" : port === 465;
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
     const to = process.env.CONTACT_EMAIL || user;
@@ -27,9 +30,9 @@ export async function POST(request: NextRequest) {
     }
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      host,
+      port,
+      secure,
       auth: { user, pass },
       tls: { rejectUnauthorized: false },
     });
