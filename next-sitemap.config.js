@@ -10,8 +10,13 @@ module.exports = {
   priority: 0.8,
   exclude: [
     "/api/*",
-    // /search is noindex — exclude it from the sitemap too
     "/search",
+    "/tools/seo-checker",
+    "/tools/heading-analyzer",
+    "/tools/schema-validator",
+    "/tools/schema-generator",
+    "/tools/performance-audit",
+    "/tools/image-alt-checker",
   ],
 };
 

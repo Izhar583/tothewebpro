@@ -1,6 +1,64 @@
+# ToTheWebPro robots.txt
+# Optimization for standard search engines (SEO), Generative AI engines (GEO), and Answer Engines (AEO)
+
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /search
+Disallow: /tools/seo-checker
+Disallow: /tools/heading-analyzer
+Disallow: /tools/schema-validator
+Disallow: /tools/schema-generator
+Disallow: /tools/performance-audit
+Disallow: /tools/image-alt-checker
 
+# OpenAI / ChatGPT Bot
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /search
+Disallow: /tools/seo-checker
+Disallow: /tools/heading-analyzer
+Disallow: /tools/schema-validator
+Disallow: /tools/schema-generator
+Disallow: /tools/performance-audit
+Disallow: /tools/image-alt-checker
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic / Claude Bot
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /search
+Disallow: /tools/seo-checker
+Disallow: /tools/heading-analyzer
+Disallow: /tools/schema-validator
+Disallow: /tools/schema-generator
+Disallow: /tools/performance-audit
+Disallow: /tools/image-alt-checker
+
+# Perplexity AI Bot
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /search
+Disallow: /tools/seo-checker
+Disallow: /tools/heading-analyzer
+Disallow: /tools/schema-validator
+Disallow: /tools/schema-generator
+Disallow: /tools/performance-audit
+Disallow: /tools/image-alt-checker
+
+# Google Extended / Gemini
+User-agent: Google-Extended
+Allow: /
+
+# ByteDance / Bytespider
+User-agent: Bytespider
+Allow: /
+
+# Sitemap and LLM documentation locations
 Sitemap: https://tothewebpro.com/sitemap.xml
+Sitemap: https://tothewebpro.com/llms.txt

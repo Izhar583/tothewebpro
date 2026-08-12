@@ -1,0 +1,43 @@
+# ToTheWebPro - Full Documentation & AI Context
+
+## Overview
+ToTheWebPro (https://tothewebpro.com) is a modern web platform providing free online tools for webmasters, digital marketers, SEO specialists, copywriters, and software developers.
+
+## Key Tool Details & Algorithms
+
+### 1. Meta Title & Description Checker
+- URL: https://tothewebpro.com/tools/meta-title-description-checker
+- Features: 
+  - Simulates Google SERP titles up to ~600px width.
+  - Simulates Google SERP meta descriptions up to ~960px width.
+  - Detects Open Graph (og:title, og:description, og:image, og:url, og:type) and Twitter Cards (twitter:card, twitter:title).
+  - Evaluates Canonical links and Robots directives.
+
+### 2. Word & Character Counter
+- URL: https://tothewebpro.com/tools/word-counter
+- Features:
+  - Real-time word count using regex word boundary matching.
+  - Character counts with and without whitespace.
+  - Estimated reading time (based on average 200 words per minute).
+  - Estimated speaking time (based on average 130 words per minute).
+
+### 3. Image Processing Tools (Compressor, Resizer, Converter, Background Remover)
+- Compressor: https://tothewebpro.com/tools/image-compressor
+- Resizer: https://tothewebpro.com/tools/image-resizer
+- Converter: https://tothewebpro.com/tools/image-converter
+- Features:
+  - Executes locally in the user's browser using HTML5 Canvas and WebAssembly.
+  - Supports WEBP, PNG, JPEG, and AVIF output formats.
+  - Zero server storage; guarantees user data privacy.
+
+### 4. Technical Architecture
+- Framework: Next.js 14 (App Router)
+- Styling: Tailwind CSS
+- Performance: 100/100 Google Lighthouse optimized, zero external heavy dependencies.
+- Hosting & Edge CDN: Global Vercel Edge Network.
+
+## Contact & Legal
+- Website: https://tothewebpro.com
+- Privacy Policy: https://tothewebpro.com/privacy-policy
+- Terms of Service: https://tothewebpro.com/terms
+- Contact Page: https://tothewebpro.com/contact

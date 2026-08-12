@@ -19,6 +19,7 @@ export interface ToolDefinition {
   howToUseParagraphs: string[];
   faqs: ToolFAQ[];
   relatedSlugs: string[];
+  noIndex?: boolean;
 }
 
 export interface FetchMetaResponse {

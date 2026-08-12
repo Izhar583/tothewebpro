@@ -635,6 +635,225 @@ export const TOOLS: ToolDefinition[] = [
     ],
     relatedSlugs: ["image-compressor", "image-resizer", "image-converter"],
   },
+  {
+    slug: "seo-checker",
+    name: "Website SEO & Speed Checker",
+    shortDescription:
+      "Audit any website URL for full SEO health, meta tag pixel accuracy, heading hierarchy, image alt tags, HTTPS security, and Google PageSpeed Lighthouse performance.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "⚡",
+    schemaDescription:
+      "Free website SEO and speed audit tool. Get Google PageSpeed metrics, Core Web Vitals, meta tag pixel width analysis, heading structure checks, and technical SEO diagnostics.",
+    metaTitle: "Free Website SEO & Speed Audit Checker | Google PageSpeed Scores",
+    metaDescription:
+      "Audit any website URL for free. Get full SEO score, Google PageSpeed performance metrics, meta tag checks, and technical SEO recommendations instantly.",
+    howToUseParagraphs: [
+      paragraph(
+        "Enter any public website URL starting with http:// or https:// into the audit input box and click 'Run Free SEO Audit'. ",
+        "Our engine fetches the page HTML and runs an automated check against Google PageSpeed Insights API in parallel.",
+      ),
+      paragraph(
+        "Review your overall SEO score and Google Lighthouse scores across four key categories: Performance, SEO, Accessibility, and Best Practices. ",
+        "Check your Core Web Vitals metrics including First Contentful Paint (FCP), Largest Contentful Paint (LCP), and Cumulative Layout Shift (CLS).",
+      ),
+      paragraph(
+        "Explore itemized audit cards for Meta Tags, Heading Structure (H1, H2, H3), Image Alt Text, Technical SEO, and Security flags. ",
+        "Color-coded badges (Pass, Warning, Issue) highlight critical fixes to improve search engine rankings.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "How does the Website SEO & Speed Checker work?",
+        answer:
+          "The tool analyzes your page's HTML structure for essential on-page SEO factors (title length, meta descriptions, canonical tags, H1 headings, image alt attributes) while fetching official performance data from Google's PageSpeed Insights API.",
+      },
+      {
+        question: "Is this SEO audit tool completely free?",
+        answer:
+          "Yes! The Website SEO & Speed Checker is 100% free with no signup or subscription required.",
+      },
+      {
+        question: "Why are Google Core Web Vitals important for SEO?",
+        answer:
+          "Google uses Core Web Vitals (LCP, FID/INP, CLS) as official ranking signals. Fast loading pages with minimal layout shift provide a better user experience and rank higher in search results.",
+      },
+    ],
+    relatedSlugs: ["meta-title-description-checker", "word-counter", "character-counter"],
+    noIndex: true,
+  },
+  {
+    slug: "heading-analyzer",
+    name: "Heading Tag Analyzer (H1-H6)",
+    shortDescription:
+      "Analyze your webpage's header hierarchy (H1 to H6). Detect missing H1 tags, multiple H1 warnings, header depth issues, empty headings, and visual outline trees.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "📋",
+    schemaDescription:
+      "Free Heading Tag Analyzer tool. Audit H1, H2, H3, H4, H5, H6 tag hierarchy, detect structural outline flaws, heading length issues, and duplicate H1 tags.",
+    metaTitle: "Heading Tag Analyzer (H1-H6) | Free On-Page Heading Structure Audit",
+    metaDescription:
+      "Audit any website heading hierarchy instantly. Detect missing H1s, improper nesting, and heading length issues for better search engine indexing.",
+    howToUseParagraphs: [
+      paragraph(
+        "Enter any live website URL or paste raw HTML code into the input field and click 'Analyze Headings'. ",
+        "Our engine extracts every heading tag from H1 through H6 in exact document order.",
+      ),
+      paragraph(
+        "Review the visual Heading Outline Tree to ensure logical document hierarchy without skipped levels (e.g. jumping from H1 directly to H4). ",
+        "Check character counts, warnings for empty headings or duplicate H1 tags, and structural health recommendations.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "Why is H1 tag structure important for SEO?",
+        answer:
+          "The H1 tag tells search engine crawlers the main topic of your page. Having exactly one descriptive H1 per page improves contextual understanding and indexation.",
+      },
+      {
+        question: "Can a webpage have more than one H1 tag?",
+        answer:
+          "While HTML5 permits multiple H1 tags within distinct section elements, SEO best practice recommends having a single clear H1 tag per page to maintain clear topic focus.",
+      },
+    ],
+    relatedSlugs: ["seo-checker", "meta-title-description-checker", "word-counter"],
+    noIndex: true,
+  },
+  {
+    slug: "schema-validator",
+    name: "Schema Markup Validator (JSON-LD)",
+    shortDescription:
+      "Validate JSON-LD structured data, Microdata, and Schema.org markup from any URL or code snippet. Test syntax errors, missing required properties, and preview rich result entity trees.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "🔍",
+    schemaDescription:
+      "Free Schema.org Validator. Test JSON-LD structured data syntax, detect missing required schema fields, and preview structured data entities for rich Google search results.",
+    metaTitle: "Free Schema Markup Validator | JSON-LD & Structured Data Testing Tool",
+    metaDescription:
+      "Validate JSON-LD structured data from URL or text snippet. Check Schema.org compliance, detect errors, and optimize for Google Rich Results.",
+    howToUseParagraphs: [
+      paragraph(
+        "Paste a live website URL or paste raw JSON-LD code into the validator box and click 'Validate Schema'. ",
+        "Our parser extracts all embedded JSON-LD scripts and validates them against standard Schema.org specifications.",
+      ),
+      paragraph(
+        "Review identified Schema types (Article, Product, FAQPage, Organization, LocalBusiness, BreadcrumbList) with property-by-property pass/fail indicators.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "What is JSON-LD structured data?",
+        answer:
+          "JSON-LD (JavaScript Object Notation for Linked Data) is a standardized format recommended by Google to provide structured information about a webpage's content, enabling rich search snippets.",
+      },
+    ],
+    relatedSlugs: ["schema-generator", "seo-checker", "meta-title-description-checker"],
+    noIndex: true,
+  },
+  {
+    slug: "schema-generator",
+    name: "Schema Markup Generator (JSON-LD)",
+    shortDescription:
+      "Generate clean, error-free JSON-LD structured data for Articles, FAQPages, Local Businesses, Organizations, Products, Software Applications, and Events with instant live preview and 1-click copy.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "⚙️",
+    schemaDescription:
+      "Free JSON-LD Schema Generator. Interactively generate valid Schema.org structured data for Articles, FAQs, Local Businesses, Products, and Software for Google Rich Snippets.",
+    metaTitle: "Free JSON-LD Schema Generator | Create Google Rich Snippet Structured Data",
+    metaDescription:
+      "Easily create valid JSON-LD schema markup for Articles, FAQs, Organizations, Products, and Local Businesses. 100% free with instant copy & validation.",
+    howToUseParagraphs: [
+      paragraph(
+        "Select your desired Schema type (e.g. FAQPage, Article, LocalBusiness, Product, Organization, SoftwareApplication). ",
+        "Fill in the structured data form fields, such as title, author, questions & answers, price, or software ratings.",
+      ),
+      paragraph(
+        "Copy the automatically generated JSON-LD script and paste it inside the <head> section of your website HTML.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "How do I add JSON-LD schema to my website?",
+        answer:
+          "Paste the generated <script type='application/ld+json'> code inside the <head> or <body> section of your page HTML.",
+      },
+    ],
+    relatedSlugs: ["schema-validator", "seo-checker", "meta-title-description-checker"],
+    noIndex: true,
+  },
+  {
+    slug: "performance-audit",
+    name: "PageSpeed Performance Audit (Lighthouse)",
+    shortDescription:
+      "Full Google PageSpeed Insights clone UI. Analyze Mobile & Desktop site speed, Core Web Vitals (LCP, FCP, CLS, TBT, Speed Index), Field Data vs Lab Data, Diagnostics, and Passed Audits.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "🚀",
+    schemaDescription:
+      "Free PageSpeed Insights clone tool. Test website performance, Core Web Vitals, accessibility, best practices, and SEO scores for both Mobile and Desktop strategies.",
+    metaTitle: "Google PageSpeed Insights Clone Tool | Free Core Web Vitals Audit",
+    metaDescription:
+      "Run instant Google PageSpeed Insights performance audit. Switch between Mobile & Desktop, analyze Core Web Vitals, FCP, LCP, CLS, and actionable diagnostic recommendations.",
+    howToUseParagraphs: [
+      paragraph(
+        "Enter any website URL and click 'Analyze PageSpeed'. ",
+        "Our engine runs parallel Mobile and Desktop Google Lighthouse audits to generate official Google PageSpeed scores.",
+      ),
+      paragraph(
+        "Toggle between Mobile 📱 and Desktop 💻 strategy tabs to view circular performance gauges, Core Web Vitals timing metrics, diagnostic flags, and passed audits.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "What is the difference between Mobile and Desktop PageSpeed scores?",
+        answer:
+          "Mobile audits simulate a mid-tier mobile device over a 4G network with CPU throttling, whereas Desktop audits evaluate performance over unthrottled high-speed connections.",
+      },
+    ],
+    relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-alt-checker"],
+    noIndex: true,
+  },
+  {
+    slug: "image-alt-checker",
+    name: "Image Alt Text & Image SEO Checker",
+    shortDescription:
+      "Audit all images on any webpage. Detect missing alt attributes, empty alt text, decorative vs informative images, image file sizes, format types, and image SEO optimization tips.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "🖼️",
+    schemaDescription:
+      "Free Image Alt Text Checker tool. Scrape webpage images to identify missing alt text, non-descriptive alt tags, image dimension issues, and accessibility warnings.",
+    metaTitle: "Free Image Alt Text Checker | Audit Webpage Image SEO & Accessibility",
+    metaDescription:
+      "Audit all images on your webpage for missing alt tags, image file sizes, and accessibility compliance. 100% free image SEO tool.",
+    howToUseParagraphs: [
+      paragraph(
+        "Enter your webpage URL or paste HTML source code and click 'Check Image Alt Tags'. ",
+        "The tool extracts every <img> element on the page.",
+      ),
+      paragraph(
+        "View itemized cards for each image showing image preview, src URL, alt text value, character length, status flag (Pass, Missing Alt, Empty Alt), and accessibility guidance.",
+      ),
+    ],
+    faqs: [
+      {
+        question: "Why is image alt text critical for SEO and accessibility?",
+        answer:
+          "Alt text helps search engines index image content in Google Images and allows screen readers to describe visual content to visually impaired users.",
+      },
+    ],
+    relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-compressor"],
+    noIndex: true,
+  },
 ];
 
 export const TOOL_BY_SLUG: Record<string, ToolDefinition> = Object.fromEntries(

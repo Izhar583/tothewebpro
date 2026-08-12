@@ -31,6 +31,21 @@ export async function generateMetadata({
       description: tool.metaDescription,
       url: `https://tothewebpro.com/tools/${tool.slug}`,
     },
+    robots: tool.noIndex
+      ? {
+          index: false,
+          follow: false,
+          nocache: true,
+          googleBot: {
+            index: false,
+            follow: false,
+            noimageindex: true,
+          },
+        }
+      : {
+          index: true,
+          follow: true,
+        },
   };
 }
 
@@ -44,6 +59,7 @@ export default function ToolPage({ params }: ToolPageProps) {
 
   return (
     <>
+      {tool.noIndex && <meta name="robots" content="noindex, nofollow" />}
       <JsonLd data={schemas.softwareApp} />
       <JsonLd data={schemas.breadcrumb} />
       <JsonLd data={schemas.faq} />
