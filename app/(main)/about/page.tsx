@@ -17,7 +17,7 @@ export default function AboutPage() {
           <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
           <span className="text-xs font-bold text-orange-700 uppercase tracking-wider">Our Story</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+        <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
           Tools built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">Speed</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">Efficiency</span>
         </h1>
         <p className="mt-6 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
@@ -74,7 +74,7 @@ export default function AboutPage() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-20 translate-y-1/2 -translate-x-1/2"></div>
         
         <div className="relative z-10 max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-6">How free stays free</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">How free stays free</h2>
           <p className="text-lg text-slate-300 leading-relaxed mb-8">
             We keep ads on the site to maintain our infrastructure, but our rules are simple: ads sit outside the workspace, never auto-play audio, and never cover content. The user experience always comes first.
           </p>

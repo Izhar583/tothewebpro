@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Spinner } from "@/components/ui/Spinner";
-import { Image as ImageIcon, Globe, Search, Check, AlertTriangle, X, FileImage, ShieldCheck, Info } from "lucide-react";
+import { Image as ImageIcon, Globe, Search, Check, AlertTriangle, X, ExternalLink, Copy, CheckCircle2 } from "lucide-react";
 
 interface ImageItem {
   src: string;
@@ -30,18 +30,21 @@ export function ImageAltChecker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [filter, setFilter] = useState<"all" | "missing" | "valid" | "decorative">("all");
+  const [copiedMissing, setCopiedMissing] = useState(false);
 
   async function handleCheck(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setResult(null);
+    setFilter("all");
 
     if (mode === "url" && !inputUrl.trim()) {
       setError("Please enter a valid website URL.");
       return;
     }
     if (mode === "html" && !rawHtml.trim()) {
-      setError("Please paste raw HTML code.");
+      setError("Please paste raw HTML code containing <img> tags.");
       return;
     }
 
@@ -57,40 +60,18 @@ export function ImageAltChecker() {
         if (!res.ok) throw new Error(json.error || "Failed to fetch webpage images.");
 
         const imgDetails = json.images || {};
-        const sampleImages: ImageItem[] = [];
-
-        // Build result from SEO audit API payload
-        if (imgDetails.missingAltCount > 0) {
-          sampleImages.push({
-            src: `${cleanUrl}/example-hero.jpg`,
-            alt: null,
-            hasAlt: false,
-            isDecorative: false,
-            length: 0,
-            status: "fail",
-            message: "Missing alt attribute entirely! High priority SEO & accessibility fix.",
-          });
-        }
-        sampleImages.push({
-          src: `${cleanUrl}/logo.png`,
-          alt: "Company Logo",
-          hasAlt: true,
-          isDecorative: false,
-          length: 12,
-          status: "pass",
-          message: "Good descriptive alt text.",
-        });
+        const extractedImages: ImageItem[] = imgDetails.items || [];
 
         setResult({
           url: cleanUrl,
-          totalImages: imgDetails.totalImages || 5,
-          passedImages: imgDetails.withAltCount || 4,
-          missingAltCount: imgDetails.missingAltCount || 0,
-          emptyAltCount: 0,
-          images: sampleImages,
+          totalImages: imgDetails.total || extractedImages.length,
+          passedImages: imgDetails.validAlt || extractedImages.filter((i) => i.status === "pass").length,
+          missingAltCount: imgDetails.missingAlt || extractedImages.filter((i) => i.status === "fail").length,
+          emptyAltCount: imgDetails.emptyAlt || extractedImages.filter((i) => i.status === "warn").length,
+          images: extractedImages,
         });
       } else {
-        // DOMParser for local HTML code
+        // Client-side DOMParser for raw HTML snippet
         const parser = new DOMParser();
         const doc = parser.parseFromString(rawHtml, "text/html");
         const imgElements = Array.from(doc.querySelectorAll("img"));
@@ -102,7 +83,7 @@ export function ImageAltChecker() {
         const items: ImageItem[] = imgElements.map((img) => {
           const hasAltAttr = img.hasAttribute("alt");
           const altVal = img.getAttribute("alt");
-          const src = img.getAttribute("src") || "inline-image";
+          const src = img.getAttribute("src") || img.getAttribute("data-src") || "(inline/base64 image)";
 
           if (!hasAltAttr) {
             missing++;
@@ -113,7 +94,7 @@ export function ImageAltChecker() {
               isDecorative: false,
               length: 0,
               status: "fail",
-              message: "Missing 'alt' attribute completely.",
+              message: "Missing 'alt' attribute completely. Critical accessibility & SEO issue.",
             };
           }
 
@@ -127,7 +108,7 @@ export function ImageAltChecker() {
               isDecorative: true,
               length: 0,
               status: "warn",
-              message: "Empty alt='' (Decorative image). Ensure this image is non-informative.",
+              message: "Empty alt='' (Decorative image). Ensure this image contains no informative text.",
             };
           }
 
@@ -157,6 +138,27 @@ export function ImageAltChecker() {
       setLoading(false);
     }
   }
+
+  function handleCopyMissing() {
+    if (!result) return;
+    const missingItems = result.images.filter((i) => i.status === "fail");
+    if (missingItems.length === 0) return;
+
+    const lines = missingItems.map((i) => i.src);
+    navigator.clipboard.writeText(lines.join("\n"));
+    setCopiedMissing(true);
+    setTimeout(() => setCopiedMissing(false), 2000);
+  }
+
+  const filteredImages = result
+    ? filter === "all"
+      ? result.images
+      : filter === "missing"
+      ? result.images.filter((i) => i.status === "fail")
+      : filter === "valid"
+      ? result.images.filter((i) => i.status === "pass")
+      : result.images.filter((i) => i.status === "warn")
+    : [];
 
   return (
     <div className="space-y-8">
@@ -241,83 +243,173 @@ export function ImageAltChecker() {
       {/* Results View */}
       {result && (
         <div className="space-y-8 animate-fadeIn">
-          {/* Summary Cards */}
-          <div className="grid gap-4 sm:grid-cols-4">
-            <div className="rounded-2xl border border-orange-100 bg-white p-4 text-center shadow-sm">
+          {/* Summary Metric Cards */}
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-4">
+            <button
+              type="button"
+              onClick={() => setFilter("all")}
+              className={`rounded-2xl border p-4 text-center transition-all ${
+                filter === "all" ? "border-orange-500 bg-orange-50/50 shadow-xs" : "border-slate-100 bg-white hover:bg-slate-50"
+              }`}
+            >
               <span className="block text-2xl font-black text-slate-900">{result.totalImages}</span>
-              <span className="text-xs font-bold text-slate-500">Total Images</span>
-            </div>
+              <span className="text-xs font-bold text-slate-500 uppercase">Total Images</span>
+            </button>
 
-            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4 text-center shadow-sm">
+            <button
+              type="button"
+              onClick={() => setFilter("valid")}
+              className={`rounded-2xl border p-4 text-center transition-all ${
+                filter === "valid" ? "border-emerald-500 bg-emerald-50 shadow-xs" : "border-emerald-100 bg-emerald-50/30 hover:bg-emerald-50/60"
+              }`}
+            >
               <span className="block text-2xl font-black text-emerald-600">{result.passedImages}</span>
-              <span className="text-xs font-bold text-emerald-700">Valid Alt Text</span>
-            </div>
+              <span className="text-xs font-bold text-emerald-700 uppercase">Valid Alt Text</span>
+            </button>
 
-            <div className="rounded-2xl border border-red-100 bg-red-50/50 p-4 text-center shadow-sm">
+            <button
+              type="button"
+              onClick={() => setFilter("missing")}
+              className={`rounded-2xl border p-4 text-center transition-all ${
+                filter === "missing" ? "border-red-500 bg-red-50 shadow-xs" : "border-red-100 bg-red-50/30 hover:bg-red-50/60"
+              }`}
+            >
               <span className="block text-2xl font-black text-red-600">{result.missingAltCount}</span>
-              <span className="text-xs font-bold text-red-700">Missing Alt Tags</span>
-            </div>
+              <span className="text-xs font-bold text-red-700 uppercase">Missing Alt Tags</span>
+            </button>
 
-            <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4 text-center shadow-sm">
+            <button
+              type="button"
+              onClick={() => setFilter("decorative")}
+              className={`rounded-2xl border p-4 text-center transition-all ${
+                filter === "decorative" ? "border-amber-500 bg-amber-50 shadow-xs" : "border-amber-100 bg-amber-50/30 hover:bg-amber-50/60"
+              }`}
+            >
               <span className="block text-2xl font-black text-amber-600">{result.emptyAltCount}</span>
-              <span className="text-xs font-bold text-amber-700">Empty (Decorative)</span>
-            </div>
+              <span className="text-xs font-bold text-amber-700 uppercase">Decorative (alt=&quot;&quot;)</span>
+            </button>
           </div>
 
-          {/* Image List Items */}
-          <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <ImageIcon className="h-5 w-5 text-orange-600" /> Webpage Images Detail
-            </h3>
+          {/* Image List Container */}
+          <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-orange-600" /> Extracted Webpage Images ({filteredImages.length})
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Showing {filter === "all" ? "all images" : filter} extracted from the page source
+                </p>
+              </div>
 
-            {result.images.length === 0 ? (
-              <p className="text-sm text-slate-500 italic">No &lt;img&gt; elements detected in this input.</p>
+              {result.missingAltCount > 0 && (
+                <button
+                  type="button"
+                  onClick={handleCopyMissing}
+                  className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-xl border border-red-200 bg-red-50 px-3.5 py-2 text-xs font-bold text-red-700 hover:bg-red-100 transition-all"
+                >
+                  {copiedMissing ? (
+                    <>
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                      <span>Copied Missing URLs!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5 text-red-600" />
+                      <span>Copy Missing Alt Image URLs</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+
+            {filteredImages.length === 0 ? (
+              <p className="text-sm text-slate-500 italic py-6 text-center">
+                No images found matching filter &quot;{filter}&quot;.
+              </p>
             ) : (
-              <div className="space-y-4">
-                {result.images.map((img, idx) => (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {filteredImages.map((img, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-2xl border p-4 transition space-y-2 ${
+                    className={`rounded-2xl border p-4 transition-all flex flex-col justify-between space-y-3 ${
                       img.status === "pass"
-                        ? "border-emerald-200 bg-emerald-50/30"
+                        ? "border-emerald-200 bg-emerald-50/20 hover:bg-emerald-50/40"
                         : img.status === "warn"
-                        ? "border-amber-200 bg-amber-50/30"
-                        : "border-red-200 bg-red-50/30"
+                        ? "border-amber-200 bg-amber-50/20 hover:bg-amber-50/40"
+                        : "border-red-200 bg-red-50/20 hover:bg-red-50/40"
                     }`}
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/50 pb-2">
-                      <span className="text-xs font-mono text-slate-600 truncate max-w-md">{img.src}</span>
+                    <div className="space-y-2">
+                      <div className="flex items-start justify-between gap-2 border-b border-slate-200/60 pb-2">
+                        <div className="flex items-center gap-2 min-w-0 pr-2">
+                          <ImageIcon className="h-4 w-4 shrink-0 text-slate-400" />
+                          <span className="text-xs font-mono font-semibold text-slate-800 truncate" title={img.src}>
+                            {img.src.split("/").pop() || img.src}
+                          </span>
+                        </div>
 
-                      {img.status === "pass" && (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                          <Check className="h-3 w-3" /> Pass
-                        </span>
-                      )}
-                      {img.status === "warn" && (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-black text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">
-                          <AlertTriangle className="h-3 w-3" /> Decorative
-                        </span>
-                      )}
-                      {img.status === "fail" && (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-black text-red-700 bg-red-100 px-2.5 py-0.5 rounded-full">
-                          <X className="h-3 w-3" /> Missing Alt
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="text-xs space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-700">Alt Attribute Value:</span>
-                        {img.alt === null ? (
-                          <span className="font-mono text-red-600 font-bold">None (Missing Tag)</span>
-                        ) : img.alt === "" ? (
-                          <span className="font-mono text-amber-600 font-bold">"" (Empty string)</span>
-                        ) : (
-                          <span className="font-semibold text-slate-900">"{img.alt}" ({img.length} chars)</span>
+                        {img.status === "pass" && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full shrink-0">
+                            <Check className="h-3 w-3" /> Valid Alt
+                          </span>
+                        )}
+                        {img.status === "warn" && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full shrink-0">
+                            <AlertTriangle className="h-3 w-3" /> Decorative
+                          </span>
+                        )}
+                        {img.status === "fail" && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-red-700 bg-red-100 px-2.5 py-0.5 rounded-full shrink-0">
+                            <X className="h-3 w-3" /> Missing Alt
+                          </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-slate-500">{img.message}</p>
+
+                      {/* Image Source Link */}
+                      <div className="flex items-center gap-1 text-[11px] text-slate-500 truncate">
+                        <span className="font-bold text-slate-600 shrink-0">URL:</span>
+                        <a
+                          href={img.src}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-orange-600 hover:underline truncate inline-flex items-center gap-1"
+                        >
+                          <span className="truncate">{img.src}</span>
+                          <ExternalLink className="h-3 w-3 shrink-0" />
+                        </a>
+                      </div>
+
+                      {/* Alt Attribute Value */}
+                      <div className="text-xs bg-white/80 p-2.5 rounded-xl border border-slate-200/80 space-y-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-bold text-slate-700">Alt Tag:</span>
+                          <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                            {img.length} chars
+                          </span>
+                        </div>
+
+                        <div>
+                          {img.alt === null ? (
+                            <span className="font-mono text-red-600 font-bold bg-red-100/60 px-2 py-0.5 rounded text-[11px]">
+                              None (Missing Tag)
+                            </span>
+                          ) : img.alt === "" ? (
+                            <span className="font-mono text-amber-600 font-bold bg-amber-100/60 px-2 py-0.5 rounded text-[11px]">
+                              &quot;&quot; (Empty decorative string)
+                            </span>
+                          ) : (
+                            <p className="font-medium text-slate-900 break-words text-xs">
+                              &quot;{img.alt}&quot;
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    <p className="text-[11px] text-slate-500 italic pt-1">
+                      {img.message}
+                    </p>
                   </div>
                 ))}
               </div>

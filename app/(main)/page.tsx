@@ -115,7 +115,7 @@ export default function HomePage() {
             <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
             <span className="text-xs font-bold text-orange-700 uppercase tracking-widest">Premium SEO Utilities</span>
           </div>
-          <h1 className="text-4xl md:text-7xl font-black text-slate-900 tracking-tight leading-[1.1]">
+          <h1 className="text-4xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             Sharp Tools for <br />
             <span className="text-orange-600">Smart Creators</span>
           </h1>
@@ -154,7 +154,7 @@ export default function HomePage() {
               <div key={cat.id} id={cat.id} className="scroll-mt-20">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                   <div className="max-w-xl">
-                    <h2 className="text-3xl font-black text-slate-900 flex items-center gap-4">
+                    <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-4">
                       <span className="h-12 w-12 flex items-center justify-center bg-orange-50 rounded-[14px]" aria-hidden>
                         <cat.Icon className="h-8 w-8 shrink-0" />
                       </span>
@@ -170,7 +170,7 @@ export default function HomePage() {
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
                   </Link>
                 </div>
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 lg:gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {catTools.map((tool) => (
                     <ToolCard key={tool.slug} tool={tool} variant="light" />
                   ))}
@@ -184,13 +184,13 @@ export default function HomePage() {
       <section className="py-24 border-y border-orange-100 bg-orange-50/30">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl font-black text-slate-900">Built for the People Who Build the Web</h2>
+            <h2 className="text-4xl font-bold text-slate-900">Built for the People Who Build the Web</h2>
             <p className="mt-6 text-lg text-slate-600 font-medium leading-relaxed">
               Whether you&apos;re auditing a client&apos;s SERP snippet, optimizing images for a Core Web Vitals report,
               or counting characters before a deadline — you need tools that respect your time.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-4 lg:gap-3 md:grid-cols-3">
             {WHY.map((item) => {
               const Icon = item.Icon;
               return (
@@ -201,7 +201,7 @@ export default function HomePage() {
                   <div className={`h-14 w-14 rounded-2xl flex items-center justify-center mb-8 ${item.bgClass}`}>
                     <Icon className="h-8 w-8 shrink-0" />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
+                  <h3 className="text-xl font-semibold text-slate-900">{item.title}</h3>
                   <p className="mt-4 text-base leading-relaxed text-slate-600 font-medium">{item.body}</p>
                 </div>
               );
@@ -211,22 +211,6 @@ export default function HomePage() {
       </section>
 
       <HomeBlogPreview />
-
-      <section className="py-28 bg-white overflow-hidden relative">
-        <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900">The Right Tool Is Already Waiting</h2>
-          <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto font-medium leading-relaxed">
-            Technical work deserves technical precision. Open any tool, run your task, move on. That&apos;s the whole deal.
-          </p>
-          <Link
-            href="/seo-tools"
-            className="mt-10 inline-flex items-center gap-2 rounded-2xl bg-orange-600 px-10 py-4 text-sm font-bold text-white shadow-xl shadow-orange-500/30 transition hover:bg-orange-700 active:scale-95"
-          >
-            Browse All Tools →
-          </Link>
-        </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/30 blur-[120px] rounded-full -z-0" />
-      </section>
     </div>
   );
 }

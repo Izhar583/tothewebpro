@@ -23,12 +23,12 @@ export function HomeBlogPreview() {
             </div>
             <h2
               id="blog-preview-heading"
-              className="text-3xl md:text-4xl font-black text-slate-900 leading-tight"
+              className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight"
             >
               Latest Insights &amp; Guides
             </h2>
-            <p className="mt-3 text-base text-slate-600 font-medium max-w-lg leading-relaxed">
-              Practical SEO, performance, and publishing guidance — written for people who build the web.
+            <p className="mt-3 text-base text-slate-600 font-semibold max-w-lg leading-relaxed">
+              Practical SEO, performance, and publishing guidance written for people who build the web.
             </p>
           </div>
           <Link
@@ -41,7 +41,7 @@ export function HomeBlogPreview() {
         </div>
 
         {/* Cards */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <article
               key={post.slug}
@@ -58,12 +58,12 @@ export function HomeBlogPreview() {
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-black text-slate-900 leading-snug mb-3 group-hover:text-orange-600 transition-colors duration-200">
+              <h3 className="text-xl font-bold text-slate-900 leading-snug mb-3 group-hover:text-orange-600 transition-colors duration-200">
                 {post.title}
               </h3>
 
               {/* Excerpt */}
-              <p className="flex-1 text-sm text-slate-600 leading-relaxed font-medium">
+              <p className="flex-1 text-sm text-slate-600 leading-relaxed font-semibold">
                 {post.excerpt}
               </p>
 
@@ -85,8 +85,8 @@ export function HomeBlogPreview() {
         <div className="mt-16 rounded-[28px] bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-px shadow-xl shadow-orange-500/20">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 rounded-[27px] bg-gradient-to-r from-orange-500/90 to-amber-500/90 px-10 py-8">
             <div>
-              <p className="text-lg font-black text-white">Want more SEO guides?</p>
-              <p className="mt-1 text-sm text-orange-100 font-medium">
+              <p className="text-lg font-semibold text-white">Want more SEO guides?</p>
+              <p className="mt-1 text-sm text-orange-100">
                 Visit the full blog for practical tips on rankings, Core Web Vitals, and content.
               </p>
             </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { TOOLS } from "@/lib/tools-data";
+import { BottomCTA } from "@/components/BottomCTA";
 
 const companyLinks = [
   { href: "/about", label: "About" },
@@ -17,7 +18,9 @@ export function Footer() {
   const devTools = TOOLS.filter((t) => t.category === "developer");
 
   return (
-    <footer className="border-t border-slate-900 bg-gradient-to-b from-slate-950 via-slate-950 to-black pt-16 pb-8 relative overflow-hidden">
+    <>
+      <BottomCTA />
+      <footer className="border-t border-slate-900 bg-gradient-to-b from-slate-950 via-slate-950 to-black pt-16 pb-8 relative overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute bottom-0 right-0 -z-10 h-96 w-96 rounded-full bg-gradient-to-tr from-orange-600/10 to-amber-500/0 blur-[130px] pointer-events-none" />
       <div className="absolute top-0 left-1/4 -z-10 h-72 w-72 rounded-full bg-gradient-to-br from-orange-500/5 to-transparent blur-[100px] pointer-events-none" />
@@ -181,5 +184,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  </>
   );
 }

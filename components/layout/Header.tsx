@@ -7,10 +7,10 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Search, Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "/seo-tools", label: "SEO" },
-  { href: "/text-tools", label: "Text" },
-  { href: "/image-tools", label: "Images" },
-  { href: "/developer-tools", label: "Dev" },
+  { href: "/seo-tools", label: "SEO Tools" },
+  { href: "/text-tools", label: "Text Tools" },
+  { href: "/image-tools", label: "Image Tools" },
+  { href: "/developer-tools", label: "Dev Tools" },
   { href: "/blog", label: "Blog" },
 ];
 
@@ -52,14 +52,13 @@ export function Header() {
   }
 
   const headerBg = "bg-white border-b border-orange-100";
-  const textColor = "text-slate-700";
 
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-gradient-to-r from-orange-500 via-amber-400 to-red-500" />
       <header
         ref={navRef as React.RefObject<HTMLElement>}
-        className={`sticky top-0 z-50 ${headerBg} shadow-lg`}
+        className={`sticky top-0 z-50 ${headerBg}`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
           <div className="flex items-center gap-3">
@@ -107,26 +106,32 @@ export function Header() {
           </form>
 
           <nav
-            className="hidden lg:flex items-center gap-1.5"
+            className="hidden lg:flex items-center gap-2"
             aria-label="Primary navigation"
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-200 ${
-                  isActive(link.href)
-                    ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 shadow-sm"
-                    : `${textColor} hover:text-orange-600 dark:hover:text-orange-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:-translate-y-0.5`
-                }`}
-                aria-current={isActive(link.href) ? "page" : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-2 py-2 text-sm font-bold rounded-xl transition-all duration-200 ${
+                    active
+                      ? "text-orange-600"
+                      : "text-slate-700 hover:text-orange-600 hover:bg-orange-50/60 hover:-translate-y-0.5"
+                  }`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {link.label}
+                  {active && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2.5px] rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shadow-sm" />
+                  )}
+                </Link>
+              );
+            })}
             <Link
               href="/contact"
-              className="ml-2 px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-white shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              className="ml-3 px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
             >
               Get in Touch
             </Link>
@@ -159,20 +164,23 @@ export function Header() {
               />
             </form>
             <nav className="space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                    isActive(link.href)
-                      ? "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400"
-                      : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                      active
+                        ? "text-orange-600"
+                        : "text-slate-700 hover:bg-orange-50/60 hover:text-orange-600"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <hr className="my-2 border-slate-200 dark:border-slate-700" />
               <Link
                 href="/contact"

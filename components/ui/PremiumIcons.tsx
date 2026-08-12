@@ -722,3 +722,142 @@ export function BackgroundRemoverIcon({ className = "h-6 w-6" }: IconProps) {
     </svg>
   );
 }
+
+export function WebsiteSeoCheckerIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="seo-chk-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+        <linearGradient id="seo-chk-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#fcd34d" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+      </defs>
+      {/* Browser Window Frame */}
+      <rect x="6" y="8" width="36" height="32" rx="5" fill="#ffffff" stroke="url(#seo-chk-grad-1)" strokeWidth="2.5" />
+      <path d="M6 16H42" stroke="url(#seo-chk-grad-1)" strokeWidth="1.5" />
+      <circle cx="11" cy="12" r="1.5" fill="#ef4444" />
+      <circle cx="16" cy="12" r="1.5" fill="#f59e0b" />
+      <circle cx="21" cy="12" r="1.5" fill="#10b981" />
+
+      <path d="M12 32L18 25L24 28L34 20" stroke="url(#seo-chk-grad-1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="34" cy="20" r="3" fill="url(#seo-chk-grad-2)" />
+    </svg>
+  );
+}
+
+export function HeadingTagAnalyzerIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hdg-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
+        </linearGradient>
+      </defs>
+      {/* Document Sheet */}
+      <rect x="8" y="6" width="32" height="36" rx="4" fill="#ffffff" stroke="url(#hdg-grad-1)" strokeWidth="2.5" />
+
+      {/* Heading Badges H1, H2, H3 */}
+      <g>
+        <rect x="12" y="12" width="12" height="6" rx="1.5" fill="url(#hdg-grad-1)" />
+        <text x="14" y="17" fill="#ffffff" fontSize="5 font-black" fontFamily="sans-serif">H1</text>
+        <rect x="26" y="14" width="10" height="2" rx="1" fill="#cbd5e1" />
+
+        <rect x="15" y="22" width="10" height="5" rx="1.5" fill="#f97316" />
+        <text x="16.5" y="26" fill="#ffffff" fontSize="4.5 font-bold" fontFamily="sans-serif">H2</text>
+        <rect x="27" y="24" width="9" height="1.5" rx="0.75" fill="#cbd5e1" />
+
+        <rect x="18" y="31" width="8" height="4.5" rx="1" fill="#fcd34d" />
+        <text x="19.5" y="34.5" fill="#78350f" fontSize="4 font-bold" fontFamily="sans-serif">H3</text>
+        <rect x="28" y="33" width="8" height="1.5" rx="0.75" fill="#cbd5e1" />
+      </g>
+    </svg>
+  );
+}
+
+export function SchemaValidatorIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sch-val-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+      </defs>
+      {/* Code Bracket Shield */}
+      <path d="M24 6L8 12V24C8 33 16 39 24 42C32 39 40 33 40 24V12L24 6Z" fill="#ffffff" stroke="url(#sch-val-grad)" strokeWidth="2.5" />
+
+      {/* JSON Brackets & Checkmark */}
+      <path d="M16 20C14 20 14 22 14 24C14 26 14 28 16 28" stroke="url(#sch-val-grad)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M32 20C34 20 34 22 34 24C34 26 34 28 32 28" stroke="url(#sch-val-grad)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M20 24L23 27L28 21" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function SchemaGeneratorIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sch-gen-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
+        </linearGradient>
+      </defs>
+      {/* Tree Node Network */}
+      <circle cx="24" cy="12" r="5" fill="#ffffff" stroke="url(#sch-gen-grad)" strokeWidth="2" />
+      <circle cx="14" cy="34" r="5" fill="#ffffff" stroke="url(#sch-gen-grad)" strokeWidth="2" />
+      <circle cx="34" cy="34" r="5" fill="#ffffff" stroke="url(#sch-gen-grad)" strokeWidth="2" />
+
+      <path d="M24 17V26M24 26L14 29M24 26L34 29" stroke="url(#sch-gen-grad)" strokeWidth="2" strokeLinecap="round" />
+
+      {/* Magic Sparkle */}
+      <path d="M34 10L36 6M36 6L38 10M36 6L32 8M36 6L40 8" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function PerformanceAuditIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="perf-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#dc2626" />
+        </linearGradient>
+      </defs>
+      {/* Gauge Circle Arc */}
+      <circle cx="24" cy="24" r="18" stroke="#e2e8f0" strokeWidth="3" fill="#ffffff" />
+      <path d="M11.3 31.3C8.7 26.6 9.4 20.6 13.1 16.5C17.7 11.4 25.5 10.9 30.7 15.3C34.8 18.8 36.4 24.5 34.7 29.8" stroke="url(#perf-grad-1)" strokeWidth="3.5" strokeLinecap="round" />
+
+      {/* Needle Pointer */}
+      <path d="M24 24L32 16" stroke="url(#perf-grad-1)" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="24" cy="24" r="3" fill="url(#perf-grad-1)" />
+    </svg>
+  );
+}
+
+export function ImageAltCheckerIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="img-alt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+      </defs>
+      {/* Photo Frame */}
+      <rect x="6" y="8" width="36" height="28" rx="4" fill="#ffffff" stroke="url(#img-alt-grad)" strokeWidth="2.5" />
+      <circle cx="15" cy="16" r="3" fill="url(#img-alt-grad)" />
+      <path d="M10 32L18 24L26 32L34 26L40 32" stroke="url(#img-alt-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* ALT Tag Banner overlay */}
+      <rect x="22" y="30" width="20" height="12" rx="3" fill="#0f172a" />
+      <text x="25" y="38" fill="#f59e0b" fontSize="7 font-black" fontFamily="sans-serif">ALT</text>
+    </svg>
+  );
+}

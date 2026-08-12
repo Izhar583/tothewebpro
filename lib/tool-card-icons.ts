@@ -9,6 +9,12 @@ import {
   PasswordGeneratorIcon,
   TextToHtmlIcon,
   BackgroundRemoverIcon,
+  WebsiteSeoCheckerIcon,
+  HeadingTagAnalyzerIcon,
+  SchemaValidatorIcon,
+  SchemaGeneratorIcon,
+  PerformanceAuditIcon,
+  ImageAltCheckerIcon,
 } from "@/components/ui/PremiumIcons";
 
 const ICON_STROKE = "#7c2d12"; // Deep Orange (Orange 900) for better theme matching
@@ -23,6 +29,30 @@ export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
   "meta-title-description-checker": {
     Icon: MetaCheckerIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "website-seo-checker": {
+    Icon: WebsiteSeoCheckerIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
+  "heading-tag-analyzer": {
+    Icon: HeadingTagAnalyzerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "schema-validator": {
+    Icon: SchemaValidatorIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
+  "schema-generator": {
+    Icon: SchemaGeneratorIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "performance-audit": {
+    Icon: PerformanceAuditIcon,
+    iconContainerClass: "bg-red-50/60 dark:bg-red-950/20",
+  },
+  "image-alt-checker": {
+    Icon: ImageAltCheckerIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
   "word-counter": {
     Icon: WordCounterIcon,

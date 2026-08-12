@@ -31,7 +31,7 @@ export default function ImageToolsPage() {
         <h2 id="image-tools-grid-heading" className="sr-only">
           Image tool catalog
         </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 lg:gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {tools.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} variant="light" />
           ))}

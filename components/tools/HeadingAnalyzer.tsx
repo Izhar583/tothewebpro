@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Spinner } from "@/components/ui/Spinner";
-import { Globe, Search, Check, AlertTriangle, X, FileText, ChevronRight, Hash, Layers } from "lucide-react";
+import { Globe, Search, Check, AlertTriangle, X, Hash, Layers, Copy, CheckCircle2 } from "lucide-react";
 
 interface HeadingItem {
   tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -25,11 +25,14 @@ export function HeadingAnalyzer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [tagFilter, setTagFilter] = useState<"all" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6">("all");
+  const [copied, setCopied] = useState(false);
 
   async function handleAnalyze(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setResult(null);
+    setTagFilter("all");
 
     if (mode === "url" && !inputUrl.trim()) {
       setError("Please enter a valid website URL.");
@@ -43,53 +46,52 @@ export function HeadingAnalyzer() {
     setLoading(true);
 
     try {
-      let targetHtml = rawHtml;
-      let targetUrl = inputUrl;
 
       if (mode === "url") {
         let cleanUrl = inputUrl.trim();
         if (!/^https?:\/\//i.test(cleanUrl)) cleanUrl = `https://${cleanUrl}`;
-        targetUrl = cleanUrl;
 
         const res = await fetch(`/api/seo-audit?url=${encodeURIComponent(cleanUrl)}`);
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || "Failed to fetch webpage headings.");
         
-        // If meta response provides headings from cheerio:
-        const extractedHeadings: HeadingItem[] = [];
-        if (json.headings?.h1s) {
-          json.headings.h1s.forEach((h1: string) => extractedHeadings.push({ tag: "h1", text: h1, length: h1.length }));
-        }
+        const extractedHeadings: HeadingItem[] = json.headings?.items || [];
 
-        // Run client fetch fallback if needed or build structured result
+        const counts = {
+          h1: json.headings?.h1Count || 0,
+          h2: json.headings?.h2Count || 0,
+          h3: json.headings?.h3Count || 0,
+          h4: json.headings?.h4Count || 0,
+          h5: json.headings?.h5Count || 0,
+          h6: json.headings?.h6Count || 0,
+        };
+
         const issues: { type: "pass" | "warn" | "fail"; title: string; detail: string }[] = [];
-        const h1Count = json.headings?.h1Count || 0;
-        
-        if (h1Count === 1) {
+        if (counts.h1 === 1) {
           issues.push({ type: "pass", title: "Single H1 Tag Found", detail: "Perfect! The page contains exactly one main H1 header tag." });
-        } else if (h1Count === 0) {
+        } else if (counts.h1 === 0) {
           issues.push({ type: "fail", title: "Missing H1 Tag", detail: "Critical: No H1 tag detected. Search engines rely on H1 to understand main page topic." });
         } else {
-          issues.push({ type: "warn", title: `Multiple H1 Tags (${h1Count} found)`, detail: "Warning: Multiple H1 tags detected. Consider using a single H1 and H2-H6 for subheadings." });
+          issues.push({ type: "warn", title: `Multiple H1 Tags (${counts.h1} found)`, detail: "Warning: Multiple H1 tags detected. Consider using a single H1 and H2-H6 for subheadings." });
         }
 
-        if (json.headings?.h2Count > 0) {
-          issues.push({ type: "pass", title: `${json.headings.h2Count} H2 Subheadings Found`, detail: "Good section partitioning with H2 tags." });
+        if (counts.h2 > 0) {
+          issues.push({ type: "pass", title: `${counts.h2} H2 Subheadings Found`, detail: "Good section partitioning with H2 tags." });
         } else {
           issues.push({ type: "warn", title: "No H2 Subheadings Found", detail: "Consider organizing long content into logical sections with H2 headings." });
         }
 
+        const emptyHeadings = extractedHeadings.filter((h) => !h.text);
+        if (emptyHeadings.length > 0) {
+          issues.push({ type: "fail", title: `${emptyHeadings.length} Empty Heading Tags`, detail: "Remove empty <hX></hX> tags without visible text." });
+        } else if (extractedHeadings.length > 0) {
+          issues.push({ type: "pass", title: "No Empty Headings", detail: "All detected heading tags contain text content." });
+        }
+
         setResult({
           url: cleanUrl,
-          totalHeadings: (json.headings?.h1Count || 0) + (json.headings?.h2Count || 0) + (json.headings?.h3Count || 0),
-          counts: {
-            h1: json.headings?.h1Count || 0,
-            h2: json.headings?.h2Count || 0,
-            h3: json.headings?.h3Count || 0,
-            h4: 0,
-            h5: 0,
-            h6: 0,
-          },
+          totalHeadings: json.headings?.total || extractedHeadings.length,
+          counts,
           headings: extractedHeadings,
           issues,
         });
@@ -143,6 +145,22 @@ export function HeadingAnalyzer() {
       setLoading(false);
     }
   }
+
+  function handleCopyOutline() {
+    if (!result) return;
+    const textLines = result.headings.map(
+      (h) => `[${h.tag.toUpperCase()}] ${h.text}`
+    );
+    navigator.clipboard.writeText(textLines.join("\n"));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  const filteredHeadings = result
+    ? tagFilter === "all"
+      ? result.headings
+      : result.headings.filter((h) => h.tag === tagFilter)
+    : [];
 
   return (
     <div className="space-y-8">
@@ -227,28 +245,64 @@ export function HeadingAnalyzer() {
       {/* Results View */}
       {result && (
         <div className="space-y-8 animate-fadeIn">
-          {/* Summary Banner */}
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-orange-100 bg-white p-5 shadow-sm text-center">
-              <span className="block text-2xl font-black text-orange-600">{result.totalHeadings}</span>
-              <span className="text-xs font-bold text-slate-600">Total Headings</span>
-            </div>
-            <div className="rounded-2xl border border-orange-100 bg-white p-5 shadow-sm text-center">
-              <span className={`block text-2xl font-black ${result.counts.h1 === 1 ? "text-emerald-600" : "text-amber-600"}`}>
-                {result.counts.h1}
-              </span>
-              <span className="text-xs font-bold text-slate-600">H1 Tag Count</span>
-            </div>
-            <div className="rounded-2xl border border-orange-100 bg-white p-5 shadow-sm text-center">
-              <span className="block text-2xl font-black text-slate-900">{result.counts.h2 + result.counts.h3}</span>
-              <span className="text-xs font-bold text-slate-600">H2 & H3 Subheadings</span>
+          {/* SEO Pro Extension Header Tag Counter Bar */}
+          <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+              Heading Tag Counts
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+              <button
+                type="button"
+                onClick={() => setTagFilter("all")}
+                className={`p-3 rounded-2xl border text-center transition-all ${
+                  tagFilter === "all"
+                    ? "border-orange-500 bg-orange-50 shadow-xs"
+                    : "border-slate-100 bg-slate-50/50 hover:bg-slate-100"
+                }`}
+              >
+                <span className="block text-xl font-bold text-slate-900">{result.totalHeadings}</span>
+                <span className="text-[11px] font-bold uppercase text-slate-500">All Tags</span>
+              </button>
+
+              {(["h1", "h2", "h3", "h4", "h5", "h6"] as const).map((tag) => {
+                const count = result.counts[tag];
+                const active = tagFilter === tag;
+                const tagColorClass =
+                  tag === "h1"
+                    ? "text-red-600"
+                    : tag === "h2"
+                    ? "text-amber-600"
+                    : tag === "h3"
+                    ? "text-blue-600"
+                    : tag === "h4"
+                    ? "text-purple-600"
+                    : tag === "h5"
+                    ? "text-emerald-600"
+                    : "text-slate-600";
+
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => setTagFilter(tag)}
+                    className={`p-3 rounded-2xl border text-center transition-all ${
+                      active
+                        ? "border-orange-500 bg-orange-50 shadow-xs"
+                        : "border-slate-100 bg-slate-50/50 hover:bg-slate-100"
+                    }`}
+                  >
+                    <span className={`block text-xl font-bold ${tagColorClass}`}>{count}</span>
+                    <span className="text-[11px] font-bold uppercase text-slate-600">{tag}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Heading Health Issues */}
+          {/* Heading Health Diagnostics */}
           <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-4">
             <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Layers className="h-5 w-5 text-orange-600" /> Heading Structure Diagnostics
+              <Layers className="h-5 w-5 text-orange-600" /> Heading Diagnostics
             </h3>
 
             <div className="space-y-3">
@@ -275,38 +329,86 @@ export function HeadingAnalyzer() {
             </div>
           </div>
 
-          {/* Visual Heading Hierarchy Tree */}
-          <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Hash className="h-5 w-5 text-orange-600" /> Heading Outline Tree
-            </h3>
+          {/* SEO Pro Extension Visual Heading Outline Tree */}
+          <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-orange-600" /> Complete Heading Outline
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Extracted in exact document order with tag levels (H1 - H6)
+                </p>
+              </div>
 
-            {result.headings.length === 0 ? (
-              <p className="text-sm text-slate-500 italic">No heading tags (H1-H6) detected in this input.</p>
+              <button
+                type="button"
+                onClick={handleCopyOutline}
+                className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all"
+              >
+                {copied ? (
+                  <>
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3.5 w-3.5 text-slate-500" />
+                    <span>Copy Outline</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {filteredHeadings.length === 0 ? (
+              <p className="text-sm text-slate-500 italic py-4 text-center">
+                No headings found matching filter &quot;{tagFilter.toUpperCase()}&quot;.
+              </p>
             ) : (
-              <div className="space-y-2">
-                {result.headings.map((item, idx) => {
+              <div className="space-y-2.5">
+                {filteredHeadings.map((item, idx) => {
+                  const tagBadge =
+                    item.tag === "h1"
+                      ? "bg-red-600 text-white font-black"
+                      : item.tag === "h2"
+                      ? "bg-amber-600 text-white font-bold"
+                      : item.tag === "h3"
+                      ? "bg-blue-600 text-white font-bold"
+                      : item.tag === "h4"
+                      ? "bg-purple-600 text-white font-semibold"
+                      : item.tag === "h5"
+                      ? "bg-emerald-600 text-white font-semibold"
+                      : "bg-slate-600 text-white font-semibold";
+
                   const depthMargin =
                     item.tag === "h1"
-                      ? "ml-0 bg-orange-50 border-orange-200 text-orange-950 font-bold"
+                      ? "ml-0 border-l-4 border-l-red-500 bg-red-50/20"
                       : item.tag === "h2"
-                      ? "ml-4 bg-slate-50 border-slate-200 text-slate-900 font-semibold"
+                      ? "ml-2 sm:ml-4 border-l-2 border-l-amber-400 bg-amber-50/10"
                       : item.tag === "h3"
-                      ? "ml-8 bg-slate-50/70 border-slate-200 text-slate-800"
-                      : "ml-12 bg-slate-50/40 border-slate-100 text-slate-700";
+                      ? "ml-4 sm:ml-8 border-l-2 border-l-blue-400 bg-blue-50/10"
+                      : item.tag === "h4"
+                      ? "ml-6 sm:ml-12 border-l border-l-purple-300 bg-purple-50/10"
+                      : item.tag === "h5"
+                      ? "ml-8 sm:ml-16 border-l border-l-emerald-300 bg-emerald-50/10"
+                      : "ml-10 sm:ml-20 border-l border-l-slate-300 bg-slate-50/10";
 
                   return (
                     <div
                       key={idx}
-                      className={`flex items-center justify-between rounded-xl border p-3 text-xs transition ${depthMargin}`}
+                      className={`flex items-center justify-between rounded-xl border border-slate-100 p-3 text-xs transition-all hover:bg-slate-50 ${depthMargin}`}
                     >
-                      <div className="flex items-center gap-2 truncate pr-2">
-                        <span className="uppercase text-[10px] font-black tracking-wider px-2 py-0.5 rounded bg-white/80 border border-slate-200">
+                      <div className="flex items-center gap-3 min-w-0 pr-3">
+                        <span className={`uppercase text-[10px] tracking-wider px-2 py-0.5 rounded shadow-2xs shrink-0 ${tagBadge}`}>
                           {item.tag}
                         </span>
-                        <span className="truncate">{item.text || <em className="text-red-500">(Empty Heading Tag)</em>}</span>
+                        <span className="font-semibold text-slate-800 break-words min-w-0">
+                          {item.text || <em className="text-red-500 font-normal">(Empty Heading Tag)</em>}
+                        </span>
                       </div>
-                      <span className="text-[10px] text-slate-400 font-mono shrink-0">{item.length} chars</span>
+                      <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded shrink-0">
+                        {item.length} chars
+                      </span>
                     </div>
                   );
                 })}

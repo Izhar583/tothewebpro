@@ -267,31 +267,84 @@ export async function GET(request: NextRequest) {
     }
     const twitterCard = $('meta[name="twitter:card"]').attr("content")?.trim() || "";
 
-    // Headings analysis
+    // Headings analysis (SEO Pro extension style: complete DOM order list H1-H6)
+    const allHeadings: { tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"; text: string; length: number }[] = [];
+    const headingCounts = { h1: 0, h2: 0, h3: 0, h4: 0, h5: 0, h6: 0 };
     const h1s: string[] = [];
-    $("h1").each((_, el) => {
-      const txt = $(el).text().trim();
-      if (txt) h1s.push(txt.slice(0, 120));
-    });
-    const h2Count = $("h2").length;
-    const h3Count = $("h3").length;
 
-    // Content analysis
+    $("h1, h2, h3, h4, h5, h6").each((_, el) => {
+      const tag = el.tagName.toLowerCase() as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+      const text = $(el).text().replace(/\s+/g, " ").trim();
+      headingCounts[tag]++;
+      if (tag === "h1" && text) {
+        h1s.push(text.slice(0, 120));
+      }
+      allHeadings.push({
+        tag,
+        text,
+        length: text.length,
+      });
+    });
     const $clone = cheerio.load(html);
     $clone("script, style, noscript, nav, footer, header, svg").remove();
     const cleanText = $clone("body").text() || $clone.text();
     const wordCount = cleanText.trim() ? cleanText.trim().split(/\s+/).length : 0;
-
-    // Images analysis
-    const images = $("img");
-    const totalImages = images.length;
+    const imagesList: { src: string; alt: string | null; hasAlt: boolean; isDecorative: boolean; length: number; status: "pass" | "warn" | "fail"; message: string }[] = [];
     let missingAltCount = 0;
-    images.each((_, el) => {
-      const alt = $(el).attr("alt");
-      if (alt === undefined || alt === null || alt.trim() === "") {
+    let emptyAltCount = 0;
+    let validAltCount = 0;
+
+    $("img").each((_, el) => {
+      const rawSrc = $(el).attr("src") || $(el).attr("data-src") || "";
+      let src = rawSrc.trim();
+      if (src && !/^https?:\/\//i.test(src) && !src.startsWith("data:")) {
+        try {
+          src = new URL(src, url).toString();
+        } catch {
+          /* ignore relative url error */
+        }
+      }
+
+      const hasAltAttr = $(el).attr("alt") !== undefined;
+      const altVal = $(el).attr("alt");
+      const altText = altVal !== undefined && altVal !== null ? altVal.trim() : null;
+
+      if (!hasAltAttr) {
         missingAltCount++;
+        imagesList.push({
+          src: src || "(inline/base64 image)",
+          alt: null,
+          hasAlt: false,
+          isDecorative: false,
+          length: 0,
+          status: "fail",
+          message: "Missing 'alt' attribute completely. Critical accessibility & SEO issue.",
+        });
+      } else if (altText === "") {
+        emptyAltCount++;
+        imagesList.push({
+          src: src || "(inline/base64 image)",
+          alt: "",
+          hasAlt: true,
+          isDecorative: true,
+          length: 0,
+          status: "warn",
+          message: "Empty alt='' (Decorative image). Ensure this image contains no informative text.",
+        });
+      } else {
+        validAltCount++;
+        imagesList.push({
+          src: src || "(inline/base64 image)",
+          alt: altText,
+          hasAlt: true,
+          isDecorative: false,
+          length: (altText || "").length,
+          status: "pass",
+          message: "Valid descriptive alt text.",
+        });
       }
     });
+    const totalImages = imagesList.length;
 
     // Links analysis
     let internalLinks = 0;
@@ -320,8 +373,27 @@ export async function GET(request: NextRequest) {
 
     // Technical & DOM signals
     const isHttps = url.startsWith("https://");
-    const hasSchema = $('script[type="application/ld+json"]').length > 0;
     const scriptCount = $("script").length;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const schemaList: any[] = [];
+    $('script[type="application/ld+json"]').each((_, el) => {
+      try {
+        const text = $(el).html()?.trim();
+        if (text) {
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) {
+            schemaList.push(...parsed);
+          } else if (parsed && typeof parsed === "object" && Array.isArray(parsed["@graph"])) {
+            schemaList.push(...parsed["@graph"]);
+          } else if (parsed && typeof parsed === "object") {
+            schemaList.push(parsed);
+          }
+        }
+      } catch {
+        /* ignore broken JSON-LD tag */
+      }
+    });
+    const hasSchema = schemaList.length > 0;
 
     const htmlSizeKb = Buffer.byteLength(html, "utf8") / 1024;
     const domNodeCount = $("*").length;
@@ -472,7 +544,7 @@ export async function GET(request: NextRequest) {
 
     if (hasSchema) rawScore += 5;
     if (twitterCard) rawScore += 5;
-    if (h2Count > 0) rawScore += 4;
+    if (headingCounts.h2 > 0) rawScore += 4;
 
     const overallSeoScore = Math.min(100, Math.round((rawScore / maxPossibleScore) * 100));
 
@@ -551,17 +623,22 @@ export async function GET(request: NextRequest) {
         },
       },
       headings: {
-        h1Count: h1s.length,
-        h2Count,
-        h3Count,
+        h1Count: headingCounts.h1,
+        h2Count: headingCounts.h2,
+        h3Count: headingCounts.h3,
+        h4Count: headingCounts.h4,
+        h5Count: headingCounts.h5,
+        h6Count: headingCounts.h6,
+        total: allHeadings.length,
+        items: allHeadings,
         h1s,
-        status: h1s.length === 1 ? "pass" : h1s.length === 0 ? "fail" : "warn",
+        status: headingCounts.h1 === 1 ? "pass" : headingCounts.h1 === 0 ? "fail" : "warn",
         message:
-          h1s.length === 1
+          headingCounts.h1 === 1
             ? "Single H1 tag found (ideal heading structure)."
-            : h1s.length === 0
+            : headingCounts.h1 === 0
             ? "No H1 heading found on the page."
-            : `Multiple H1 tags (${h1s.length}) found. Best practice is to have exactly 1 H1 per page.`,
+            : `Multiple H1 tags (${headingCounts.h1}) found. Best practice is to have exactly 1 H1 per page.`,
       },
       content: {
         wordCount,
@@ -576,6 +653,9 @@ export async function GET(request: NextRequest) {
       images: {
         total: totalImages,
         missingAlt: missingAltCount,
+        emptyAlt: emptyAltCount,
+        validAlt: validAltCount,
+        items: imagesList,
         status: missingAltCount === 0 ? "pass" : missingAltCount < totalImages ? "warn" : "fail",
         message:
           missingAltCount === 0
@@ -600,6 +680,7 @@ export async function GET(request: NextRequest) {
             : "HTTPS is enabled, but no Schema.org JSON-LD detected."
           : "Site is not using secure HTTPS connection!",
       },
+      schemaList,
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Error analyzing site";

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Spinner } from "@/components/ui/Spinner";
-import { Check, AlertTriangle, X, Code, Copy, Globe, Search, Layers, FileCode } from "lucide-react";
+import { Check, AlertTriangle, X, Copy, Globe, Search, Layers, CheckCircle2 } from "lucide-react";
 
 interface SchemaItem {
   type: string;
@@ -15,24 +15,176 @@ interface SchemaItem {
 
 export function SchemaValidator() {
   const [inputUrl, setInputUrl] = useState("");
-  const [jsonCode, setJsonCode] = useState("");
+  const [inputText, setInputText] = useState("");
   const [mode, setMode] = useState<"code" | "url">("code");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [schemas, setSchemas] = useState<SchemaItem[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
+  function validateSchemaObject(obj: Record<string, unknown>): SchemaItem {
+    const rawType = obj["@type"] || obj["type"];
+    const schemaType = typeof rawType === "string" ? rawType : Array.isArray(rawType) ? rawType.join(", ") : "Unknown Schema";
+    
+    const errors: string[] = [];
+    const warnings: string[] = [];
+
+    // Core Schema.org Requirements
+    const contextStr = String(obj["@context"] || "");
+    if (!obj["@context"]) {
+      errors.push("Missing '@context' attribute (expected 'https://schema.org').");
+    } else if (!contextStr.toLowerCase().includes("schema.org")) {
+      warnings.push(`Non-standard '@context' value: "${contextStr}". Recommended: 'https://schema.org'.`);
+    }
+
+    if (!rawType) {
+      errors.push("Missing required '@type' property.");
+    }
+
+    const typeLower = schemaType.toLowerCase();
+
+    // Type-specific Schema.org Validation Rules
+    if (typeLower.includes("organization") || typeLower.includes("localbusiness")) {
+      if (!obj.name) errors.push("Organization/LocalBusiness missing required 'name' property.");
+      if (!obj.url) warnings.push("Recommended property 'url' is missing.");
+      if (!obj.logo) warnings.push("Recommended property 'logo' is missing for brand recognition.");
+    }
+
+    if (typeLower.includes("website")) {
+      if (!obj.name) errors.push("WebSite schema missing required 'name' property.");
+      if (!obj.url) errors.push("WebSite schema missing required 'url' property.");
+    }
+
+    if (typeLower.includes("article") || typeLower.includes("blogposting") || typeLower.includes("newsarticle")) {
+      if (!obj.headline && !obj.name) errors.push("Article schema missing required 'headline' or 'name' property.");
+      if (!obj.author) warnings.push("Recommended property 'author' is missing.");
+      if (!obj.publisher) warnings.push("Recommended property 'publisher' is missing for Google News / Discover eligibility.");
+      if (!obj.datePublished) warnings.push("Recommended property 'datePublished' is missing.");
+      if (!obj.image) warnings.push("Recommended property 'image' is missing for Rich Results.");
+    }
+
+    if (typeLower.includes("product")) {
+      if (!obj.name) errors.push("Product schema missing required 'name' property.");
+      if (!obj.offers) warnings.push("Recommended property 'offers' (Price & Currency) is missing.");
+      if (!obj.image) warnings.push("Recommended property 'image' is missing.");
+      if (!obj.brand) warnings.push("Recommended property 'brand' is missing.");
+    }
+
+    if (typeLower.includes("faqpage")) {
+      if (!obj.mainEntity || !Array.isArray(obj.mainEntity)) {
+        errors.push("FAQPage schema missing required 'mainEntity' array of Question objects.");
+      } else {
+        obj.mainEntity.forEach((q: Record<string, unknown>, idx: number) => {
+          if (!q || typeof q !== "object" || !q.name) {
+            warnings.push(`FAQ Question #${idx + 1} is missing a 'name' property.`);
+          }
+        });
+      }
+    }
+
+    if (typeLower.includes("breadcrumblist")) {
+      if (!obj.itemListElement || !Array.isArray(obj.itemListElement)) {
+        errors.push("BreadcrumbList missing required 'itemListElement' array.");
+      }
+    }
+
+    return {
+      type: schemaType,
+      rawJson: JSON.stringify(obj, null, 2),
+      isValid: errors.length === 0,
+      errors,
+      warnings,
+      parsedObject: obj,
+    };
+  }
+
+  function extractSchemasFromText(text: string): SchemaItem[] {
+    const items: SchemaItem[] = [];
+    const trimmed = text.trim();
+
+    // 1. Try parsing whole text as JSON or JSON-LD
+    try {
+      // Clean leading HTML script tags if present
+      const cleanJson = trimmed
+        .replace(/<script[^>]*type=["']application\/ld\+json["'][^>]*>/gi, "")
+        .replace(/<\/script>/gi, "")
+        .trim();
+
+      const parsed = JSON.parse(cleanJson);
+      const listToProcess = Array.isArray(parsed)
+        ? parsed
+        : parsed && typeof parsed === "object" && Array.isArray(parsed["@graph"])
+        ? parsed["@graph"]
+        : [parsed];
+
+      listToProcess.forEach((obj) => {
+        if (obj && typeof obj === "object") {
+          items.push(validateSchemaObject(obj as Record<string, unknown>));
+        }
+      });
+      return items;
+    } catch {
+      /* If direct JSON parsing fails, extract all <script type="application/ld+json"> blocks from HTML */
+    }
+
+    // 2. Extract script tags from raw HTML
+    const scriptRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    let match;
+    while ((match = scriptRegex.exec(trimmed)) !== null) {
+      try {
+        const jsonContent = match[1].trim();
+        if (jsonContent) {
+          const parsed = JSON.parse(jsonContent);
+          const listToProcess = Array.isArray(parsed)
+            ? parsed
+            : parsed && typeof parsed === "object" && Array.isArray(parsed["@graph"])
+            ? parsed["@graph"]
+            : [parsed];
+
+          listToProcess.forEach((obj) => {
+            if (obj && typeof obj === "object") {
+              items.push(validateSchemaObject(obj as Record<string, unknown>));
+            }
+          });
+        }
+      } catch (jsonErr) {
+        items.push({
+          type: "Invalid JSON-LD Syntax",
+          rawJson: match[1].trim(),
+          isValid: false,
+          errors: [`JSON Syntax Error: ${jsonErr instanceof Error ? jsonErr.message : "Malformed JSON"}`],
+          warnings: [],
+          parsedObject: null,
+        });
+      }
+    }
+
+    if (items.length === 0) {
+      // Check if it's invalid syntax
+      items.push({
+        type: "Invalid JSON / HTML Input",
+        rawJson: trimmed.slice(0, 300),
+        isValid: false,
+        errors: ["Could not parse valid JSON-LD structured data. Please verify your JSON or HTML script tags."],
+        warnings: [],
+        parsedObject: null,
+      });
+    }
+
+    return items;
+  }
+
   async function handleValidate(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setSchemas([]);
 
-    if (mode === "code" && !jsonCode.trim()) {
-      setError("Please enter JSON-LD code to validate.");
+    if (mode === "code" && !inputText.trim()) {
+      setError("Please paste JSON-LD code or full HTML snippet containing schema markup.");
       return;
     }
     if (mode === "url" && !inputUrl.trim()) {
-      setError("Please enter a website URL.");
+      setError("Please enter a valid website URL.");
       return;
     }
 
@@ -40,61 +192,10 @@ export function SchemaValidator() {
 
     try {
       if (mode === "code") {
-        // Parse raw JSON-LD text directly
-        let text = jsonCode.trim();
-        // Remove <script type="application/ld+json"> wrapper if present
-        text = text.replace(/<script[^>]*>/gi, "").replace(/<\/script>/gi, "").trim();
-
-        const extractedItems: SchemaItem[] = [];
-        try {
-          const parsed = JSON.parse(text);
-          const itemsToProcess = Array.isArray(parsed) ? parsed : [parsed];
-
-          itemsToProcess.forEach((obj) => {
-            const schemaType = String(obj["@type"] || obj["type"] || "Unknown Schema");
-            const errors: string[] = [];
-            const warnings: string[] = [];
-
-            if (!obj["@context"]) errors.push("Missing '@context': 'https://schema.org'");
-            if (!obj["@type"]) errors.push("Missing required '@type' attribute.");
-
-            // Common schema checks
-            if (schemaType.toLowerCase().includes("article")) {
-              if (!obj.headline && !obj.name) warnings.push("Recommended property 'headline' is missing.");
-              if (!obj.author) warnings.push("Recommended property 'author' is missing.");
-              if (!obj.publisher) warnings.push("Recommended property 'publisher' is missing.");
-            }
-            if (schemaType.toLowerCase().includes("product")) {
-              if (!obj.name) errors.push("Product schema missing required 'name' property.");
-              if (!obj.offers) warnings.push("Recommended property 'offers' (Price, Currency) missing.");
-            }
-            if (schemaType.toLowerCase().includes("faqpage")) {
-              if (!Array.isArray(obj.mainEntity)) errors.push("FAQPage requires 'mainEntity' array of Question objects.");
-            }
-
-            extractedItems.push({
-              type: schemaType,
-              rawJson: JSON.stringify(obj, null, 2),
-              isValid: errors.length === 0,
-              errors,
-              warnings,
-              parsedObject: obj,
-            });
-          });
-        } catch (jsonErr: unknown) {
-          extractedItems.push({
-            type: "Invalid JSON Syntax",
-            rawJson: text,
-            isValid: false,
-            errors: [`Syntax Error: ${jsonErr instanceof Error ? jsonErr.message : "Invalid JSON syntax"}`],
-            warnings: [],
-            parsedObject: null,
-          });
-        }
-
-        setSchemas(extractedItems);
+        const extracted = extractSchemasFromText(inputText);
+        setSchemas(extracted);
       } else {
-        // URL validation via API route
+        // Fetch via URL API endpoint
         let cleanUrl = inputUrl.trim();
         if (!/^https?:\/\//i.test(cleanUrl)) cleanUrl = `https://${cleanUrl}`;
 
@@ -103,21 +204,13 @@ export function SchemaValidator() {
 
         if (!res.ok) throw new Error(json.error || "Failed to fetch webpage for schema validation.");
 
-        if (json.schemaList && json.schemaList.length > 0) {
-          const items: SchemaItem[] = json.schemaList.map((sc: Record<string, unknown>) => {
-            const schemaType = String(sc["@type"] || "Unknown Schema");
-            return {
-              type: schemaType,
-              rawJson: JSON.stringify(sc, null, 2),
-              isValid: Boolean(sc["@context"] && sc["@type"]),
-              errors: sc["@context"] ? [] : ["Missing '@context'"],
-              warnings: [],
-              parsedObject: sc,
-            };
-          });
-          setSchemas(items);
+        if (json.schemaList && Array.isArray(json.schemaList) && json.schemaList.length > 0) {
+          const validated = json.schemaList.map((obj: Record<string, unknown>) =>
+            validateSchemaObject(obj)
+          );
+          setSchemas(validated);
         } else {
-          setError("No JSON-LD structured data tags found on the specified webpage.");
+          setError("No JSON-LD structured data (<script type=\"application/ld+json\">) found on the specified webpage.");
         }
       }
     } catch (err: unknown) {
@@ -135,18 +228,10 @@ export function SchemaValidator() {
 
   return (
     <div className="space-y-8">
-      {/* Form Box */}
+      {/* Input Form Box */}
       <div className="rounded-3xl border border-orange-100 bg-gradient-to-br from-orange-50/50 via-white to-orange-50/20 p-6 sm:p-8 shadow-sm space-y-6">
         <div className="flex items-center gap-2 border-b border-orange-100 pb-4">
-          <button
-            type="button"
-            onClick={() => setMode("code")}
-            className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
-              mode === "code" ? "bg-orange-600 text-white shadow-sm" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
-          >
-            Paste JSON-LD Code
-          </button>
+         
           <button
             type="button"
             onClick={() => setMode("url")}
@@ -154,7 +239,16 @@ export function SchemaValidator() {
               mode === "url" ? "bg-orange-600 text-white shadow-sm" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
-            Fetch URL Schema
+            Fetch Website URL Schemas
+          </button>
+           <button
+            type="button"
+            onClick={() => setMode("code")}
+            className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
+              mode === "code" ? "bg-orange-600 text-white shadow-sm" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            Paste JSON-LD / HTML Code
           </button>
         </div>
 
@@ -162,14 +256,14 @@ export function SchemaValidator() {
           {mode === "code" ? (
             <div className="space-y-2">
               <label htmlFor="json-ld-input" className="block text-sm font-bold text-slate-800">
-                Paste JSON-LD Structured Data Code
+                Paste JSON-LD or Full HTML Code
               </label>
               <textarea
                 id="json-ld-input"
                 rows={8}
-                placeholder={`{\n  "@context": "https://schema.org",\n  "@type": "Article",\n  "headline": "Example Article Title"\n}`}
-                value={jsonCode}
-                onChange={(e) => setJsonCode(e.target.value)}
+                placeholder={`Paste your JSON-LD snippet or full HTML page:\n{\n  "@context": "https://schema.org",\n  "@type": "Organization",\n  "name": "ToTheWebPro",\n  "url": "https://tothewebpro.com"\n}`}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
                 className="w-full rounded-2xl border border-orange-200 bg-slate-900 p-4 font-mono text-xs text-orange-300 placeholder:text-slate-600 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all"
                 disabled={loading}
               />
@@ -216,14 +310,19 @@ export function SchemaValidator() {
       {/* Validation Results */}
       {schemas.length > 0 && (
         <div className="space-y-6 animate-fadeIn">
-          <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Layers className="h-5 w-5 text-orange-600" /> Detected Schemas ({schemas.length})
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Layers className="h-5 w-5 text-orange-600" /> Detected Schemas ({schemas.length})
+            </h3>
+            <span className="text-xs font-semibold text-slate-500">
+              Validated against Schema.org Standards
+            </span>
+          </div>
 
           <div className="space-y-6">
             {schemas.map((sc, idx) => (
               <div key={idx} className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-black text-slate-900 bg-orange-50 px-3 py-1 rounded-xl border border-orange-200">
                       {sc.type}
@@ -241,42 +340,51 @@ export function SchemaValidator() {
 
                   <button
                     onClick={() => handleCopy(sc.rawJson, idx)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 transition"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 transition"
                   >
-                    <Copy className="h-3.5 w-3.5" />
-                    {copiedIndex === idx ? "Copied!" : "Copy JSON"}
+                    {copiedIndex === idx ? (
+                      <>
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5 text-slate-500" />
+                        <span>Copy JSON</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
-                {/* Errors List */}
+                {/* Validation Errors List */}
                 {sc.errors.length > 0 && (
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-red-600">Validation Errors</h4>
                     {sc.errors.map((err, eIdx) => (
-                      <div key={eIdx} className="flex items-center gap-2 rounded-xl bg-red-50 p-2.5 text-xs text-red-800 border border-red-200">
-                        <X className="h-4 w-4 shrink-0 text-red-600" />
+                      <div key={eIdx} className="flex items-start gap-2.5 rounded-xl bg-red-50 p-3 text-xs text-red-800 border border-red-200">
+                        <X className="h-4 w-4 shrink-0 text-red-600 mt-0.5" />
                         <span>{err}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* Warnings List */}
+                {/* Warnings / Recommendations List */}
                 {sc.warnings.length > 0 && (
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-amber-600">Recommendations & Warnings</h4>
                     {sc.warnings.map((warn, wIdx) => (
-                      <div key={wIdx} className="flex items-center gap-2 rounded-xl bg-amber-50 p-2.5 text-xs text-amber-900 border border-amber-200">
-                        <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
+                      <div key={wIdx} className="flex items-start gap-2.5 rounded-xl bg-amber-50 p-3 text-xs text-amber-900 border border-amber-200">
+                        <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600 mt-0.5" />
                         <span>{warn}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* JSON Code Viewer */}
+                {/* JSON Code Display */}
                 <div className="relative">
-                  <pre className="max-h-60 overflow-auto rounded-2xl bg-slate-900 p-4 font-mono text-xs text-emerald-400">
+                  <pre className="max-h-80 overflow-auto rounded-2xl bg-slate-900 p-4 font-mono text-xs text-emerald-400">
                     {sc.rawJson}
                   </pre>
                 </div>

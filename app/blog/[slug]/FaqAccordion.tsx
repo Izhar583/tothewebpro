@@ -19,7 +19,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
     <div className="mt-12 mb-8">
       <div className="flex items-center gap-3 mb-6">
         <HelpCircle className="text-orange-600" size={28} />
-        <h2 className="text-2xl md:text-3xl font-black text-[#0b1b36] m-0">Frequently Asked Questions</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-[#0b1b36] m-0">Frequently Asked Questions</h2>
       </div>
       <div className="space-y-4">
         {items.map((item, index) => {

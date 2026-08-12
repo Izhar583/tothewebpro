@@ -31,7 +31,7 @@ export default function DeveloperToolsPage() {
         <h2 id="developer-tools-grid-heading" className="sr-only">
           Developer tool catalog
         </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 lg:gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {tools.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} variant="light" />
           ))}

@@ -6,8 +6,6 @@ import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { Spinner } from "@/components/ui/Spinner";
 import { TOOL_BY_SLUG } from "@/lib/tools-data";
 import { MetaCheckerFallback } from "@/components/tools/MetaCheckerFallback";
-
-// Each tool is loaded dynamically so only the active tool's bundle is fetched.
 const CaseConverter = dynamic(
   () => import("@/components/tools/CaseConverter").then((m) => m.CaseConverter),
   { loading: () => <Spinner label="Loading tool…" /> },

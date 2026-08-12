@@ -952,6 +952,7 @@ export function BackgroundRemover() {
                       <div className="absolute inset-0" style={{ background: bgColor }} />
                     )}
                     {bgType === "image" && bgImage && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={bgImage}
                         alt="Background Template"
@@ -959,6 +960,7 @@ export function BackgroundRemover() {
                       />
                     )}
                     {bgType === "blur" && preview && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={preview}
                         alt="Original Blurred Backdrop"
@@ -1077,6 +1079,7 @@ export function BackgroundRemover() {
                                 }`}
                               title={item.name}
                             >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
                               {bgImage === item.url && bgType === "image" && (
                                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center">

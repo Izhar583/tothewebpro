@@ -46,7 +46,7 @@ export async function generateMetadata({
 function RenderBlock({ block }: { block: BlogContentBlock }) {
   switch (block.type) {
     case "h2":
-      return <h2 id={block.id} className="text-2xl md:text-3xl font-black text-slate-900 mt-12 mb-6 scroll-mt-24">{block.text}</h2>;
+      return <h2 id={block.id} className="text-2xl md:text-3xl font-bold text-slate-900 mt-12 mb-6 scroll-mt-24">{block.text}</h2>;
     case "h3":
       return <h3 id={block.id} className="text-xl md:text-2xl font-bold text-slate-900 mt-8 mb-4 scroll-mt-24">{block.text}</h3>;
     case "p":
@@ -83,8 +83,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const otherPosts = BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 2);
 
   return (
-    <div className="bg-white min-h-screen pb-20">
-      {/* Hero Section */}
+    <div className="bg-white min-h-screen w-full pb-20">
       <div className="relative bg-[#0b1b36] overflow-hidden pt-20 pb-24 px-4 text-center text-white border-b border-[#1a2d50]">
         <div className="absolute inset-0 z-0">
           {post.featureImage && (
@@ -92,8 +91,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           )}
           <div className="absolute inset-0 bg-[#0b1b36] opacity-90"></div>
         </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
           <div className="mb-8 flex justify-center text-xs sm:text-sm font-semibold tracking-wider text-slate-300 uppercase gap-3">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span className="text-slate-500">&gt;</span>
@@ -101,11 +99,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <span className="text-slate-500">&gt;</span>
             <span className="text-white truncate max-w-[200px] sm:max-w-xs">{post.title}</span>
           </div>
-
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-8">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
             {post.title}
           </h1>
-
           <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300 font-medium text-sm md:text-base">
             <div className="flex items-center gap-2">
               <span className="text-slate-400">BY</span>
@@ -115,28 +111,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <span>{post.date}</span>
           </div>
         </div>
-
       </div>
-
-      {/* Main Content Layout */}
-      <div className="mx-auto max-w-7xl px-4 py-12 flex flex-col lg:flex-row gap-12 items-start">
-
-        {/* Left: Main Content */}
-        <article className="flex-1 w-full lg:max-w-[750px] xl:max-w-[800px]">
-
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 flex flex-col lg:flex-row gap-12 items-start">
+        <article className="flex-1 w-full min-w-0 lg:max-w-[820px] xl:max-w-[860px]">
           <div className="prose prose-slate max-w-none">
             {post.content.map((block, index) => (
               <RenderBlock key={index} block={block} />
             ))}
           </div>
         </article>
-
-        {/* Right: Sidebar */}
         <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-24 space-y-8">
-
-          {/* Table of Contents */}
           <div className="bg-slate-50 rounded-2xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-100">
-            <h4 className="text-lg font-black text-slate-900 mb-4 pb-3 border-b border-slate-200">Contents</h4>
+            <h4 className="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-200">Contents</h4>
             <nav className="space-y-3">
               {toc.map((heading, i) => (
                 <Link
@@ -147,7 +133,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 >
                   {heading.type === "h2" ? (
                     <span className="flex gap-2 items-start">
-                      <span className="text-blue-600 font-black">{i + 1}.</span>
+                      <span className="text-blue-600 font-bold">{i + 1}.</span>
                       <span>{heading.text}</span>
                     </span>
                   ) : heading.text}
@@ -158,22 +144,20 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </aside>
       </div>
-
-      {/* Other Posts Section */}
       {otherPosts.length > 0 && (
         <div className="bg-slate-50 py-16 mt-12 border-t border-slate-200">
           <div className="mx-auto max-w-7xl px-4">
             <div className="flex items-center justify-between mb-10">
-              <h3 className="text-3xl font-black text-slate-900">Keep Reading</h3>
+              <h3 className="text-3xl font-bold text-slate-900">Keep Reading</h3>
               <Link href="/blog" className="text-blue-600 font-bold hover:text-blue-700 hidden sm:block">View all →</Link>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               {otherPosts.map((other) => (
-                <article key={other.slug} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col">
+                <article key={other.slug} className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col">
                   <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
                     {other.date} &nbsp;&bull;&nbsp; {other.readMinutes} min read
                   </p>
-                  <h4 className="text-2xl font-black text-slate-900 leading-tight mb-4">
+                  <h4 className="text-2xl font-bold text-slate-900 leading-tight mb-4">
                     <Link className="group-hover:text-blue-600 transition-colors before:absolute before:inset-0" href={`/blog/${other.slug}`}>
                       {other.title}
                     </Link>
