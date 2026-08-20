@@ -11,12 +11,5 @@ module.exports = {
   exclude: [
     "/api/*",
     "/search",
-    "/tools/seo-checker",
-    "/tools/heading-analyzer",
-    "/tools/schema-validator",
-    "/tools/schema-generator",
-    "/tools/performance-audit",
-    "/tools/image-alt-checker",
   ],
 };
-

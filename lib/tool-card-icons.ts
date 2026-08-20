@@ -34,7 +34,15 @@ export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
     Icon: WebsiteSeoCheckerIcon,
     iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
+  "seo-checker": {
+    Icon: WebsiteSeoCheckerIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
   "heading-tag-analyzer": {
+    Icon: HeadingTagAnalyzerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "heading-analyzer": {
     Icon: HeadingTagAnalyzerIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },

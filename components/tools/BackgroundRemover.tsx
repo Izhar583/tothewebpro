@@ -582,7 +582,7 @@ export function BackgroundRemover() {
     <div className="space-y-12">
       {/* 1. Header Hero section */}
       <div className="text-center max-w-2xl mx-auto space-y-4 pt-4">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
           Remove Image <span className="bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">Background</span>
         </h1>
         <p className="text-slate-600 text-sm md:text-base font-semibold">

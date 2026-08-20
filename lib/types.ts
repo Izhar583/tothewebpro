@@ -17,6 +17,8 @@ export interface ToolDefinition {
   metaTitle: string;
   metaDescription: string;
   howToUseParagraphs: string[];
+  whyItMatters?: string[];
+  keyFeatures?: string[];
   faqs: ToolFAQ[];
   relatedSlugs: string[];
   noIndex?: boolean;

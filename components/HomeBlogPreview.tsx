@@ -13,8 +13,6 @@ export function HomeBlogPreview() {
   return (
     <section className="py-24 bg-[#fdfaf6] border-t border-orange-100" aria-labelledby="blog-preview-heading">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
           <div>
             <h2

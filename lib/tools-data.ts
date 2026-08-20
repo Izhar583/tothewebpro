@@ -639,220 +639,398 @@ export const TOOLS: ToolDefinition[] = [
     slug: "seo-checker",
     name: "Website SEO & Speed Checker",
     shortDescription:
-      "Audit any website URL for full SEO health, meta tag pixel accuracy, heading hierarchy, image alt tags, HTTPS security, and Google PageSpeed Lighthouse performance.",
+      "Audit any URL for SEO health, meta tag accuracy, heading structure, image alt tags, HTTPS status & Google Lighthouse speed — all in one free report.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "⚡",
     schemaDescription:
-      "Free website SEO and speed audit tool. Get Google PageSpeed metrics, Core Web Vitals, meta tag pixel width analysis, heading structure checks, and technical SEO diagnostics.",
-    metaTitle: "Free Website SEO & Speed Audit Checker | Google PageSpeed Scores",
+      "Audit any URL for SEO health, meta tag accuracy, heading structure, image alt tags, HTTPS status & Google Lighthouse speed — all in one free report.",
+    metaTitle: "Free Website SEO & Speed Checker — Full Site Audit",
     metaDescription:
-      "Audit any website URL for free. Get full SEO score, Google PageSpeed performance metrics, meta tag checks, and technical SEO recommendations instantly.",
+      "Audit any URL for SEO health, meta tag accuracy, heading structure, image alt tags, HTTPS status & Google Lighthouse speed — all in one free report.",
     howToUseParagraphs: [
       paragraph(
-        "Enter any public website URL starting with http:// or https:// into the audit input box and click 'Run Free SEO Audit'. ",
-        "Our engine fetches the page HTML and runs an automated check against Google PageSpeed Insights API in parallel.",
+        "Enter any website URL into the audit box and click 'Run Free SEO Audit'. ",
+        "The tool fetches the page HTML and runs an automated check against Google PageSpeed Insights API in parallel.",
       ),
       paragraph(
-        "Review your overall SEO score and Google Lighthouse scores across four key categories: Performance, SEO, Accessibility, and Best Practices. ",
-        "Check your Core Web Vitals metrics including First Contentful Paint (FCP), Largest Contentful Paint (LCP), and Cumulative Layout Shift (CLS).",
+        "Review your results across three core areas: PageSpeed (mobile & desktop Lighthouse metrics), Meta & SERP preview accuracy, and Technical/On-page checks.",
       ),
       paragraph(
-        "Explore itemized audit cards for Meta Tags, Heading Structure (H1, H2, H3), Image Alt Text, Technical SEO, and Security flags. ",
-        "Color-coded badges (Pass, Warning, Issue) highlight critical fixes to improve search engine rankings.",
+        "Page speed and SEO health aren't separate conversations anymore. Core Web Vitals are a confirmed ranking factor, and a title tag that gets pixel-truncated in the SERP loses clicks even when it ranks well. This checker treats both as one audit.",
       ),
+      paragraph(
+        "Prioritize your fixes using the itemized action list, starting with any red-flagged critical issues.",
+      ),
+    ],
+    whyItMatters: [
+      "Core Web Vitals (LCP, FCP, CLS) directly influence ranking and are measured separately for mobile vs. desktop.",
+      "Pixel width, not character count, determines whether a title shows fully in search results.",
+      "Missing alt tags and broken heading hierarchy are two of the most common issues found even on well-ranked sites.",
+      "HTTPS and canonical tag errors can quietly split ranking signals across duplicate URLs.",
+    ],
+    keyFeatures: [
+      "Google Lighthouse integration for real performance data",
+      "Pixel-accurate title & meta description preview",
+      "Heading hierarchy audit (H1 through H6)",
+      "Image alt tag & optimization check",
+      "HTTPS and Schema.org detection — all from a single URL, no sign-up",
     ],
     faqs: [
       {
-        question: "How does the Website SEO & Speed Checker work?",
+        question: "What's the difference between this and Google PageSpeed Insights?",
         answer:
-          "The tool analyzes your page's HTML structure for essential on-page SEO factors (title length, meta descriptions, canonical tags, H1 headings, image alt attributes) while fetching official performance data from Google's PageSpeed Insights API.",
+          "This checker layers PageSpeed's Lighthouse data together with meta tag accuracy, heading structure, and on-page technical checks, producing a full SEO picture rather than just a performance score, from a single audit.",
       },
       {
-        question: "Is this SEO audit tool completely free?",
+        question: "Why does my title tag look fine in the CMS but get cut off in Google's results?",
         answer:
-          "Yes! The Website SEO & Speed Checker is 100% free with no signup or subscription required.",
+          "Google truncates titles by pixel width, not character count. Wide letters like W or M use more pixels than narrow ones like i or l, so two titles with identical character counts can display very differently.",
       },
       {
-        question: "Why are Google Core Web Vitals important for SEO?",
+        question: "How often should a site audit be run?",
         answer:
-          "Google uses Core Web Vitals (LCP, FID/INP, CLS) as official ranking signals. Fast loading pages with minimal layout shift provide a better user experience and rank higher in search results.",
+          "Monthly is reasonable for most sites, but re-audit immediately after a redesign, CMS migration, or major content update — these are when technical issues most often get introduced.",
+      },
+      {
+        question: "Does slow page speed actually hurt rankings, or just user experience?",
+        answer:
+          "Both. Core Web Vitals are part of Google's Page Experience signals, and slow load times also increase bounce rate, which indirectly affects rankings by signaling weaker engagement.",
       },
     ],
-    relatedSlugs: ["meta-title-description-checker", "word-counter", "character-counter"],
-    noIndex: true,
+    relatedSlugs: ["meta-title-description-checker", "performance-audit", "heading-analyzer"],
   },
   {
     slug: "heading-analyzer",
     name: "Heading Tag Analyzer (H1-H6)",
     shortDescription:
-      "Analyze your webpage's header hierarchy (H1 to H6). Detect missing H1 tags, multiple H1 warnings, header depth issues, empty headings, and visual outline trees.",
+      "Analyze your page's heading hierarchy instantly. Detect missing H1s, multiple H1 tags, skipped levels & empty headings with a visual outline tree.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "📋",
     schemaDescription:
-      "Free Heading Tag Analyzer tool. Audit H1, H2, H3, H4, H5, H6 tag hierarchy, detect structural outline flaws, heading length issues, and duplicate H1 tags.",
-    metaTitle: "Heading Tag Analyzer (H1-H6) | Free On-Page Heading Structure Audit",
+      "Analyze your page's heading hierarchy instantly. Detect missing H1s, multiple H1 tags, skipped levels & empty headings with a visual outline tree.",
+    metaTitle: "Heading Tag Analyzer — Check H1–H6 Structure Free",
     metaDescription:
-      "Audit any website heading hierarchy instantly. Detect missing H1s, improper nesting, and heading length issues for better search engine indexing.",
+      "Analyze your page's heading hierarchy instantly. Detect missing H1s, multiple H1 tags, skipped levels & empty headings with a visual outline tree.",
     howToUseParagraphs: [
       paragraph(
-        "Enter any live website URL or paste raw HTML code into the input field and click 'Analyze Headings'. ",
-        "Our engine extracts every heading tag from H1 through H6 in exact document order.",
+        "Choose URL Input to analyze a live page, or Paste Raw HTML to check a draft before publishing.",
       ),
       paragraph(
-        "Review the visual Heading Outline Tree to ensure logical document hierarchy without skipped levels (e.g. jumping from H1 directly to H4). ",
-        "Check character counts, warnings for empty headings or duplicate H1 tags, and structural health recommendations.",
+        "Click 'Analyze Headings' to scan the markup. ",
+        "Heading tags do double duty: they're how screen readers navigate a page for accessibility, and they're one of the clearest signals search engines use to understand a page's topic structure.",
       ),
+      paragraph(
+        "Review the visual outline tree showing every heading in hierarchical order. ",
+        "Detect missing H1 tags, multiple competing H1s, skipped heading levels (like H1 straight to H3), and empty headings.",
+      ),
+      paragraph(
+        "Fix flagged issues in your content and re-check until your outline represents a clean, logical document structure.",
+      ),
+    ],
+    whyItMatters: [
+      "A single, clear H1 remains one of the strongest on-page relevance signals for both traditional search and AI answer engines.",
+      "Skipped heading levels (H1 straight to H3) break the logical outline that search engines and screen readers rely on.",
+      "Multiple H1 tags dilute topical focus and can confuse which heading is treated as primary.",
+      "Clean heading structure directly supports Featured Snippet and 'People Also Ask' eligibility, since Google frequently pulls snippet answers from well-structured H2/H3 sections.",
+    ],
+    keyFeatures: [
+      "Visual heading outline tree with hierarchical nesting",
+      "Missing and multiple H1 detection",
+      "Skipped heading-level warnings",
+      "Empty heading detection",
+      "Works on live URLs or raw HTML without signup",
     ],
     faqs: [
       {
-        question: "Why is H1 tag structure important for SEO?",
+        question: "Is it ever okay to have more than one H1 on a page?",
         answer:
-          "The H1 tag tells search engine crawlers the main topic of your page. Having exactly one descriptive H1 per page improves contextual understanding and indexation.",
+          "HTML5 technically permits multiple H1s, but for SEO purposes a single, clear H1 per page remains the safer, more widely recommended practice — it keeps the topical focus unambiguous for search engines.",
       },
       {
-        question: "Can a webpage have more than one H1 tag?",
+        question: "What counts as a 'skipped' heading level?",
         answer:
-          "While HTML5 permits multiple H1 tags within distinct section elements, SEO best practice recommends having a single clear H1 tag per page to maintain clear topic focus.",
+          "Jumping from an H1 directly to an H3 with no H2 in between, or from H2 to H4, breaks the logical nesting that both screen readers and search engines rely on to understand content structure.",
+      },
+      {
+        question: "Do heading tags need to contain the exact target keyword?",
+        answer:
+          "They should reflect the topic naturally. Keyword-stuffed headings read poorly and can look manipulative to users and search engines alike — a natural, descriptive heading that includes relevant terms performs better long-term.",
+      },
+      {
+        question: "Why does heading structure matter for accessibility, not just SEO?",
+        answer:
+          "Screen reader users often navigate by jumping between headings rather than reading linearly. A broken or skipped hierarchy makes that navigation confusing or impossible — which is both an accessibility failure and a signal search engines pick up on.",
       },
     ],
     relatedSlugs: ["seo-checker", "meta-title-description-checker", "word-counter"],
-    noIndex: true,
   },
   {
     slug: "schema-validator",
     name: "Schema Markup Validator (JSON-LD)",
     shortDescription:
-      "Validate JSON-LD structured data, Microdata, and Schema.org markup from any URL or code snippet. Test syntax errors, missing required properties, and preview rich result entity trees.",
+      "Validate JSON-LD, Microdata & Schema.org markup from any URL or code snippet. Catch syntax errors and missing properties before Google does.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "🔍",
     schemaDescription:
-      "Free Schema.org Validator. Test JSON-LD structured data syntax, detect missing required schema fields, and preview structured data entities for rich Google search results.",
-    metaTitle: "Free Schema Markup Validator | JSON-LD & Structured Data Testing Tool",
+      "Validate JSON-LD, Microdata & Schema.org markup from any URL or code snippet. Catch syntax errors and missing properties before Google does.",
+    metaTitle: "JSON-LD Schema Validator — Test Structured Data Free",
     metaDescription:
-      "Validate JSON-LD structured data from URL or text snippet. Check Schema.org compliance, detect errors, and optimize for Google Rich Results.",
+      "Validate JSON-LD, Microdata & Schema.org markup from any URL or code snippet. Catch syntax errors and missing properties before Google does.",
     howToUseParagraphs: [
       paragraph(
-        "Paste a live website URL or paste raw JSON-LD code into the validator box and click 'Validate Schema'. ",
-        "Our parser extracts all embedded JSON-LD scripts and validates them against standard Schema.org specifications.",
+        "Choose 'Fetch Website URL Schemas' to pull markup directly from a live page, or 'Paste JSON-LD / HTML Code' to check a snippet before it goes live.",
       ),
       paragraph(
-        "Review identified Schema types (Article, Product, FAQPage, Organization, LocalBusiness, BreadcrumbList) with property-by-property pass/fail indicators.",
+        "Click 'Validate Schema' to run the validation check. ",
+        "Adding schema markup is only half the job. One typo or missing required property can cause the entire block to silently fail without changing how the page looks.",
       ),
+      paragraph(
+        "Review flagged errors — missing required properties, malformed syntax, incorrect types, and nested entity trees.",
+      ),
+      paragraph(
+        "Fix and re-check until the schema passes Schema.org specifications cleanly.",
+      ),
+    ],
+    whyItMatters: [
+      "Search Console's rich result reports can lag by days or weeks; this catches errors instantly.",
+      "Broken schema is invisible in the browser, so most site owners never know it's failing.",
+      "Multiple schema types on one page can conflict with each other in ways that are hard to spot manually.",
+      "Clean, valid markup is a prerequisite — not a bonus — for eligibility in rich snippets, AI Overviews, and knowledge panel citations.",
+    ],
+    keyFeatures: [
+      "Two input modes: live URL extraction or raw code snippet validation",
+      "Checks against official Schema.org specifications",
+      "Flags missing required properties by schema type",
+      "Supports both JSON-LD and Microdata",
+      "Instant client-side verification with detailed visual status badges",
     ],
     faqs: [
       {
-        question: "What is JSON-LD structured data?",
+        question: "Why does my schema look fine but not show up in Google Search Console?",
         answer:
-          "JSON-LD (JavaScript Object Notation for Linked Data) is a standardized format recommended by Google to provide structured information about a webpage's content, enabling rich search snippets.",
+          "Search Console only reports schema it has successfully crawled and parsed. If a required property is missing or a value is malformed, Google may discard the whole block instead of showing a partial error — which is why manual validation catches issues GSC won't.",
+      },
+      {
+        question: "What's the difference between this and Google's Rich Results Test?",
+        answer:
+          "This tool focuses specifically on schema validity — syntax, structure, and required properties — and lets code be checked before it's live, without needing a published URL.",
+      },
+      {
+        question: "Can Microdata be validated as well as JSON-LD?",
+        answer:
+          "Yes — the validator reads Schema.org markup in both formats.",
+      },
+      {
+        question: "How often should schema be re-validated?",
+        answer:
+          "Any time page content that feeds into the markup changes — title, author, price, dates — since these fields commonly drift out of sync with the schema block over time.",
       },
     ],
     relatedSlugs: ["schema-generator", "seo-checker", "meta-title-description-checker"],
-    noIndex: true,
   },
   {
     slug: "schema-generator",
     name: "Schema Markup Generator (JSON-LD)",
     shortDescription:
-      "Generate clean, error-free JSON-LD structured data for Articles, FAQPages, Local Businesses, Organizations, Products, Software Applications, and Events with instant live preview and 1-click copy.",
+      "Generate valid JSON-LD schema markup for Articles, FAQs, Products & more in seconds. Live preview, 1-click copy, 100% free — no sign-up needed.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "⚙️",
     schemaDescription:
-      "Free JSON-LD Schema Generator. Interactively generate valid Schema.org structured data for Articles, FAQs, Local Businesses, Products, and Software for Google Rich Snippets.",
-    metaTitle: "Free JSON-LD Schema Generator | Create Google Rich Snippet Structured Data",
+      "Generate valid JSON-LD schema markup for Articles, FAQs, Products & more in seconds. Live preview, 1-click copy, 100% free — no sign-up needed.",
+    metaTitle: "Free JSON-LD Schema Generator (No Sign-Up Required)",
     metaDescription:
-      "Easily create valid JSON-LD schema markup for Articles, FAQs, Organizations, Products, and Local Businesses. 100% free with instant copy & validation.",
+      "Generate valid JSON-LD schema markup for Articles, FAQs, Products & more in seconds. Live preview, 1-click copy, 100% free — no sign-up needed.",
     howToUseParagraphs: [
       paragraph(
-        "Select your desired Schema type (e.g. FAQPage, Article, LocalBusiness, Product, Organization, SoftwareApplication). ",
-        "Fill in the structured data form fields, such as title, author, questions & answers, price, or software ratings.",
+        "Pick a schema type — Article, FAQPage, Organization, Product, LocalBusiness, Event, Software Application, and more.",
       ),
       paragraph(
-        "Copy the automatically generated JSON-LD script and paste it inside the <head> section of your website HTML.",
+        "Fill in the fields: headline, author, URL, image, and other type-specific properties. ",
+        "Structured data is the language search engines use to actually understand what's on a page — not just guess from the surrounding text.",
       ),
+      paragraph(
+        "Watch the JSON-LD build in real time in the output panel with automatic syntax formatting.",
+      ),
+      paragraph(
+        "Copy the generated script tag with 1 click and paste it into the <head> of your webpage HTML.",
+      ),
+    ],
+    whyItMatters: [
+      "Rich results — star ratings, FAQ dropdowns, breadcrumbs — earn more clicks even at the same ranking position.",
+      "AI Overviews and answer engines parse JSON-LD to decide what to cite and how to summarize a page.",
+      "Schema doesn't guarantee rich results, but pages without valid markup are rarely eligible for them at all.",
+      "Consistent schema across a site reinforces the topical trust signals search engines associate with authority.",
+    ],
+    keyFeatures: [
+      "Multiple schema types in one tool (Article, FAQ, Product, Organization, Event, Software)",
+      "Live JSON-LD preview as fields are filled in",
+      "1-click copy of the finished script tag",
+      "Runs entirely in the browser — nothing is sent to a server",
+      "Works with any CMS (WordPress, Shopify, Webflow) or custom code",
     ],
     faqs: [
       {
-        question: "How do I add JSON-LD schema to my website?",
+        question: "What is JSON-LD and why does Google prefer it?",
         answer:
-          "Paste the generated <script type='application/ld+json'> code inside the <head> or <body> section of your page HTML.",
+          "JSON-LD (JavaScript Object Notation for Linked Data) is Google's recommended structured data format because it sits in a single script block, separate from the visible HTML — making it easier to implement and less likely to break page layout.",
+      },
+      {
+        question: "Will adding schema markup guarantee rich results?",
+        answer:
+          "No. Schema markup makes a page eligible for rich results; it doesn't guarantee them. Google still decides which eligible pages actually get enhanced in the SERP — but pages without valid markup are excluded from consideration entirely.",
+      },
+      {
+        question: "Do I need a developer to add this to my site?",
+        answer:
+          "Not necessarily. Most CMS platforms allow a script to be pasted into the page header or a custom code field. On WordPress, a simple header/footer script plugin is enough.",
+      },
+      {
+        question: "Is any data stored when the generator is used?",
+        answer:
+          "No. Everything runs client-side in the browser — the fields entered never leave the device or touch a server.",
       },
     ],
     relatedSlugs: ["schema-validator", "seo-checker", "meta-title-description-checker"],
-    noIndex: true,
   },
   {
     slug: "performance-audit",
     name: "PageSpeed Performance Audit (Lighthouse)",
     shortDescription:
-      "Full Google PageSpeed Insights clone UI. Analyze Mobile & Desktop site speed, Core Web Vitals (LCP, FCP, CLS, TBT, Speed Index), Field Data vs Lab Data, Diagnostics, and Passed Audits.",
+      "Analyze mobile & desktop site speed with real Google PageSpeed Insights data — LCP, CLS, FCP, Speed Index, TBT scores, and screenshots, free.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "🚀",
     schemaDescription:
-      "Free PageSpeed Insights clone tool. Test website performance, Core Web Vitals, accessibility, best practices, and SEO scores for both Mobile and Desktop strategies.",
-    metaTitle: "Google PageSpeed Insights Clone Tool | Free Core Web Vitals Audit",
+      "Analyze mobile & desktop site speed with real Google PageSpeed Insights data — LCP, CLS, FCP, Speed Index, TBT scores, and screenshots, free.",
+    metaTitle: "PageSpeed Performance Audit — Core Web Vitals Checker",
     metaDescription:
-      "Run instant Google PageSpeed Insights performance audit. Switch between Mobile & Desktop, analyze Core Web Vitals, FCP, LCP, CLS, and actionable diagnostic recommendations.",
+      "Analyze mobile & desktop site speed with real Google PageSpeed Insights data — LCP, CLS, FCP, Speed Index, TBT scores, and screenshots, free.",
     howToUseParagraphs: [
       paragraph(
-        "Enter any website URL and click 'Analyze PageSpeed'. ",
-        "Our engine runs parallel Mobile and Desktop Google Lighthouse audits to generate official Google PageSpeed scores.",
+        "Enter the URL to be tested and click 'Analyze PageSpeed'. ",
+        "The tool queries the Google PageSpeed Insights API directly, so the data shown is the exact data Google itself uses to evaluate your page.",
       ),
       paragraph(
-        "Toggle between Mobile 📱 and Desktop 💻 strategy tabs to view circular performance gauges, Core Web Vitals timing metrics, diagnostic flags, and passed audits.",
+        "Compare Mobile vs. Desktop results side by side with Core Web Vitals (LCP, CLS), supporting metrics (FCP, Speed Index, TBT), Field Data vs Lab Data, and rendered device screenshots.",
       ),
+      paragraph(
+        "Field Data reflects real Chrome visitor experience (CrUX report); Lab Data reflects a controlled simulated test run. Understanding both gives you an honest assessment of actual user experience.",
+      ),
+      paragraph(
+        "Review Diagnostics and Passed Audits for specific, fixable causes — image sizing, render-blocking resources, and JS execution time — behind your score.",
+      ),
+    ],
+    whyItMatters: [
+      "Largest Contentful Paint (LCP) and Cumulative Layout Shift (CLS) are the two Core Web Vitals with direct SEO weight.",
+      "Mobile and desktop performance are scored independently — a page can pass on one and fail on the other.",
+      "Field Data reflects real visitor experience; Lab Data reflects a controlled test, and the two can diverge significantly.",
+      "Diagnostics and 'Passed Audits' point to specific, fixable causes behind a low score.",
+    ],
+    keyFeatures: [
+      "Real Google PageSpeed Insights API data, not a simulation",
+      "Separate Mobile and Desktop views with mockups",
+      "Field Data vs. Lab Data comparison",
+      "Live Base64 screenshots of page load stages",
+      "Full Diagnostics and Passed Audits breakdown",
     ],
     faqs: [
       {
-        question: "What is the difference between Mobile and Desktop PageSpeed scores?",
+        question: "Why is the mobile score so much lower than the desktop score?",
         answer:
-          "Mobile audits simulate a mid-tier mobile device over a 4G network with CPU throttling, whereas Desktop audits evaluate performance over unthrottled high-speed connections.",
+          "Mobile devices generally have less processing power, and Lighthouse's mobile test simulates a mid-tier device on a throttled connection — so render-heavy or JavaScript-heavy pages usually score lower on mobile even with identical code.",
+      },
+      {
+        question: "What counts as a 'good' LCP, CLS, and FCP score?",
+        answer:
+          "Google's thresholds place LCP under 2.5 seconds, CLS under 0.1, and FCP under 1.8 seconds in the 'Good' range. Anything above these moves into 'Needs Improvement' or 'Poor.'",
+      },
+      {
+        question: "Why does Field Data sometimes show worse results than Lab Data?",
+        answer:
+          "Lab Data is measured under ideal, controlled conditions on a single test run. Field Data aggregates real visitors on real networks and devices — including older phones and slower connections — so it often paints a more honest picture.",
+      },
+      {
+        question: "Does a perfect Lighthouse score guarantee good rankings?",
+        answer:
+          "No. Speed is one of many ranking factors. A fast site with thin content still won't outrank a well-optimized page with strong content — but a slow site puts a ceiling on how well even great content can perform.",
       },
     ],
     relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-alt-checker"],
-    noIndex: true,
   },
   {
     slug: "image-alt-checker",
     name: "Image Alt Text & Image SEO Checker",
     shortDescription:
-      "Audit all images on any webpage. Detect missing alt attributes, empty alt text, decorative vs informative images, image file sizes, format types, and image SEO optimization tips.",
+      "Scan any webpage for missing alt attributes, empty alt text & oversized images. Get format and optimization tips to boost image SEO, free.",
     category: "seo",
     categoryLabel: "SEO Tools",
     categoryPath: "/seo-tools",
     icon: "🖼️",
     schemaDescription:
-      "Free Image Alt Text Checker tool. Scrape webpage images to identify missing alt text, non-descriptive alt tags, image dimension issues, and accessibility warnings.",
-    metaTitle: "Free Image Alt Text Checker | Audit Webpage Image SEO & Accessibility",
+      "Scan any webpage for missing alt attributes, empty alt text & oversized images. Get format and optimization tips to boost image SEO, free.",
+    metaTitle: "Image Alt Text Checker — Free Image SEO Audit Tool",
     metaDescription:
-      "Audit all images on your webpage for missing alt tags, image file sizes, and accessibility compliance. 100% free image SEO tool.",
+      "Scan any webpage for missing alt attributes, empty alt text & oversized images. Get format and optimization tips to boost image SEO, free.",
     howToUseParagraphs: [
       paragraph(
-        "Enter your webpage URL or paste HTML source code and click 'Check Image Alt Tags'. ",
-        "The tool extracts every <img> element on the page.",
+        "Choose URL Input to scan a live webpage, or Paste Raw HTML to check a draft before publishing.",
       ),
       paragraph(
-        "View itemized cards for each image showing image preview, src URL, alt text value, character length, status flag (Pass, Missing Alt, Empty Alt), and accessibility guidance.",
+        "Click 'Check Image Alt Tags' to run the scan. ",
+        "Images are often the most neglected part of an SEO audit. Missing or empty alt text can sit unnoticed for years, even though alt text is a direct WCAG accessibility requirement and a key Google Images ranking factor.",
       ),
+      paragraph(
+        "Review the flagged list — missing alt attributes, empty alt text, oversized files, and format recommendations.",
+      ),
+      paragraph(
+        "Fix each image's alt attribute and convert oversized graphics to modern formats (WebP/AVIF) before publishing.",
+      ),
+    ],
+    whyItMatters: [
+      "Alt text is a WCAG accessibility requirement, not an optional SEO extra — missing alt text is a compliance issue as much as a ranking one.",
+      "Google Images is a meaningful traffic source for product, recipe, and visual-heavy content, and it relies almost entirely on alt text and file context.",
+      "Oversized, unoptimized images are one of the most common causes of poor LCP scores in Core Web Vitals audits.",
+      "Modern formats (WebP, AVIF) can cut file size significantly over legacy JPG/PNG with no visible quality loss.",
+    ],
+    keyFeatures: [
+      "Full-page image scan with preview cards",
+      "Missing and empty alt detection",
+      "Decorative vs. informative image classification",
+      "File size and modern format (WebP/AVIF) recommendations",
+      "Works on live URLs or raw HTML with no sign-up",
     ],
     faqs: [
       {
-        question: "Why is image alt text critical for SEO and accessibility?",
+        question: "Should every image on a page have alt text?",
         answer:
-          "Alt text helps search engines index image content in Google Images and allows screen readers to describe visual content to visually impaired users.",
+          "Purely decorative images (spacers, background flourishes) can intentionally use an empty alt=\"\" attribute, which tells screen readers to skip them. Every informative image, though, needs descriptive alt text.",
+      },
+      {
+        question: "What makes alt text 'good' versus just present?",
+        answer:
+          "Good alt text describes what's actually in the image in plain language, specific enough to be useful to someone who can't see it — 'orange tabby cat sleeping on a windowsill' rather than just 'cat' or a stuffed keyword phrase.",
+      },
+      {
+        question: "Does alt text help rankings for the page itself, or just for Google Images?",
+        answer:
+          "Both, to different degrees. It's a strong direct signal for Image Search rankings, and a smaller but real contextual signal for the page's overall topical relevance in regular search.",
+      },
+      {
+        question: "How much does image file size actually affect page speed?",
+        answer:
+          "Significantly. Unoptimized images are consistently one of the top causes of poor Largest Contentful Paint scores, especially on mobile connections, since large files delay when the main visible content finishes loading.",
       },
     ],
     relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-compressor"],
-    noIndex: true,
   },
 ];
 
