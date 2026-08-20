@@ -636,7 +636,7 @@ export const TOOLS: ToolDefinition[] = [
     relatedSlugs: ["image-compressor", "image-resizer", "image-converter"],
   },
   {
-    slug: "seo-checker",
+    slug: "website-seo-speed-checker",
     name: "Website SEO & Speed Checker",
     shortDescription:
       "Audit any URL for SEO health, meta tag accuracy, heading structure, image alt tags, HTTPS status & Google Lighthouse speed — all in one free report.",
@@ -699,10 +699,10 @@ export const TOOLS: ToolDefinition[] = [
           "Both. Core Web Vitals are part of Google's Page Experience signals, and slow load times also increase bounce rate, which indirectly affects rankings by signaling weaker engagement.",
       },
     ],
-    relatedSlugs: ["meta-title-description-checker", "performance-audit", "heading-analyzer"],
+    relatedSlugs: ["meta-title-description-checker", "pagespeed-performance-audit", "heading-tag-analyzer"],
   },
   {
-    slug: "heading-analyzer",
+    slug: "heading-tag-analyzer",
     name: "Heading Tag Analyzer (H1-H6)",
     shortDescription:
       "Analyze your page's heading hierarchy instantly. Detect missing H1s, multiple H1 tags, skipped levels & empty headings with a visual outline tree.",
@@ -766,10 +766,10 @@ export const TOOLS: ToolDefinition[] = [
           "Screen reader users often navigate by jumping between headings rather than reading linearly. A broken or skipped hierarchy makes that navigation confusing or impossible — which is both an accessibility failure and a signal search engines pick up on.",
       },
     ],
-    relatedSlugs: ["seo-checker", "meta-title-description-checker", "word-counter"],
+    relatedSlugs: ["website-seo-speed-checker", "meta-title-description-checker", "word-counter"],
   },
   {
-    slug: "schema-validator",
+    slug: "schema-markup-validator",
     name: "Schema Markup Validator (JSON-LD)",
     shortDescription:
       "Validate JSON-LD, Microdata & Schema.org markup from any URL or code snippet. Catch syntax errors and missing properties before Google does.",
@@ -832,10 +832,10 @@ export const TOOLS: ToolDefinition[] = [
           "Any time page content that feeds into the markup changes — title, author, price, dates — since these fields commonly drift out of sync with the schema block over time.",
       },
     ],
-    relatedSlugs: ["schema-generator", "seo-checker", "meta-title-description-checker"],
+    relatedSlugs: ["schema-markup-generator", "website-seo-speed-checker", "meta-title-description-checker"],
   },
   {
-    slug: "schema-generator",
+    slug: "schema-markup-generator",
     name: "Schema Markup Generator (JSON-LD)",
     shortDescription:
       "Generate valid JSON-LD schema markup for Articles, FAQs, Products & more in seconds. Live preview, 1-click copy, 100% free — no sign-up needed.",
@@ -898,10 +898,10 @@ export const TOOLS: ToolDefinition[] = [
           "No. Everything runs client-side in the browser — the fields entered never leave the device or touch a server.",
       },
     ],
-    relatedSlugs: ["schema-validator", "seo-checker", "meta-title-description-checker"],
+    relatedSlugs: ["schema-markup-validator", "website-seo-speed-checker", "meta-title-description-checker"],
   },
   {
-    slug: "performance-audit",
+    slug: "pagespeed-performance-audit",
     name: "PageSpeed Performance Audit (Lighthouse)",
     shortDescription:
       "Analyze mobile & desktop site speed with real Google PageSpeed Insights data — LCP, CLS, FCP, Speed Index, TBT scores, and screenshots, free.",
@@ -964,10 +964,10 @@ export const TOOLS: ToolDefinition[] = [
           "No. Speed is one of many ranking factors. A fast site with thin content still won't outrank a well-optimized page with strong content — but a slow site puts a ceiling on how well even great content can perform.",
       },
     ],
-    relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-alt-checker"],
+    relatedSlugs: ["website-seo-speed-checker", "meta-title-description-checker", "image-alt-text-checker"],
   },
   {
-    slug: "image-alt-checker",
+    slug: "image-alt-text-checker",
     name: "Image Alt Text & Image SEO Checker",
     shortDescription:
       "Scan any webpage for missing alt attributes, empty alt text & oversized images. Get format and optimization tips to boost image SEO, free.",
@@ -1030,7 +1030,7 @@ export const TOOLS: ToolDefinition[] = [
           "Significantly. Unoptimized images are consistently one of the top causes of poor Largest Contentful Paint scores, especially on mobile connections, since large files delay when the main visible content finishes loading.",
       },
     ],
-    relatedSlugs: ["seo-checker", "meta-title-description-checker", "image-compressor"],
+    relatedSlugs: ["website-seo-speed-checker", "meta-title-description-checker", "image-compressor"],
   },
 ];
 

@@ -96,16 +96,22 @@ export function ToolRenderer({ slug }: ToolRendererProps) {
   );
 
   switch (slug) {
+    case "website-seo-speed-checker":
     case "seo-checker":
       return wrap(<SeoChecker />);
+    case "heading-tag-analyzer":
     case "heading-analyzer":
       return wrap(<HeadingAnalyzer />);
+    case "schema-markup-validator":
     case "schema-validator":
       return wrap(<SchemaValidator />);
+    case "schema-markup-generator":
     case "schema-generator":
       return wrap(<SchemaGenerator />);
+    case "pagespeed-performance-audit":
     case "performance-audit":
       return wrap(<PerformanceAudit />);
+    case "image-alt-text-checker":
     case "image-alt-checker":
       return wrap(<ImageAltChecker />);
     case "meta-title-description-checker":

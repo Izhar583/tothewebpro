@@ -30,6 +30,10 @@ export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
     Icon: MetaCheckerIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
+  "website-seo-speed-checker": {
+    Icon: WebsiteSeoCheckerIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
   "website-seo-checker": {
     Icon: WebsiteSeoCheckerIcon,
     iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
@@ -46,17 +50,33 @@ export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
     Icon: HeadingTagAnalyzerIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
+  "schema-markup-validator": {
+    Icon: SchemaValidatorIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
   "schema-validator": {
     Icon: SchemaValidatorIcon,
     iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
+  },
+  "schema-markup-generator": {
+    Icon: SchemaGeneratorIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
   "schema-generator": {
     Icon: SchemaGeneratorIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
   },
+  "pagespeed-performance-audit": {
+    Icon: PerformanceAuditIcon,
+    iconContainerClass: "bg-red-50/60 dark:bg-red-950/20",
+  },
   "performance-audit": {
     Icon: PerformanceAuditIcon,
     iconContainerClass: "bg-red-50/60 dark:bg-red-950/20",
+  },
+  "image-alt-text-checker": {
+    Icon: ImageAltCheckerIcon,
+    iconContainerClass: "bg-amber-50/60 dark:bg-amber-950/20",
   },
   "image-alt-checker": {
     Icon: ImageAltCheckerIcon,

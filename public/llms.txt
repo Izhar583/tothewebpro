@@ -3,13 +3,13 @@
 > Free online tools for SEO analysis, website performance auditing, image compression, text editing, and developer utilities. Fast, privacy-focused, and 100% free with no signup required.
 
 ## Core Tool Suite
-- [Website SEO & Speed Checker](https://tothewebpro.com/tools/seo-checker): Full on-page SEO audit, meta health check, headings, images, and Lighthouse speed metrics.
+- [Website SEO & Speed Checker](https://tothewebpro.com/tools/website-seo-speed-checker): Full on-page SEO audit, meta health check, headings, images, and Lighthouse speed metrics.
 - [Meta Title & Description Checker](https://tothewebpro.com/tools/meta-title-description-checker): Live pixel-width SERP simulator and meta tag truncation check.
-- [Heading Tag Analyzer](https://tothewebpro.com/tools/heading-analyzer): H1-H6 outline hierarchy validator and structure visualizer.
-- [JSON-LD Schema Validator](https://tothewebpro.com/tools/schema-validator): Test, validate, and debug rich snippet structured data markup.
-- [JSON-LD Schema Generator](https://tothewebpro.com/tools/schema-generator): Generate Google-compliant Organization, Article, FAQ, Product, and LocalBusiness schema markup.
-- [PageSpeed Performance Audit](https://tothewebpro.com/tools/performance-audit): Google Lighthouse Core Web Vitals, LCP, CLS, and FID performance audit.
-- [Image Alt Text Checker](https://tothewebpro.com/tools/image-alt-checker): Audit missing alt attributes, image sizes, and SEO image optimizations.
+- [Heading Tag Analyzer](https://tothewebpro.com/tools/heading-tag-analyzer): H1-H6 outline hierarchy validator and structure visualizer.
+- [JSON-LD Schema Validator](https://tothewebpro.com/tools/schema-markup-validator): Test, validate, and debug rich snippet structured data markup.
+- [JSON-LD Schema Generator](https://tothewebpro.com/tools/schema-markup-generator): Generate Google-compliant Organization, Article, FAQ, Product, and LocalBusiness schema markup.
+- [PageSpeed Performance Audit](https://tothewebpro.com/tools/pagespeed-performance-audit): Google Lighthouse Core Web Vitals, LCP, CLS, and FID performance audit.
+- [Image Alt Text Checker](https://tothewebpro.com/tools/image-alt-text-checker): Audit missing alt attributes, image sizes, and SEO image optimizations.
 - [Background Remover](https://tothewebpro.com/tools/background-remover): 100% on-device AI image background cutout and isolation.
 - [Word Counter](https://tothewebpro.com/tools/word-counter): Real-time word, character, paragraph, sentence, and reading time counter.
 - [Character Counter](https://tothewebpro.com/tools/character-counter): Detailed character and byte counter for copywriters.
