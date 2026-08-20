@@ -13,10 +13,6 @@ export default function SeoToolsPage() {
   const tools = TOOLS.filter((t) => t.category === "seo");
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-4">
-        <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
-        <span className="text-xs font-bold text-orange-700 uppercase tracking-wider">SEO Power</span>
-      </div>
       <h1 className="text-4xl font-black tracking-tight text-slate-900">
         SEO Tools
       </h1>

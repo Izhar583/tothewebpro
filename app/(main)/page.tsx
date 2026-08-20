@@ -111,10 +111,6 @@ export default function HomePage() {
       <JsonLd data={websiteSchema} />
       <section className="bg-white border-b border-orange-100">
         <div className="mx-auto max-w-6xl px-4 py-20 md:py-28 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-6">
-            <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
-            <span className="text-xs font-bold text-orange-700 uppercase tracking-widest">Premium SEO Utilities</span>
-          </div>
           <h1 className="text-4xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
             Sharp Tools for <br />
             <span className="text-orange-600">Smart Creators</span>

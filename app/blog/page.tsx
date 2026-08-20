@@ -17,10 +17,6 @@ export default function BlogIndexPage() {
   return (
     <div className="mx-auto max-w-8xl px-4 py-12 md:py-20">
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-100 border border-orange-200 mb-6">
-          <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-          <span className="text-xs font-bold text-orange-700 uppercase tracking-wider">Latest Insights</span>
-        </div>
         <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight">SEO & Performance Blog</h1>
         <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto">
           Practical guidance on snippets, performance, and publishing workflows for teams who want results, not theory.

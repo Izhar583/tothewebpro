@@ -17,16 +17,8 @@ export default function ContactPage() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-start">
-          
-          {/* Content Side - Left 5 Columns */}
           <div className="lg:col-span-5 space-y-8">
             <div>
-              {/* Premium Connect Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-100 mb-6 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
-                <span className="text-xs font-bold text-orange-700 uppercase tracking-wider">Connect</span>
-              </div>
-              
               <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl leading-tight">
                 Let&apos;s build something <span className="bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">great</span> together.
               </h1>

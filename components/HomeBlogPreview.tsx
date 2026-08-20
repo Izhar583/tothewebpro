@@ -17,10 +17,6 @@ export function HomeBlogPreview() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 mb-4">
-              <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" aria-hidden="true" />
-              <span className="text-xs font-bold text-orange-700 uppercase tracking-widest">From the Blog</span>
-            </div>
             <h2
               id="blog-preview-heading"
               className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight"
