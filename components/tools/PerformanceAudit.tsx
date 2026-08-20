@@ -477,6 +477,7 @@ export function PerformanceAudit() {
                   <div className="relative w-full max-w-[240px] rounded-[36px] border-[6px] border-slate-900 bg-slate-950 p-2 shadow-2xl overflow-hidden transition-all">
                     <div className="mx-auto h-3 w-16 rounded-full bg-slate-800 mb-2" />
                     <div className="relative aspect-[9/18] w-full rounded-2xl bg-white overflow-hidden border border-slate-200 flex flex-col justify-between">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={
                           currentReport.finalScreenshot ||
@@ -491,9 +492,7 @@ export function PerformanceAudit() {
                     </div>
                   </div>
                 ) : (
-                  /* Desktop Monitor Frame */
                   <div className="relative w-full max-w-[480px] space-y-1 transition-all">
-                    {/* Monitor Top Frame */}
                     <div className="rounded-t-2xl border-4 border-slate-800 bg-slate-900 p-2 shadow-2xl">
                       <div className="flex items-center gap-1.5 pb-2 px-1">
                         <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
@@ -502,6 +501,7 @@ export function PerformanceAudit() {
                         <span className="ml-2 text-[10px] font-mono text-slate-400 truncate">{auditResult.url}</span>
                       </div>
                       <div className="relative aspect-[16/10] w-full rounded-lg bg-white overflow-hidden border border-slate-300">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={
                             currentReport.finalScreenshot ||
