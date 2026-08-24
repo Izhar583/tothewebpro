@@ -13,6 +13,13 @@ export interface BlogPost {
   date: string;
   readMinutes: number;
   featureImage?: string;
+  author?: string;
+  category?: string;
+  tags?: string[];
+  status?: "published" | "draft";
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
   content: BlogContentBlock[];
 }
 

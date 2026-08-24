@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useImageResizer } from "@/hooks/useImageResizer";
 import { Spinner } from "@/components/ui/Spinner";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 import { X, Upload, Download, Lock, Image as ImageIcon } from "lucide-react";
 
 const PRESETS: { label: string; w: number; h: number }[] = [
@@ -158,23 +159,19 @@ export function ImageResizer() {
                 Aspect {state.aspectLocked ? "locked" : "unlocked"}
               </button>
 
-              <div>
-                <label htmlFor="mime" className="sr-only">
-                  Output format
-                </label>
-                <select
-                  id="mime"
+              <div className="min-w-[130px]">
+                <CustomSelect
                   value={state.outputMime}
-                  onChange={(e) =>
-                    setOutputMime(e.target.value as typeof state.outputMime)
+                  onChange={(val) =>
+                    setOutputMime(val as typeof state.outputMime)
                   }
-                  className="rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
-                  aria-label="Output image format"
-                >
-                  <option value="image/png">PNG</option>
-                  <option value="image/jpeg">JPEG</option>
-                  <option value="image/webp">WebP</option>
-                </select>
+                  options={[
+                    { value: "image/png", label: "PNG", badge: "PNG" },
+                    { value: "image/jpeg", label: "JPEG", badge: "JPG" },
+                    { value: "image/webp", label: "WebP", badge: "Web" },
+                  ]}
+                  size="md"
+                />
               </div>
             </div>
 

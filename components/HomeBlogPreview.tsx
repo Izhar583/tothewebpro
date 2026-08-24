@@ -1,17 +1,40 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BLOG_POSTS } from "@/lib/blog-posts";
+import { BlogPost } from "@/lib/blog-types";
+import { BLOG_POSTS as FALLBACK_POSTS } from "@/lib/blog-posts";
 
 const PREVIEW_COUNT = 3;
 
 export function HomeBlogPreview() {
-  const posts = BLOG_POSTS.slice(0, PREVIEW_COUNT);
+  const [posts, setPosts] = useState<BlogPost[]>(() =>
+    FALLBACK_POSTS.slice(0, PREVIEW_COUNT).map((p) => ({
+      ...p,
+      status: "published",
+    }))
+  );
+
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.posts && Array.isArray(data.posts) && data.posts.length > 0) {
+          setPosts(data.posts.slice(0, PREVIEW_COUNT));
+        }
+      })
+      .catch(() => {
+        // keep fallback
+      });
+  }, []);
 
   if (posts.length === 0) return null;
 
   return (
-    <section className="py-24 bg-[#fdfaf6] border-t border-orange-100" aria-labelledby="blog-preview-heading">
+    <section
+      className="py-24 bg-[#fdfaf6] border-t border-orange-100"
+      aria-labelledby="blog-preview-heading"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
           <div>
@@ -30,7 +53,12 @@ export function HomeBlogPreview() {
             className="inline-flex shrink-0 items-center gap-2 rounded-2xl border border-orange-200 bg-white px-6 py-3 text-sm font-bold text-orange-600 transition-all hover:bg-orange-50 hover:border-orange-300 group"
           >
             View all articles
-            <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+            <span
+              className="transition-transform group-hover:translate-x-1"
+              aria-hidden="true"
+            >
+              →
+            </span>
           </Link>
         </div>
 
@@ -44,7 +72,7 @@ export function HomeBlogPreview() {
               {/* Top meta */}
               <div className="flex items-center gap-3 mb-5">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1 text-xs font-bold text-orange-700">
-                  {post.readMinutes} min read
+                  {post.readMinutes || 5} min read
                 </span>
                 <span className="text-xs font-medium text-slate-400">
                   {post.date}
@@ -68,7 +96,12 @@ export function HomeBlogPreview() {
                   className="inline-flex items-center gap-2 text-sm font-bold text-orange-600 hover:text-orange-700 group-hover:gap-3 transition-all"
                 >
                   Read article
-                  <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+                  <span
+                    className="transition-transform group-hover:translate-x-1"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
                 </Link>
               </div>
             </article>
@@ -79,7 +112,9 @@ export function HomeBlogPreview() {
         <div className="mt-16 rounded-[28px] bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-px shadow-xl shadow-orange-500/20">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 rounded-[27px] bg-gradient-to-r from-orange-500/90 to-amber-500/90 px-10 py-8">
             <div>
-              <p className="text-lg font-semibold text-white">Want more SEO guides?</p>
+              <p className="text-lg font-semibold text-white">
+                Want more SEO guides?
+              </p>
               <p className="mt-1 text-sm text-orange-100">
                 Visit the full blog for practical tips on rankings, Core Web Vitals, and content.
               </p>
@@ -92,7 +127,6 @@ export function HomeBlogPreview() {
             </Link>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -4,36 +4,50 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /admin
 Disallow: /search
 
 # OpenAI / ChatGPT Bot
 User-agent: GPTBot
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /admin
 Disallow: /search
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /admin/
+Disallow: /admin
 
 # Anthropic / Claude Bot
 User-agent: ClaudeBot
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /admin
 Disallow: /search
 
 # Perplexity AI Bot
 User-agent: PerplexityBot
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /admin
 Disallow: /search
 
 # Google Extended / Gemini
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin/
+Disallow: /admin
 
 # ByteDance / Bytespider
 User-agent: Bytespider
 Allow: /
+Disallow: /admin/
+Disallow: /admin
 
 # Sitemap and LLM documentation locations
 Sitemap: https://tothewebpro.com/sitemap.xml

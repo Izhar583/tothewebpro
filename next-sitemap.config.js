@@ -10,6 +10,8 @@ module.exports = {
   priority: 0.8,
   exclude: [
     "/api/*",
+    "/admin",
+    "/admin/*",
     "/search",
     "/tools/free-da-pa-checker",
   ],

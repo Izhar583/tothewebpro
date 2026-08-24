@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BLOG_POSTS } from "@/lib/blog-posts";
+import { getAllPosts } from "@/lib/blog-service";
 import Image from "next/image";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog | SEO Tips, Web Tools and Digital Marketing Guides",
@@ -10,9 +12,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://tothewebpro.com/blog" },
 };
 
-export default function BlogIndexPage() {
-  const featuredPost = BLOG_POSTS[0];
-  const otherPosts = BLOG_POSTS.slice(1);
+export default async function BlogIndexPage() {
+  const posts = await getAllPosts(false);
+  const featuredPost = posts[0];
+  const otherPosts = posts.slice(1);
 
   return (
     <div className="mx-auto max-w-8xl px-4 py-12 md:py-20">

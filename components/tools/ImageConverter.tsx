@@ -4,7 +4,8 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useImageConverter } from "@/hooks/useImageConverter";
 import { Spinner } from "@/components/ui/Spinner";
-import { X, Upload, Download, ArrowRightLeft, Lock } from "lucide-react";
+import { CustomSelect } from "@/components/ui/CustomSelect";
+import { X, Upload, Download, ArrowRightLeft, Lock, FileImage } from "lucide-react";
 
 export function ImageConverter() {
   const {
@@ -100,22 +101,21 @@ export function ImageConverter() {
           </div>
           <div className="space-y-5">
             <div>
-              <label htmlFor="fmt" className="text-sm font-bold text-slate-700">
+              <label className="text-sm font-bold text-slate-700 block mb-2">
                 Output format
               </label>
-              <select
-                id="fmt"
+              <CustomSelect
                 value={format}
-                onChange={(e) =>
-                  setFormat(e.target.value as typeof format)
-                }
-                className="mt-2 w-full rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none ring-orange-500/10 focus:ring-4 focus:border-orange-500 transition-all"
-                aria-label="Choose output format"
-              >
-                <option value="image/webp">WebP</option>
-                <option value="image/jpeg">JPEG</option>
-                <option value="image/png">PNG</option>
-              </select>
+                onChange={(val) => setFormat(val as typeof format)}
+                options={[
+                  { value: "image/webp", label: "WebP (Recommended)", badge: "Web" },
+                  { value: "image/jpeg", label: "JPEG (Standard)", badge: "JPG" },
+                  { value: "image/png", label: "PNG (Lossless)", badge: "PNG" },
+                ]}
+                icon={<FileImage size={15} />}
+                size="lg"
+                className="w-full"
+              />
             </div>
 
             {format !== "image/png" ? (
