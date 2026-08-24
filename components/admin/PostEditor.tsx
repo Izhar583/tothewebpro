@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -60,7 +59,6 @@ const DEFAULT_CATEGORIES = [
 export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   const router = useRouter();
 
-  // Core post fields
   const [title, setTitle] = useState(initialPost?.title || "");
   const [slug, setSlug] = useState(initialPost?.slug || "");
   const [isSlugCustom, setIsSlugCustom] = useState(!isNew);
@@ -86,7 +84,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     initialPost?.readMinutes || 5
   );
 
-  // SEO fields
   const [metaTitle, setMetaTitle] = useState(
     initialPost?.metaTitle || initialPost?.title || ""
   );
@@ -98,7 +95,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   );
   const [serpView, setSerpView] = useState<"desktop" | "mobile">("desktop");
 
-  // Content blocks
   const [content, setContent] = useState<BlogContentBlock[]>(
     initialPost?.content || [
       {
@@ -122,7 +118,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     ]
   );
 
-  // Editor states
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -131,7 +126,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     message: string;
   } | null>(null);
 
-  // Auto-generate slug and meta title if new
   useEffect(() => {
     if (isNew && !isSlugCustom && title) {
       setSlug(slugify(title));
@@ -141,13 +135,11 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     }
   }, [title, isNew, isSlugCustom, initialPost?.title, metaTitle]);
 
-  // Recalculate reading time when content changes
   useEffect(() => {
     const calculated = calculateReadTime(content);
     setReadMinutes(calculated);
   }, [content]);
 
-  // Auto clear toast after 4s
   useEffect(() => {
     if (toast) {
       const timer = setTimeout(() => setToast(null), 4000);
@@ -171,7 +163,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-  // Block management
   const handleAddBlock = (type: BlogContentBlock["type"]) => {
     let newBlock: BlogContentBlock;
 
@@ -284,7 +275,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     }
   };
 
-  // Save post handler (Draft or Publish)
   const handleSave = async (explicitStatus?: "published" | "draft") => {
     const targetStatus = explicitStatus || status;
 
@@ -351,7 +341,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
       });
 
       if (isNew) {
-        // Redirect to edit page of newly created post
         router.push(`/admin/posts/edit/${cleanSlug}`);
       } else {
         router.refresh();
@@ -364,8 +353,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
       setSaving(false);
     }
   };
-
-  // SEO Score calculation helpers
   const titleLength = metaTitle.length;
   const descLength = metaDescription.length;
   const keywordInTitle = focusKeyword
@@ -377,7 +364,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
 
   return (
     <div className="min-h-screen bg-slate-100/60 pb-20">
-      {/* Toast Notification */}
       {toast && (
         <div
           className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border text-sm font-semibold transition-all animate-bounce ${
@@ -395,7 +381,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
         </div>
       )}
 
-      {/* Top Action Bar */}
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -419,7 +404,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
           </div>
 
           <div className="flex items-center gap-2.5">
-            {/* View Mode Toggle */}
             <div className="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200 text-xs font-bold">
               <button
                 type="button"
@@ -446,8 +430,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 <span>Live Preview</span>
               </button>
             </div>
-
-            {/* Save as Draft */}
             <button
               type="button"
               onClick={() => handleSave("draft")}
@@ -457,7 +439,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
               Save Draft
             </button>
 
-            {/* Publish / Update Button */}
             <button
               type="button"
               onClick={() => handleSave("published")}
@@ -491,11 +472,8 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
           </div>
         </div>
       </div>
-
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
+      <div className="max-w-9xl mx-auto px-4 sm:px-6 pt-8">
         {viewMode === "preview" ? (
-          /* ================= LIVE PREVIEW MODE ================= */
           <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
             <div className="bg-slate-900 text-white p-4 px-8 flex items-center justify-between border-b border-slate-800">
               <div className="flex items-center gap-2 text-xs font-bold text-orange-400 uppercase tracking-widest">
@@ -509,8 +487,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 Back to Edit Mode
               </button>
             </div>
-
-            {/* Post Hero */}
             <div className="relative bg-[#0b1b36] overflow-hidden pt-16 pb-20 px-6 text-center text-white">
               {featureImage && (
                 <div className="absolute inset-0 opacity-20">
@@ -538,8 +514,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 </div>
               </div>
             </div>
-
-            {/* Post Body & Sidebar */}
             <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
               <div className="flex-1 min-w-0">
                 {excerpt && (
@@ -547,8 +521,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     {excerpt}
                   </p>
                 )}
-
-                {/* Render content blocks */}
                 <div className="space-y-6">
                   {content.map((block, idx) => {
                     switch (block.type) {
@@ -640,7 +612,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 </div>
               </div>
 
-              {/* Sidebar Preview */}
               <aside className="w-full lg:w-80 space-y-6">
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
                   <h4 className="font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">
@@ -686,11 +657,8 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
             </div>
           </div>
         ) : (
-          /* ================= EDIT MODE ================= */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Post Content (8 cols) */}
             <div className="lg:col-span-8 space-y-6">
-              {/* Title & Permalink Box */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                   Post Title
@@ -703,7 +671,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   className="w-full text-2xl sm:text-3xl font-extrabold text-slate-900 placeholder:text-slate-300 border-none outline-none focus:ring-0 p-0 mb-4"
                 />
 
-                {/* Permalink URL editor */}
                 <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-slate-100 text-xs text-slate-500">
                   <span className="font-semibold text-slate-400">Permalink:</span>
                   <span className="text-slate-400">https://tothewebpro.com/blog/</span>
@@ -731,8 +698,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   )}
                 </div>
               </div>
-
-              {/* Excerpt Box */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -751,7 +716,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 />
               </div>
 
-              {/* Content Blocks Section (WordPress Block Editor) */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                   <div>
@@ -766,15 +730,12 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     {content.length} Blocks
                   </span>
                 </div>
-
-                {/* Blocks List */}
                 <div className="space-y-4">
                   {content.map((block, index) => (
                     <div
                       key={index}
                       className="group relative border border-slate-200 rounded-2xl bg-white p-5 hover:border-orange-200 hover:shadow-sm transition-all"
                     >
-                      {/* Block Controls Header */}
                       <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 text-xs">
                         <div className="flex items-center gap-2 font-bold text-slate-500">
                           <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center text-[10px]">
@@ -826,8 +787,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                           </button>
                         </div>
                       </div>
-
-                      {/* Block Specific Form Fields */}
                       {block.type === "h2" && (
                         <div className="space-y-2">
                           <input
@@ -1074,7 +1033,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   ))}
                 </div>
 
-                {/* Add Block Toolbar */}
                 <div className="mt-8 pt-6 border-t border-slate-100">
                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                     + Add New Block
@@ -1133,9 +1091,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
               </div>
             </div>
 
-            {/* Right Column: Settings, Featured Image & SEO Box (4 cols) */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Publish Settings Card */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Publish Settings</span>
@@ -1150,7 +1106,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </span>
                 </div>
 
-                {/* Status Switcher */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5">
                     Post Status
@@ -1177,8 +1132,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     size="sm"
                   />
                 </div>
-
-                {/* Date Picker */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <Calendar size={13} />
@@ -1192,7 +1145,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   />
                 </div>
 
-                {/* Author */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <User size={13} />
@@ -1206,8 +1158,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     className="w-full text-xs font-bold border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none"
                   />
                 </div>
-
-                {/* Reading Time */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <Clock size={13} />
@@ -1228,8 +1178,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
               </div>
-
-              {/* Featured Image Card */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Featured Image</span>
@@ -1284,7 +1232,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 )}
 
-                {/* Direct Upload replacement */}
                 {featureImage && (
                   <label className="block text-center cursor-pointer text-xs font-bold text-orange-600 hover:text-orange-700 bg-orange-50 py-2 rounded-xl border border-orange-100">
                     <span>{uploadingImage ? "Uploading..." : "Replace with new upload"}</span>
@@ -1299,15 +1246,11 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </label>
                 )}
               </div>
-
-              {/* Taxonomies: Categories & Tags */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Category &amp; Tags</span>
                   <Folder size={16} className="text-slate-400" />
                 </div>
-
-                {/* Category Selection */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5">
                     Category
@@ -1324,7 +1267,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   />
                 </div>
 
-                {/* Tags */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1">
                     <Tag size={12} />
@@ -1357,8 +1299,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
               </div>
-
-              {/* Yoast / RankMath Style SEO Box */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -1391,7 +1331,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
 
-                {/* Google SERP Snippet Preview */}
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200">
                   <div className="text-[11px] text-slate-400 font-mono truncate mb-1">
                     https://tothewebpro.com › blog › {slug || "your-post-slug"}
@@ -1406,7 +1345,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
 
-                {/* Focus Keyword */}
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5">
                     Focus Target Keyword
@@ -1443,8 +1381,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     </div>
                   )}
                 </div>
-
-                {/* Meta Title Field */}
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1.5">
                     <span>SEO Meta Title</span>
@@ -1467,7 +1403,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     placeholder="Custom meta title for Google..."
                     className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none"
                   />
-                  {/* Progress bar */}
                   <div className="w-full h-1.5 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
@@ -1481,8 +1416,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     />
                   </div>
                 </div>
-
-                {/* Meta Description Field */}
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1.5">
                     <span>SEO Meta Description</span>
@@ -1505,7 +1438,6 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     placeholder="Custom meta description for search results..."
                     className="w-full text-xs border border-slate-200 rounded-xl p-3 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none"
                   />
-                  {/* Progress bar */}
                   <div className="w-full h-1.5 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${

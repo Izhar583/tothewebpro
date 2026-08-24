@@ -1,8 +1,6 @@
 "use client";
-
 import Link from "next/link";
 import { Plus, Globe, ArrowLeft } from "lucide-react";
-
 interface AdminHeaderProps {
   title: string;
   subtitle?: string;
@@ -12,10 +10,8 @@ interface AdminHeaderProps {
     icon?: "plus" | "back";
   };
 }
-
 export function AdminHeader({ title, subtitle, action }: AdminHeaderProps) {
   return (
-
     <header className="bg-white border-b border-slate-200 px-6 py-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -28,7 +24,6 @@ export function AdminHeader({ title, subtitle, action }: AdminHeaderProps) {
             </p>
           )}
         </div>
-
         <div className="flex items-center gap-3">
           <Link
             href="/blog"
@@ -38,7 +33,6 @@ export function AdminHeader({ title, subtitle, action }: AdminHeaderProps) {
             <Globe size={14} />
             <span>Visit Blog</span>
           </Link>
-
           {action && (
             <Link
               href={action.href}

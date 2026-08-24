@@ -30,7 +30,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-slate-50/60 pb-16">
       <AdminHeader
-        title="Admin Dashboard"
+        title="Dashboard"
         subtitle="Manage your blog articles, publications, and SEO content."
         action={{
           label: "Add New Post",
@@ -39,7 +39,7 @@ export default async function AdminDashboardPage() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-9xl mx-auto px-6 py-8 space-y-8">
         {/* Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Card 1: Total Posts */}

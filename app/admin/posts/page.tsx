@@ -139,7 +139,7 @@ export default function AdminPostsPage() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+      <div className="max-w-9xl mx-auto px-6 py-8 space-y-6">
         {/* Filters & Search Header */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

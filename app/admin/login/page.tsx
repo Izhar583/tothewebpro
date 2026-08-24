@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
 
       {/* Main 2-Column Container: Left side logo, Right side admin panel */}
       <div className="relative z-10 w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        
+
         {/* Left Side: Logo & Brand Showcase */}
         <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
           <Link href="/" className="group inline-block">
@@ -89,10 +89,6 @@ export default function AdminLoginPage() {
           </Link>
 
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles size={13} className="text-orange-400" />
-              <span>Enterprise Content &amp; SEO Platform</span>
-            </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
               Manage Your Digital Presence with Speed &amp; Precision.
             </h1>
@@ -104,19 +100,15 @@ export default function AdminLoginPage() {
           {/* Key Feature Highlights */}
           <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg pt-2">
             <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm text-xs font-semibold text-slate-300">
-              <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
               <span>Full Blog Publishing Suite</span>
             </div>
             <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm text-xs font-semibold text-slate-300">
-              <CheckCircle2 size={16} className="text-orange-400 shrink-0" />
               <span>Live SEO &amp; Meta Tools</span>
             </div>
             <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm text-xs font-semibold text-slate-300">
-              <CheckCircle2 size={16} className="text-blue-400 shrink-0" />
               <span>Markdown &amp; Rich Editor</span>
             </div>
             <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm text-xs font-semibold text-slate-300">
-              <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
               <span>Secure Session Protection</span>
             </div>
           </div>
@@ -146,10 +138,6 @@ export default function AdminLoginPage() {
                 <p className="text-xs text-slate-400 mt-0.5">
                   Sign in to access your administration dashboard
                 </p>
-              </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[11px] font-bold uppercase tracking-wider shrink-0">
-                <ShieldCheck size={14} />
-                <span>Protected</span>
               </div>
             </div>
 
@@ -226,15 +214,8 @@ export default function AdminLoginPage() {
                 )}
               </button>
             </form>
-
-            {/* Security Notice */}
-            <div className="mt-6 pt-5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-              <span>Restricted System Area</span>
-              <span className="font-semibold text-slate-400">Authorized Access Only</span>
-            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
