@@ -15,17 +15,26 @@ import {
   SchemaGeneratorIcon,
   PerformanceAuditIcon,
   ImageAltCheckerIcon,
+  DomainAuthorityCheckerIcon,
 } from "@/components/ui/PremiumIcons";
-
-const ICON_STROKE = "#7c2d12"; // Deep Orange (Orange 900) for better theme matching
-
+const ICON_STROKE = "#7c2d12";
 export interface ToolCardIconConfig {
   Icon: React.ComponentType<{ className?: string }>;
-  /** Soft rounded container background (Tailwind classes) */
   iconContainerClass: string;
 }
-
 export const TOOL_CARD_ICONS: Record<string, ToolCardIconConfig> = {
+  "free-da-pa-checker": {
+    Icon: DomainAuthorityCheckerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "domain-authority-checker": {
+    Icon: DomainAuthorityCheckerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
+  "da-pa-checker": {
+    Icon: DomainAuthorityCheckerIcon,
+    iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",
+  },
   "meta-title-description-checker": {
     Icon: MetaCheckerIcon,
     iconContainerClass: "bg-orange-50/60 dark:bg-orange-950/20",

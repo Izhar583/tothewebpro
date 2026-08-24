@@ -82,6 +82,10 @@ const ImageAltChecker = dynamic(
   () => import("@/components/tools/ImageAltChecker").then((m) => m.ImageAltChecker),
   { loading: () => <Spinner label="Loading tool…" /> },
 );
+const DaPaChecker = dynamic(
+  () => import("@/components/tools/DaPaChecker").then((m) => m.DaPaChecker),
+  { loading: () => <Spinner label="Loading tool…" /> },
+);
 
 interface ToolRendererProps {
   slug: string;
@@ -96,6 +100,10 @@ export function ToolRenderer({ slug }: ToolRendererProps) {
   );
 
   switch (slug) {
+    case "free-da-pa-checker":
+    case "domain-authority-checker":
+    case "da-pa-checker":
+      return wrap(<DaPaChecker />);
     case "website-seo-speed-checker":
     case "seo-checker":
       return wrap(<SeoChecker />);

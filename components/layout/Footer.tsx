@@ -172,15 +172,7 @@ export function Footer() {
             <span className="text-slate-800">•</span>
             <span>All rights reserved</span>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-semibold text-emerald-400">All systems operational</span>
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 bg-slate-900/80 border border-slate-800/80 rounded px-2 py-0.5 uppercase tracking-widest">
-              v1.0.5
-            </span>
-          </div>
+         
         </div>
       </div>
     </footer>

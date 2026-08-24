@@ -1032,6 +1032,80 @@ export const TOOLS: ToolDefinition[] = [
     ],
     relatedSlugs: ["website-seo-speed-checker", "meta-title-description-checker", "image-compressor"],
   },
+  {
+    slug: "free-da-pa-checker",
+    name: "Free DA PA Checker",
+    noIndex: true,
+    shortDescription:
+      "Check Domain Authority (DA), Page Authority (PA), Open PageRank, Spam Score, and Backlinks for any website with instant live accuracy.",
+    category: "seo",
+    categoryLabel: "SEO Tools",
+    categoryPath: "/seo-tools",
+    icon: "🛡️",
+    schemaDescription:
+      "Free Domain Authority (DA) and Page Authority (PA) checker with Moz authority scoring, spam score audit, global rank tracking, and backlink metrics. 100% free with instant lookup.",
+    metaTitle: "Free DA PA Checker — Check Domain Authority & Page Authority",
+    metaDescription:
+      "Check Domain Authority (DA), Page Authority (PA), Google-style PageRank, Spam Score, and Global Rank for any website with instant live lookup, free.",
+    howToUseParagraphs: [
+      paragraph(
+        "Enter any website domain or full URL into the input field (e.g., example.com or https://example.com/blog). ",
+        "The tool automatically cleans and normalizes your input to query exact domain-level and page-level metrics.",
+      ),
+      paragraph(
+        "Click 'Check DA / PA Score' to query live Moz and web-graph authority databases. ",
+        "The results panel displays Domain Authority (0–100), Page Authority (0–100), Spam Score (0–100), and Open PageRank (0–10) with animated radial gauges.",
+      ),
+      paragraph(
+        "Review key performance indicators including Global Web Rank, Total External Backlinks, Referring Root Domains, and Search Engine Trust rating.",
+      ),
+      paragraph(
+        "Export the complete breakdown to CSV or copy all metrics in one click for client reporting, outreach filtering, or backlink prospecting.",
+      ),
+    ],
+    whyItMatters: [
+      "Domain Authority (DA) and Page Authority (PA) are foundational metrics for evaluating backlink strength and search competitiveness.",
+      "Accurate Moz DA/PA scores reveal whether a domain has the link equity to compete for high-volume organic search keywords.",
+      "Spam score auditing helps you avoid toxic link partners and protect your site from algorithmic search penalties.",
+      "Total backlink indicators help quantify the external referral footprint supporting your pages.",
+    ],
+    keyFeatures: [
+      "Real-time 0–100 Moz Domain Authority (DA) & Page Authority (PA) calculations",
+      "Total External Backlinks and Referring Root Domains count",
+      "Spam Score risk estimation and trust tier analysis",
+      "0–10 Open PageRank and Global Web Rank integration",
+      "1-click CSV export and instant summary clipboard copying",
+      "100% free with zero registration required",
+    ],
+    faqs: [
+      {
+        question: "What is Domain Authority (DA) and how is it measured?",
+        answer:
+          "Domain Authority (DA) is a search engine ranking score that predicts how likely a website is to rank on search engine results pages (SERPs). Scores range from 1 to 100, with higher scores corresponding to a greater ability to rank. It is calculated using algorithmic signals including root linking domains, total link equity, web graph centrality, and spam indicators.",
+      },
+      {
+        question: "What is the difference between Domain Authority (DA) and Page Authority (PA)?",
+        answer:
+          "Domain Authority (DA) measures the overall ranking strength of an entire root domain or subdomain across all its pages. Page Authority (PA) measures the specific ranking power of an individual page or URL based on internal and external link equity targeted directly to that page.",
+      },
+      {
+        question: "What is considered a good DA score in 2025?",
+        answer:
+          "Because DA is measured on a logarithmic scale, scores between 40 and 60 represent established, authoritative websites. Scores above 60 are considered excellent (usually top industry authorities, universities, and major publications), while scores between 20 and 40 are typical for growing businesses and niche blogs.",
+      },
+      {
+        question: "How can I increase my website's Domain Authority?",
+        answer:
+          "To increase DA, focus on acquiring high-quality contextual backlinks from reputable, high-authority websites in your industry. Clean up toxic spam links, implement a clean internal linking hierarchy, produce original high-value content that attracts organic references, and eliminate broken 404 links.",
+      },
+      {
+        question: "Is this DA PA Checker completely free to use?",
+        answer:
+          "Yes. ToTheWebPro's Free DA PA Checker is 100% free with no subscription, no credit card, and no registration required. You can check individual URLs or perform bulk competitor audits at any time.",
+      },
+    ],
+    relatedSlugs: ["website-seo-speed-checker", "meta-title-description-checker", "pagespeed-performance-audit"],
+  },
 ];
 
 export const TOOL_BY_SLUG: Record<string, ToolDefinition> = Object.fromEntries(

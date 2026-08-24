@@ -861,3 +861,52 @@ export function ImageAltCheckerIcon({ className = "h-6 w-6" }: IconProps) {
     </svg>
   );
 }
+
+export function DomainAuthorityCheckerIcon({ className = "h-6 w-6" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dapa-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+        <linearGradient id="dapa-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#fbbf24" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+        <filter id="dapa-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+      {/* Background shield */}
+      <path
+        d="M24 4L38 10V22C38 31.5 32 39.8 24 44C16 39.8 10 31.5 10 22V10L24 4Z"
+        fill="#ffffff"
+        stroke="url(#dapa-grad-1)"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      {/* Inner Authority Chart Bars */}
+      <rect x="16" y="26" width="3.5" height="8" rx="1.5" fill="url(#dapa-grad-2)" />
+      <rect x="22.25" y="21" width="3.5" height="13" rx="1.5" fill="url(#dapa-grad-1)" />
+      <rect x="28.5" y="16" width="3.5" height="18" rx="1.5" fill="url(#dapa-grad-1)" />
+      {/* Upward Trend Line */}
+      <path
+        d="M16 23L22 17L27 20L33 13"
+        stroke="#ea580c"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Crown / Star of Authority at Top */}
+      <g filter="url(#dapa-glow)">
+        <polygon
+          points="24,8 25.8,12 30,12.5 27,15.2 27.8,19.5 24,17.2 20.2,19.5 21,15.2 18,12.5 22.2,12"
+          fill="url(#dapa-grad-2)"
+        />
+      </g>
+    </svg>
+  );
+}
+

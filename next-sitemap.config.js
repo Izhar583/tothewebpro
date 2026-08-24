@@ -11,5 +11,6 @@ module.exports = {
   exclude: [
     "/api/*",
     "/search",
+    "/tools/free-da-pa-checker",
   ],
 };

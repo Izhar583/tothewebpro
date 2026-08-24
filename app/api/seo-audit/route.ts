@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import * as cheerio from "cheerio";
 import { lookup } from "node:dns/promises";
 
+export const dynamic = "force-dynamic";
+
 // ---------------------------------------------------------------------------
 // Rate limiter — 20 requests per minute per IP
 // ---------------------------------------------------------------------------
