@@ -10,11 +10,8 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
-  ShieldCheck,
   AlertCircle,
-  Sparkles,
   Globe,
-  CheckCircle2,
 } from "lucide-react";
 
 export default function AdminLoginPage() {
