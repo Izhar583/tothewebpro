@@ -42,14 +42,31 @@ export async function POST(request: NextRequest) {
     const uploadsDir = path.join(process.cwd(), "public", "uploads", "blog");
     await fs.mkdir(uploadsDir, { recursive: true });
 
-      const originalName = file.name || "image.png";
-    const ext = path.extname(originalName) || ".png";
-    const baseClean = path
-      .basename(originalName, ext)
+      const mimeToExt: Record<string, string> = {
+      "image/jpeg": ".jpg",
+      "image/png": ".png",
+      "image/webp": ".webp",
+      "image/gif": ".gif",
+      "image/svg+xml": ".svg",
+      "image/avif": ".avif",
+    };
+
+    let ext = path.extname(file.name || "").toLowerCase();
+    if (!ext || ext === ".") {
+      ext = mimeToExt[mimeType] || ".png";
+    }
+
+    let baseClean = path
+      .basename(file.name || "featured-image", ext)
       .toLowerCase()
       .replace(/[^a-z0-9]/g, "-")
       .replace(/-+/g, "-")
-      .slice(0, 40);
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 35);
+
+    if (!baseClean || baseClean === "blob" || baseClean === "image") {
+      baseClean = "featured-image";
+    }
 
     const uniqueName = `${baseClean}-${Date.now()}${ext}`;
     const filePath = path.join(uploadsDir, uniqueName);

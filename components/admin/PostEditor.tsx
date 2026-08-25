@@ -7,17 +7,6 @@ import {
   Save,
   Eye,
   Edit3,
-  Image as ImageIcon,
-  Heading2,
-  Heading3,
-  AlignLeft,
-  List,
-  HelpCircle,
-  Trash2,
-  ArrowUp,
-  ArrowDown,
-  Upload,
-  Plus,
   CheckCircle2,
   AlertCircle,
   ExternalLink,
@@ -28,9 +17,15 @@ import {
   User,
   Tag,
   Folder,
+  HelpCircle,
+  Plus,
+  Trash2,
 } from "lucide-react";
 import { BlogPost, BlogContentBlock, calculateReadTime } from "@/lib/blog-types";
 import { CustomSelect } from "@/components/ui/CustomSelect";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { FaqAccordion } from "@/app/blog/[slug]/FaqAccordion";
+import { FeaturedImageUploader } from "@/components/admin/FeaturedImageUploader";
 
 interface PostEditorProps {
   initialPost?: BlogPost;
@@ -44,6 +39,50 @@ function slugify(text: string): string {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+// Convert legacy content blocks to HTML (excluding faq block if present)
+function blocksToHtml(blocks: BlogContentBlock[]): string {
+  if (!blocks || !Array.isArray(blocks)) return "";
+  return blocks
+    .filter((b) => b.type !== "faq")
+    .map((block) => {
+      switch (block.type) {
+        case "h2":
+          return `<h2 id="${block.id || slugify(block.text)}">${block.text}</h2>`;
+        case "h3":
+          return `<h3 id="${block.id || slugify(block.text)}">${block.text}</h3>`;
+        case "p":
+          return `<p>${block.text}</p>`;
+        case "img":
+          return `<figure class="my-6 block"><img src="${block.url}" alt="${block.alt || ""}" class="w-full rounded-2xl" />${
+            block.caption
+              ? `<figcaption class="text-center text-xs text-slate-500 mt-2">${block.caption}</figcaption>`
+              : ""
+          }</figure>`;
+        case "ul":
+          return `<ul>${block.items.map((it) => `<li>${it}</li>`).join("")}</ul>`;
+        default:
+          return "";
+      }
+    })
+    .join("\n");
+}
+
+function extractHeadingsFromHtml(html: string): { type: "h2" | "h3"; text: string; id: string }[] {
+  if (!html) return [];
+  const headings: { type: "h2" | "h3"; text: string; id: string }[] = [];
+  const regex = /<(h[23])[^>]*id=["']([^"']*)["'][^>]*>(.*?)<\/\1>|<(h[23])[^>]*>(.*?)<\/\4>/gi;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const tag = (match[1] || match[4]).toLowerCase() as "h2" | "h3";
+    const rawText = (match[3] || match[5] || "").replace(/<[^>]*>?/gm, "").trim();
+    const id = match[2] || slugify(rawText);
+    if (rawText) {
+      headings.push({ type: tag, text: rawText, id });
+    }
+  }
+  return headings;
 }
 
 const DEFAULT_CATEGORIES = [
@@ -95,32 +134,34 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   );
   const [serpView, setSerpView] = useState<"desktop" | "mobile">("desktop");
 
-  const [content, setContent] = useState<BlogContentBlock[]>(
-    initialPost?.content || [
+  const [htmlContent, setHtmlContent] = useState<string>(() => {
+    if (initialPost?.htmlContent) return initialPost.htmlContent;
+    if (initialPost?.content && initialPost.content.length > 0) {
+      return blocksToHtml(initialPost.content);
+    }
+    return `<h2>Introduction</h2><p>Write or paste your article content here. Headings, bold text, links, and lists will automatically format...</p>`;
+  });
+
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>(() => {
+    if (initialPost?.faqs && Array.isArray(initialPost.faqs) && initialPost.faqs.length > 0) {
+      return initialPost.faqs;
+    }
+    if (initialPost?.content) {
+      const faqBlock = initialPost.content.find((b) => b.type === "faq");
+      if (faqBlock && "items" in faqBlock && Array.isArray(faqBlock.items)) {
+        return faqBlock.items;
+      }
+    }
+    return [
       {
-        type: "h2",
-        text: "Introduction",
-        id: "introduction",
+        question: "What is this guide about?",
+        answer: "This is an actionable FAQ answer explaining the core takeaway.",
       },
-      {
-        type: "p",
-        text: "Write your introductory paragraph here. You can include <b>bold text</b>, links, or formatting.",
-      },
-      {
-        type: "faq",
-        items: [
-          {
-            question: "What is this guide about?",
-            answer: "This is an actionable FAQ answer.",
-          },
-        ],
-      },
-    ]
-  );
+    ];
+  });
 
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [saving, setSaving] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [toast, setToast] = useState<{
     type: "success" | "error";
     message: string;
@@ -136,9 +177,9 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   }, [title, isNew, isSlugCustom, initialPost?.title, metaTitle]);
 
   useEffect(() => {
-    const calculated = calculateReadTime(content);
+    const calculated = calculateReadTime(htmlContent);
     setReadMinutes(calculated);
-  }, [content]);
+  }, [htmlContent]);
 
   useEffect(() => {
     if (toast) {
@@ -163,117 +204,26 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-  const handleAddBlock = (type: BlogContentBlock["type"]) => {
-    let newBlock: BlogContentBlock;
-
-    switch (type) {
-      case "h2":
-        newBlock = {
-          type: "h2",
-          text: "New Section Heading",
-          id: slugify("New Section Heading"),
-        };
-        break;
-      case "h3":
-        newBlock = {
-          type: "h3",
-          text: "New Sub-Heading",
-          id: slugify("New Sub-Heading"),
-        };
-        break;
-      case "p":
-        newBlock = {
-          type: "p",
-          text: "Write your paragraph here...",
-        };
-        break;
-      case "img":
-        newBlock = {
-          type: "img",
-          url: "/blog/3blog-1.webp",
-          alt: "Image description",
-          caption: "Image caption",
-        };
-        break;
-      case "ul":
-        newBlock = {
-          type: "ul",
-          items: ["Key takeaway or list item 1", "List item 2"],
-        };
-        break;
-      case "faq":
-        newBlock = {
-          type: "faq",
-          items: [
-            {
-              question: "Frequently Asked Question?",
-              answer: "Detailed answer goes here.",
-            },
-          ],
-        };
-        break;
-      default:
-        newBlock = { type: "p", text: "Text here..." };
-    }
-
-    setContent([...content, newBlock]);
+  // FAQ helpers
+  const handleAddFaq = () => {
+    setFaqs([...faqs, { question: "", answer: "" }]);
   };
 
-  const handleUpdateBlock = (index: number, updatedBlock: BlogContentBlock) => {
-    const updated = [...content];
-    updated[index] = updatedBlock;
-    setContent(updated);
+  const handleUpdateFaq = (
+    index: number,
+    field: "question" | "answer",
+    value: string
+  ) => {
+    const updated = [...faqs];
+    updated[index] = { ...updated[index], [field]: value };
+    setFaqs(updated);
   };
 
-  const handleDeleteBlock = (index: number) => {
-    setContent(content.filter((_, i) => i !== index));
-  };
-
-  const handleMoveBlock = (index: number, direction: "up" | "down") => {
-    const targetIndex = direction === "up" ? index - 1 : index + 1;
-    if (targetIndex < 0 || targetIndex >= content.length) return;
-
-    const copy = [...content];
-    const temp = copy[index];
-    copy[index] = copy[targetIndex];
-    copy[targetIndex] = temp;
-    setContent(copy);
+  const handleRemoveFaq = (index: number) => {
+    setFaqs(faqs.filter((_, i) => i !== index));
   };
 
   // Image upload handler
-  const handleImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    onSuccess: (url: string) => void
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploadingImage(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Image upload failed");
-      }
-
-      onSuccess(data.url);
-      setToast({ type: "success", message: "Image uploaded successfully!" });
-    } catch (err: unknown) {
-      console.error(err);
-      const msg = err instanceof Error ? err.message : "Failed to upload image";
-      setToast({ type: "error", message: msg });
-    } finally {
-      setUploadingImage(false);
-      e.target.value = "";
-    }
-  };
 
   const handleSave = async (explicitStatus?: "published" | "draft") => {
     const targetStatus = explicitStatus || status;
@@ -291,6 +241,8 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
 
     setSaving(true);
 
+    const validFaqs = faqs.filter((f) => f.question.trim() || f.answer.trim());
+
     const payload: Partial<BlogPost> = {
       title: title.trim(),
       slug: cleanSlug,
@@ -301,11 +253,12 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
       category,
       tags,
       featureImage,
-      readMinutes: Number(readMinutes) || 5,
+      readMinutes: Number(readMinutes) || calculateReadTime(htmlContent),
       metaTitle: metaTitle.trim() || title.trim(),
       metaDescription: metaDescription.trim() || excerpt.trim() || title.trim(),
       focusKeyword: focusKeyword.trim(),
-      content,
+      htmlContent,
+      faqs: validFaqs,
     };
 
     try {
@@ -353,6 +306,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
       setSaving(false);
     }
   };
+
   const titleLength = metaTitle.length;
   const descLength = metaDescription.length;
   const keywordInTitle = focusKeyword
@@ -361,6 +315,9 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   const keywordInDesc = focusKeyword
     ? metaDescription.toLowerCase().includes(focusKeyword.toLowerCase())
     : true;
+
+  const previewToc = extractHeadingsFromHtml(htmlContent);
+  const activePreviewFaqs = faqs.filter((f) => f.question.trim());
 
   return (
     <div className="min-h-screen bg-slate-100/60 pb-20">
@@ -381,6 +338,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
         </div>
       )}
 
+      {/* Sticky Header Nav */}
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -410,7 +368,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 onClick={() => setViewMode("edit")}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
                   viewMode === "edit"
-                    ? "bg-white text-slate-900 shadow-sm"
+                    ? "bg-white text-slate-900 shadow-xs"
                     : "text-slate-500 hover:text-slate-900"
                 }`}
               >
@@ -422,7 +380,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 onClick={() => setViewMode("preview")}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
                   viewMode === "preview"
-                    ? "bg-white text-orange-600 shadow-sm"
+                    ? "bg-white text-orange-600 shadow-xs"
                     : "text-slate-500 hover:text-slate-900"
                 }`}
               >
@@ -472,6 +430,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
           </div>
         </div>
       </div>
+
       <div className="max-w-9xl mx-auto px-4 sm:px-6 pt-8">
         {viewMode === "preview" ? (
           <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
@@ -506,7 +465,9 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   {title || "Untitled Post"}
                 </h1>
                 <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300 text-sm font-medium">
-                  <span>By <strong className="text-white">{author}</strong></span>
+                  <span>
+                    By <strong className="text-white">{author}</strong>
+                  </span>
                   <span>•</span>
                   <span>{date}</span>
                   <span>•</span>
@@ -514,102 +475,23 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 </div>
               </div>
             </div>
-            <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+            <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-8">
               <div className="flex-1 min-w-0">
                 {excerpt && (
                   <p className="text-xl text-slate-600 leading-relaxed font-medium mb-8 p-6 bg-orange-50/60 rounded-2xl border border-orange-100">
                     {excerpt}
                   </p>
                 )}
-                <div className="space-y-6">
-                  {content.map((block, idx) => {
-                    switch (block.type) {
-                      case "h2":
-                        return (
-                          <h2
-                            key={idx}
-                            id={block.id}
-                            className="text-2xl md:text-3xl font-bold text-slate-900 mt-10 mb-4 pt-4 border-t border-slate-100"
-                          >
-                            {block.text}
-                          </h2>
-                        );
-                      case "h3":
-                        return (
-                          <h3
-                            key={idx}
-                            id={block.id}
-                            className="text-xl md:text-2xl font-bold text-slate-900 mt-6 mb-3"
-                          >
-                            {block.text}
-                          </h3>
-                        );
-                      case "p":
-                        return (
-                          <p
-                            key={idx}
-                            className="text-lg text-slate-700 leading-relaxed"
-                            dangerouslySetInnerHTML={{ __html: block.text }}
-                          />
-                        );
-                      case "img":
-                        return (
-                          <figure
-                            key={idx}
-                            className="my-8 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200"
-                          >
-                            <div className="relative w-full aspect-video">
-                              <Image
-                                src={block.url}
-                                alt={block.alt || "Image"}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            {block.caption && (
-                              <figcaption className="bg-slate-50 text-slate-500 text-sm p-3 text-center border-t border-slate-200">
-                                {block.caption}
-                              </figcaption>
-                            )}
-                          </figure>
-                        );
-                      case "ul":
-                        return (
-                          <ul
-                            key={idx}
-                            className="list-disc pl-6 space-y-2 text-lg text-slate-700 my-4"
-                          >
-                            {block.items.map((it, i) => (
-                              <li key={i}>{it}</li>
-                            ))}
-                          </ul>
-                        );
-                      case "faq":
-                        return (
-                          <div key={idx} className="my-10 space-y-4">
-                            <h3 className="text-xl font-bold text-slate-900 mb-4">
-                              Frequently Asked Questions
-                            </h3>
-                            {block.items.map((item, i) => (
-                              <div
-                                key={i}
-                                className="border border-slate-200 rounded-2xl p-5 bg-slate-50"
-                              >
-                                <div className="font-bold text-slate-900 text-base mb-2">
-                                  {item.question}
-                                </div>
-                                <div className="text-slate-600 text-sm leading-relaxed">
-                                  {item.answer}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        );
-                      default:
-                        return null;
-                    }
-                  })}
-                </div>
+                <div
+                  className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-lg prose-p:leading-relaxed prose-p:text-slate-700 prose-p:mb-6 prose-a:text-blue-600 prose-a:font-semibold prose-a:underline hover:prose-a:text-blue-800 prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 prose-img:shadow-sm prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-lg prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-slate-200 prose-th:bg-slate-50 prose-th:p-3 prose-td:border prose-td:border-slate-200 prose-td:p-3"
+                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+                />
+
+                {activePreviewFaqs.length > 0 && (
+                  <div className="mt-12 pt-8 border-t border-slate-200">
+                    <FaqAccordion items={activePreviewFaqs} />
+                  </div>
+                )}
               </div>
 
               <aside className="w-full lg:w-80 space-y-6">
@@ -618,30 +500,28 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     Table of Contents
                   </h4>
                   <div className="space-y-2 text-sm text-slate-600">
-                    {content
-                      .filter(
-                        (b): b is { type: "h2" | "h3"; text: string; id: string } =>
-                          b.type === "h2" || b.type === "h3"
-                      )
-                      .map((b, i) => (
-                        <div
-                          key={i}
-                          className={`${
-                            b.type === "h3"
-                              ? "pl-4 text-slate-500 text-xs"
-                              : "font-semibold text-slate-800"
-                          }`}
-                        >
-                          {b.text}
-                        </div>
-                      ))}
+                    {previewToc.map((b, i) => (
+                      <div
+                        key={i}
+                        className={`${
+                          b.type === "h3"
+                            ? "pl-4 text-slate-500 text-xs"
+                            : "font-semibold text-slate-800"
+                        }`}
+                      >
+                        {b.text}
+                      </div>
+                    ))}
+                    {previewToc.length === 0 && (
+                      <p className="text-xs text-slate-400">
+                        Add H2 or H3 headings in your article to see the table of contents.
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
-                  <h4 className="font-bold text-slate-900 mb-3 text-sm">
-                    Tags
-                  </h4>
+                  <h4 className="font-bold text-slate-900 mb-3 text-sm">Tags</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {tags.map((t) => (
                       <span
@@ -657,8 +537,10 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-8 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            {/* Left Main Content Column */}
+            <div className="lg:col-span-8 space-y-5">
+              {/* Title Card */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                   Post Title
@@ -698,6 +580,8 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   )}
                 </div>
               </div>
+
+              {/* Excerpt Card */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -716,382 +600,104 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                 />
               </div>
 
-              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center justify-between mb-6">
+              {/* Rich Text CKEditor Card */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Article Description &amp; Content
+                  </label>
+          
+                </div>
+
+                <RichTextEditor
+                  value={htmlContent}
+                  onChange={setHtmlContent}
+                  placeholder="Type or paste your article here... Headings, lists, bold text, and links will auto-detect."
+                  minHeight="520px"
+                />
+              </div>
+
+              {/* FAQ Accordions Section */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900">
-                      Article Content Blocks
-                    </h3>
-                    <p className="text-xs text-slate-500 font-medium mt-0.5">
-                      Build your article structure using modular headings, paragraphs, images, and FAQs.
+                    <div className="flex items-center gap-2">
+                      <HelpCircle className="text-orange-600" size={20} />
+                      <h3 className="text-lg font-bold text-slate-900">
+                        Frequently Asked Questions (FAQ Section)
+                      </h3>
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium mt-1">
+                      Add interactive Q&amp;A accordions. These render as expand/collapse accordions and generate Google FAQ Schema.
                     </p>
                   </div>
                   <span className="text-xs font-bold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-100">
-                    {content.length} Blocks
+                    {faqs.length} FAQs
                   </span>
                 </div>
+
                 <div className="space-y-4">
-                  {content.map((block, index) => (
+                  {faqs.map((faq, index) => (
                     <div
                       key={index}
-                      className="group relative border border-slate-200 rounded-2xl bg-white p-5 hover:border-orange-200 hover:shadow-sm transition-all"
+                      className="p-5 bg-slate-50/80 rounded-2xl border border-slate-200 space-y-3 relative group hover:border-orange-200 hover:bg-white transition-all"
                     >
-                      <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 text-xs">
-                        <div className="flex items-center gap-2 font-bold text-slate-500">
-                          <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center text-[10px]">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                          <span className="w-5 h-5 rounded-md bg-orange-100 text-orange-700 flex items-center justify-center text-[10px] font-extrabold">
                             {index + 1}
                           </span>
-                          <span className="uppercase text-[11px] tracking-wider text-orange-600">
-                            {block.type === "h2"
-                              ? "Heading 2"
-                              : block.type === "h3"
-                              ? "Heading 3"
-                              : block.type === "p"
-                              ? "Paragraph"
-                              : block.type === "img"
-                              ? "Image"
-                              : block.type === "ul"
-                              ? "Bullet List"
-                              : block.type === "faq"
-                              ? "FAQ Accordion"
-                              : "Custom Block"}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-1">
+                          <span>Question #{index + 1}</span>
+                        </span>
+                        {faqs.length > 1 && (
                           <button
                             type="button"
-                            onClick={() => handleMoveBlock(index, "up")}
-                            disabled={index === 0}
-                            title="Move Block Up"
-                            className="p-1 text-slate-400 hover:text-slate-700 disabled:opacity-30 rounded hover:bg-slate-100"
+                            onClick={() => handleRemoveFaq(index)}
+                            className="text-xs font-bold text-rose-500 hover:text-rose-700 flex items-center gap-1 hover:bg-rose-50 px-2 py-1 rounded-lg transition-colors"
                           >
-                            <ArrowUp size={14} />
+                            <Trash2 size={12} />
+                            <span>Remove</span>
                           </button>
-                          <button
-                            type="button"
-                            onClick={() => handleMoveBlock(index, "down")}
-                            disabled={index === content.length - 1}
-                            title="Move Block Down"
-                            className="p-1 text-slate-400 hover:text-slate-700 disabled:opacity-30 rounded hover:bg-slate-100"
-                          >
-                            <ArrowDown size={14} />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteBlock(index)}
-                            title="Delete Block"
-                            className="p-1 text-slate-400 hover:text-rose-600 rounded hover:bg-rose-50 ml-1"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </div>
+                        )}
                       </div>
-                      {block.type === "h2" && (
-                        <div className="space-y-2">
-                          <input
-                            type="text"
-                            value={block.text}
-                            onChange={(e) =>
-                              handleUpdateBlock(index, {
-                                ...block,
-                                text: e.target.value,
-                                id: slugify(e.target.value),
-                              })
-                            }
-                            placeholder="Enter Section Heading (H2)..."
-                            className="w-full text-lg font-bold text-slate-900 border border-slate-200 rounded-xl px-3.5 py-2 focus:border-orange-500 outline-none"
-                          />
-                          <div className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
-                            <span>Anchor ID:</span>
-                            <span className="font-mono text-slate-600">#{block.id}</span>
-                          </div>
-                        </div>
-                      )}
 
-                      {block.type === "h3" && (
-                        <div className="space-y-2">
-                          <input
-                            type="text"
-                            value={block.text}
-                            onChange={(e) =>
-                              handleUpdateBlock(index, {
-                                ...block,
-                                text: e.target.value,
-                                id: slugify(e.target.value),
-                              })
-                            }
-                            placeholder="Enter Sub-Heading (H3)..."
-                            className="w-full text-base font-bold text-slate-800 border border-slate-200 rounded-xl px-3.5 py-2 focus:border-orange-500 outline-none"
-                          />
-                          <div className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
-                            <span>Anchor ID:</span>
-                            <span className="font-mono text-slate-600">#{block.id}</span>
-                          </div>
-                        </div>
-                      )}
+                      <input
+                        type="text"
+                        value={faq.question}
+                        onChange={(e) =>
+                          handleUpdateFaq(index, "question", e.target.value)
+                        }
+                        placeholder="e.g. How does this tool optimize meta titles?"
+                        className="w-full text-sm font-bold border border-slate-200 rounded-xl px-3.5 py-2 focus:border-orange-500 outline-none bg-white"
+                      />
 
-                      {block.type === "p" && (
-                        <div>
-                          <textarea
-                            rows={4}
-                            value={block.text}
-                            onChange={(e) =>
-                              handleUpdateBlock(index, {
-                                ...block,
-                                text: e.target.value,
-                              })
-                            }
-                            placeholder="Write your paragraph here. You can use <b>bold</b>, <i>italic</i>, and <a href='...'>links</a>..."
-                            className="w-full text-sm text-slate-700 leading-relaxed border border-slate-200 rounded-xl p-3.5 focus:border-orange-500 outline-none"
-                          />
-                        </div>
-                      )}
-
-                      {block.type === "img" && (
-                        <div className="space-y-3">
-                          <div className="flex flex-col sm:flex-row gap-3 items-center">
-                            <input
-                              type="text"
-                              value={block.url}
-                              onChange={(e) =>
-                                handleUpdateBlock(index, {
-                                  ...block,
-                                  url: e.target.value,
-                                })
-                              }
-                              placeholder="Image URL (e.g. /blog/image.webp or https://...)"
-                              className="flex-1 w-full text-xs border border-slate-200 rounded-xl px-3 py-2 focus:border-orange-500 outline-none"
-                            />
-                            <label className="shrink-0 cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-colors">
-                              <Upload size={14} />
-                              <span>{uploadingImage ? "Uploading..." : "Upload"}</span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) =>
-                                  handleImageUpload(e, (url) => {
-                                    handleUpdateBlock(index, { ...block, url });
-                                  })
-                                }
-                              />
-                            </label>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <input
-                              type="text"
-                              value={block.alt}
-                              onChange={(e) =>
-                                handleUpdateBlock(index, {
-                                  ...block,
-                                  alt: e.target.value,
-                                })
-                              }
-                              placeholder="Alt text for SEO..."
-                              className="text-xs border border-slate-200 rounded-xl px-3 py-1.5 focus:border-orange-500 outline-none"
-                            />
-                            <input
-                              type="text"
-                              value={block.caption || ""}
-                              onChange={(e) =>
-                                handleUpdateBlock(index, {
-                                  ...block,
-                                  caption: e.target.value,
-                                })
-                              }
-                              placeholder="Optional caption..."
-                              className="text-xs border border-slate-200 rounded-xl px-3 py-1.5 focus:border-orange-500 outline-none"
-                            />
-                          </div>
-
-                          {block.url && (
-                            <div className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
-                              <Image
-                                src={block.url}
-                                alt={block.alt || "Preview"}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {block.type === "ul" && (
-                        <div className="space-y-2">
-                          <label className="text-[11px] font-bold text-slate-400">
-                            Bullet Points (One per line)
-                          </label>
-                          <textarea
-                            rows={4}
-                            value={block.items.join("\n")}
-                            onChange={(e) =>
-                              handleUpdateBlock(index, {
-                                ...block,
-                                items: e.target.value.split("\n"),
-                              })
-                            }
-                            placeholder="Point 1&#10;Point 2&#10;Point 3"
-                            className="w-full text-sm text-slate-700 leading-relaxed border border-slate-200 rounded-xl p-3 focus:border-orange-500 outline-none"
-                          />
-                        </div>
-                      )}
-
-                      {block.type === "faq" && (
-                        <div className="space-y-4">
-                          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                            FAQ Items (Schema Ready)
-                          </div>
-                          {block.items.map((faqItem, fIdx) => (
-                            <div
-                              key={fIdx}
-                              className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs font-bold text-slate-600">
-                                  FAQ #{fIdx + 1}
-                                </span>
-                                {block.items.length > 1 && (
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const updatedFaqs = block.items.filter(
-                                        (_, i) => i !== fIdx
-                                      );
-                                      handleUpdateBlock(index, {
-                                        ...block,
-                                        items: updatedFaqs,
-                                      });
-                                    }}
-                                    className="text-rose-500 hover:text-rose-700 text-xs font-semibold"
-                                  >
-                                    Remove
-                                  </button>
-                                )}
-                              </div>
-                              <input
-                                type="text"
-                                value={faqItem.question}
-                                onChange={(e) => {
-                                  const updatedFaqs = [...block.items];
-                                  updatedFaqs[fIdx] = {
-                                    ...updatedFaqs[fIdx],
-                                    question: e.target.value,
-                                  };
-                                  handleUpdateBlock(index, {
-                                    ...block,
-                                    items: updatedFaqs,
-                                  });
-                                }}
-                                placeholder="Question (e.g. What is meta title length?)"
-                                className="w-full text-xs font-bold border border-slate-200 rounded-lg px-3 py-1.5 focus:border-orange-500 outline-none bg-white"
-                              />
-                              <textarea
-                                rows={2}
-                                value={faqItem.answer}
-                                onChange={(e) => {
-                                  const updatedFaqs = [...block.items];
-                                  updatedFaqs[fIdx] = {
-                                    ...updatedFaqs[fIdx],
-                                    answer: e.target.value,
-                                  };
-                                  handleUpdateBlock(index, {
-                                    ...block,
-                                    items: updatedFaqs,
-                                  });
-                                }}
-                                placeholder="Answer..."
-                                className="w-full text-xs border border-slate-200 rounded-lg px-3 py-1.5 focus:border-orange-500 outline-none bg-white"
-                              />
-                            </div>
-                          ))}
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              handleUpdateBlock(index, {
-                                ...block,
-                                items: [
-                                  ...block.items,
-                                  {
-                                    question: "New Question",
-                                    answer: "New Answer",
-                                  },
-                                ],
-                              });
-                            }}
-                            className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1"
-                          >
-                            <Plus size={13} />
-                            <span>Add Another FAQ Question</span>
-                          </button>
-                        </div>
-                      )}
+                      <textarea
+                        rows={3}
+                        value={faq.answer}
+                        onChange={(e) =>
+                          handleUpdateFaq(index, "answer", e.target.value)
+                        }
+                        placeholder="Write a clear, concise answer..."
+                        className="w-full text-sm border border-slate-200 rounded-xl p-3.5 focus:border-orange-500 outline-none bg-white leading-relaxed text-slate-700"
+                      />
                     </div>
                   ))}
-                </div>
 
-                <div className="mt-8 pt-6 border-t border-slate-100">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-                    + Add New Block
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("h2")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <Heading2 size={14} />
-                      <span>Heading 2</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("h3")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <Heading3 size={14} />
-                      <span>Heading 3</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("p")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <AlignLeft size={14} />
-                      <span>Paragraph</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("img")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <ImageIcon size={14} />
-                      <span>Image</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("ul")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <List size={14} />
-                      <span>Bullet List</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAddBlock("faq")}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-orange-600 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
-                    >
-                      <HelpCircle size={14} />
-                      <span>FAQ Accordion</span>
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddFaq}
+                    className="w-full py-3 border-2 border-dashed border-slate-200 hover:border-orange-500 hover:bg-orange-50/30 text-orange-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <Plus size={15} />
+                    <span>Add Another FAQ Question</span>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-4 space-y-6">
+            {/* Right Sidebar Column */}
+            <div className="lg:col-span-4 space-y-5">
+              {/* Publish Settings */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Publish Settings</span>
@@ -1132,6 +738,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     size="sm"
                   />
                 </div>
+
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <Calendar size={13} />
@@ -1158,6 +765,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     className="w-full text-xs font-bold border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none"
                   />
                 </div>
+
                 <div>
                   <label className="block text-xs font-bold text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <Clock size={13} />
@@ -1178,74 +786,15 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-                <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
-                  <span>Featured Image</span>
-                  <ImageIcon size={16} className="text-slate-400" />
-                </div>
 
-                {featureImage ? (
-                  <div className="space-y-3">
-                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
-                      <Image
-                        src={featureImage}
-                        alt="Featured Preview"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex items-center justify-between gap-2">
-                      <input
-                        type="text"
-                        value={featureImage}
-                        onChange={(e) => setFeatureImage(e.target.value)}
-                        placeholder="Image URL..."
-                        className="flex-1 text-[11px] border border-slate-200 rounded-lg px-2 py-1 font-mono text-slate-600 outline-none"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setFeatureImage("")}
-                        className="text-xs text-rose-600 font-bold hover:underline"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center hover:border-orange-300 transition-colors">
-                    <ImageIcon size={28} className="mx-auto text-slate-300 mb-2" />
-                    <p className="text-xs text-slate-500 font-medium mb-3">
-                      No featured image selected
-                    </p>
-                    <label className="cursor-pointer inline-flex items-center gap-1.5 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs font-bold transition-colors shadow-sm shadow-orange-600/20">
-                      <Upload size={13} />
-                      <span>{uploadingImage ? "Uploading..." : "Upload Image"}</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) =>
-                          handleImageUpload(e, (url) => setFeatureImage(url))
-                        }
-                      />
-                    </label>
-                  </div>
-                )}
+              {/* Featured Image */}
+              <FeaturedImageUploader
+                value={featureImage}
+                onChange={setFeatureImage}
+                onToast={setToast}
+              />
 
-                {featureImage && (
-                  <label className="block text-center cursor-pointer text-xs font-bold text-orange-600 hover:text-orange-700 bg-orange-50 py-2 rounded-xl border border-orange-100">
-                    <span>{uploadingImage ? "Uploading..." : "Replace with new upload"}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) =>
-                        handleImageUpload(e, (url) => setFeatureImage(url))
-                      }
-                    />
-                  </label>
-                )}
-              </div>
+              {/* Category & Tags */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Category &amp; Tags</span>
@@ -1299,6 +848,8 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                   </div>
                 </div>
               </div>
+
+              {/* SEO Snippet & Meta Settings */}
               <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                 <div className="font-extrabold text-slate-900 text-base pb-3 border-b border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -1381,6 +932,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     </div>
                   )}
                 </div>
+
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1.5">
                     <span>SEO Meta Title</span>
@@ -1416,6 +968,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
                     />
                   </div>
                 </div>
+
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1.5">
                     <span>SEO Meta Description</span>

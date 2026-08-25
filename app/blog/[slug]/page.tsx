@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getAllPosts, getPostBySlug, BlogContentBlock } from "@/lib/blog-service";
 import { FaqAccordion } from "./FaqAccordion";
+import * as cheerio from "cheerio";
 
 export const dynamic = "force-dynamic";
 
@@ -127,6 +128,40 @@ function RenderBlock({ block }: { block: BlogContentBlock }) {
   }
 }
 
+function processHtmlAndToc(html: string) {
+  try {
+    const $ = cheerio.load(html);
+    const toc: { type: "h2" | "h3"; text: string; id: string }[] = [];
+
+    $("h2, h3").each((i, el) => {
+      const $el = $(el);
+      const tagName = (
+        el.tagName ? el.tagName.toLowerCase() : "h2"
+      ) as "h2" | "h3";
+      const text = $el.text().trim();
+      if (!text) return;
+
+      let id = $el.attr("id");
+      if (!id) {
+        id = text
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        $el.attr("id", id || `section-${i + 1}`);
+      }
+      toc.push({ type: tagName, text, id: id || `section-${i + 1}` });
+    });
+
+    return {
+      processedHtml: $("body").html() || html,
+      toc,
+    };
+  } catch {
+    return { processedHtml: html, toc: [] };
+  }
+}
+
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = await getPostBySlug(params.slug, true);
   if (!post) {
@@ -138,10 +173,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     .filter((p) => p.slug !== post.slug)
     .slice(0, 2);
 
-  const toc = (post.content || []).filter(
-    (b): b is { type: "h2" | "h3"; text: string; id: string } =>
-      b.type === "h2" || b.type === "h3"
-  );
+  let processedHtml = "";
+  let toc: { type: "h2" | "h3"; text: string; id: string }[] = [];
+
+  if (post.htmlContent && post.htmlContent.trim()) {
+    const res = processHtmlAndToc(post.htmlContent);
+    processedHtml = res.processedHtml;
+    toc = res.toc;
+  } else if (post.content && Array.isArray(post.content)) {
+    toc = post.content.filter(
+      (b): b is { type: "h2" | "h3"; text: string; id: string } =>
+        b.type === "h2" || b.type === "h3"
+    );
+  }
 
   return (
     <div className="bg-white min-h-screen w-full pb-20">
@@ -191,11 +235,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 flex flex-col lg:flex-row gap-12 items-start">
         <article className="flex-1 w-full min-w-0 lg:max-w-[820px] xl:max-w-[860px]">
-          <div className="prose prose-slate max-w-none">
-            {post.content.map((block, index) => (
-              <RenderBlock key={index} block={block} />
-            ))}
-          </div>
+          {processedHtml ? (
+            <div
+              className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-h2:text-2xl md:prose-h2:3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-lg prose-p:leading-relaxed prose-p:text-slate-700 prose-p:mb-6 prose-a:text-blue-600 prose-a:font-semibold prose-a:underline hover:prose-a:text-blue-800 prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 prose-img:shadow-sm prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-lg prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-slate-200 prose-th:bg-slate-50 prose-th:p-3 prose-td:border prose-td:border-slate-200 prose-td:p-3"
+              dangerouslySetInnerHTML={{ __html: processedHtml }}
+            />
+          ) : post.content && post.content.length > 0 ? (
+            <div className="prose prose-slate max-w-none">
+              {post.content.map((block, index) => (
+                <RenderBlock key={index} block={block} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-slate-400">No content available for this post.</p>
+          )}
+
+          {post.faqs && post.faqs.length > 0 && (
+            <FaqAccordion items={post.faqs} />
+          )}
         </article>
         <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-24 space-y-8">
           <div className="bg-slate-50 rounded-2xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-100">

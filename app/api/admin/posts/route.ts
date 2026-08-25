@@ -55,6 +55,8 @@ export async function POST(request: NextRequest) {
       metaDescription: body.metaDescription || body.excerpt,
       focusKeyword: body.focusKeyword || "",
       content: Array.isArray(body.content) ? body.content : [],
+      htmlContent: typeof body.htmlContent === "string" ? body.htmlContent : "",
+      faqs: Array.isArray(body.faqs) ? body.faqs : [],
     });
 
     return NextResponse.json({ success: true, post: created }, { status: 201 });

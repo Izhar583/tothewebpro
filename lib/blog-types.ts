@@ -20,36 +20,52 @@ export interface BlogPost {
   metaTitle?: string;
   metaDescription?: string;
   focusKeyword?: string;
-  content: BlogContentBlock[];
+  content?: BlogContentBlock[];
+  htmlContent?: string;
+  faqs?: { question: string; answer: string }[];
   updatedAt?: string;
 }
 
 /**
- * Helper to calculate reading time in minutes from content blocks
+ * Helper to calculate reading time in minutes from content blocks or HTML string
  */
-export function calculateReadTime(content: BlogContentBlock[]): number {
-  if (!content || !Array.isArray(content)) return 3;
+export function calculateReadTime(
+  contentOrHtml: BlogContentBlock[] | string | undefined
+): number {
+  if (!contentOrHtml) return 3;
 
-  let totalWords = 0;
-  for (const block of content) {
-    if ("text" in block && typeof block.text === "string") {
-      // Strip HTML tags
-      const clean = block.text.replace(/<[^>]*>?/gm, " ");
-      totalWords += clean.trim().split(/\s+/).filter(Boolean).length;
-    } else if (block.type === "ul") {
-      for (const item of block.items) {
-        totalWords += item.trim().split(/\s+/).filter(Boolean).length;
-      }
-    } else if (block.type === "faq") {
-      for (const item of block.items) {
-        totalWords += (item.question + " " + item.answer)
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean).length;
-      }
-    }
+  if (typeof contentOrHtml === "string") {
+    // Strip HTML tags and entities
+    const clean = contentOrHtml
+      .replace(/<[^>]*>?/gm, " ")
+      .replace(/&[a-z0-9#]+;/gi, " ");
+    const words = clean.trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.ceil(words / 200);
+    return Math.max(1, minutes);
   }
 
-  const minutes = Math.ceil(totalWords / 200);
-  return Math.max(1, minutes);
+  if (Array.isArray(contentOrHtml)) {
+    let totalWords = 0;
+    for (const block of contentOrHtml) {
+      if ("text" in block && typeof block.text === "string") {
+        const clean = block.text.replace(/<[^>]*>?/gm, " ");
+        totalWords += clean.trim().split(/\s+/).filter(Boolean).length;
+      } else if (block.type === "ul") {
+        for (const item of block.items) {
+          totalWords += item.trim().split(/\s+/).filter(Boolean).length;
+        }
+      } else if (block.type === "faq") {
+        for (const item of block.items) {
+          totalWords += (item.question + " " + item.answer)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean).length;
+        }
+      }
+    }
+    const minutes = Math.ceil(totalWords / 200);
+    return Math.max(1, minutes);
+  }
+
+  return 3;
 }

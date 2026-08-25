@@ -124,7 +124,9 @@ export async function createPost(
     ...newPost,
     status: newPost.status || "published",
     updatedAt: newPost.updatedAt || new Date().toISOString().split("T")[0],
-    readMinutes: newPost.readMinutes || calculateReadTime(newPost.content),
+    readMinutes:
+      newPost.readMinutes ||
+      calculateReadTime(newPost.htmlContent || newPost.content),
   };
 
   // Add to top of list
@@ -172,8 +174,10 @@ export async function updatePost(
     updatedAt: new Date().toISOString().split("T")[0],
   };
 
-  if (updatedData.content && !updatedData.readMinutes) {
-    merged.readMinutes = calculateReadTime(updatedData.content);
+  if ((updatedData.htmlContent || updatedData.content) && !updatedData.readMinutes) {
+    merged.readMinutes = calculateReadTime(
+      updatedData.htmlContent || updatedData.content
+    );
   }
 
   posts[index] = merged;
