@@ -290,7 +290,7 @@
     ],
     "status": "published",
     "author": "Izhar Ul Haq",
-    "category": "SEO Guides",
+    "category": "SEO Blogs",
     "tags": [
       "SEO",
       "Web Optimization",
@@ -466,7 +466,7 @@
     ],
     "status": "published",
     "author": "ToTheWebPro Team",
-    "category": "SEO & CTR",
+    "category": "SEO Blogs",
     "tags": [
       "SEO",
       "Web Optimization",
@@ -687,7 +687,7 @@
     ],
     "status": "published",
     "author": "Izhar Ul Haq",
-    "category": "SEO Guides",
+    "category": "SEO Blogs",
     "tags": [
       "SEO",
       "Web Optimization",
@@ -704,7 +704,7 @@
     "excerpt": "Learn how to write compelling meta descriptions that boost your CTR in Google search results. Includes examples, tips, and character limits explained.",
     "date": "2026-05-01",
     "readMinutes": 6,
-    "featureImage": "/blog/meta_description_hero.png",
+    "featureImage": "/blog/md-pixel.png",
     "content": [
       {
         "type": "p",
@@ -725,7 +725,7 @@
     ],
     "status": "published",
     "author": "ToTheWebPro Team",
-    "category": "SEO & CTR",
+    "category": "Text Blogs",
     "tags": [
       "SEO",
       "Web Optimization",
@@ -742,7 +742,7 @@
     "excerpt": "Understand Core Web Vitals and how they affect your content rankings. A simple guide for non technical content teams to improve page experience scores.",
     "date": "2026-05-02",
     "readMinutes": 7,
-    "featureImage": "/blog/core_web_vitals_hero.png",
+    "featureImage": "/blog/md-ai.png",
     "content": [
       {
         "type": "p",
@@ -763,7 +763,7 @@
     ],
     "status": "published",
     "author": "Izhar Ul Haq",
-    "category": "Web Performance",
+    "category": "Dev Blogs",
     "tags": [
       "SEO",
       "Web Optimization",
@@ -773,5 +773,50 @@
     "metaDescription": "Understand Core Web Vitals and how they affect your content rankings. A simple guide for non technical content teams to improve page experience scores.",
     "focusKeyword": "Core Web Vitals for Content Teams | What You Need to Know",
     "updatedAt": "2026-05-02"
+  },
+  {
+    "slug": "image-optimization-guide-seo-web-vitals",
+    "title": "Image Optimization for Modern Web: Next-Gen Formats & SEO (2026)",
+    "excerpt": "Discover how proper image compression, WebP/AVIF formats, and responsive dimensions boost page speed and pass Core Web Vitals.",
+    "date": "2026-07-15",
+    "status": "published",
+    "readMinutes": 6,
+    "featureImage": "/blog/3blog-3.webp",
+    "author": "ToTheWebPro Team",
+    "category": "Images Blogs",
+    "tags": [
+      "Images",
+      "WebP",
+      "Performance",
+      "Core Web Vitals"
+    ],
+    "metaTitle": "Image Optimization for Modern Web: Next-Gen Formats & SEO (2026)",
+    "metaDescription": "Discover how proper image compression, WebP/AVIF formats, and responsive dimensions boost page speed and pass Core Web Vitals.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "Why Image Optimization Is Crucial for 2026 SEO",
+        "id": "why-image-optimization-is-crucial"
+      },
+      {
+        "type": "p",
+        "text": "Images typically account for more than 60% of a web page total payload. Unoptimized, heavy images directly degrade Largest Contentful Paint (LCP) and increase bounce rates on mobile networks."
+      },
+      {
+        "type": "img",
+        "url": "/blog/3blog-3.webp",
+        "alt": "Image Optimization for Web",
+        "caption": "Next-generation formats drastically decrease file sizes without sacrificing fidelity."
+      },
+      {
+        "type": "h2",
+        "text": "Best Next-Gen Formats: WebP vs AVIF vs PNG",
+        "id": "best-next-gen-formats"
+      },
+      {
+        "type": "p",
+        "text": "Modern browsers overwhelmingly support WebP and AVIF. Converting standard PNG and JPEG assets to WebP often reduces file size by 30% to 70% with zero noticeable loss in visual clarity."
+      }
+    ]
   }
 ]

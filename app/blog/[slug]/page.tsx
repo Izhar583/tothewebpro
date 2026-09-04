@@ -75,7 +75,7 @@ function RenderBlock({ block }: { block: BlogContentBlock }) {
       return (
         <h2
           id={block.id}
-          className="text-2xl md:text-3xl font-bold text-slate-900 mt-12 mb-6 scroll-mt-24"
+          className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 mt-8 sm:mt-12 mb-4 sm:mb-6 scroll-mt-24 break-words leading-tight"
         >
           {block.text}
         </h2>
@@ -84,21 +84,33 @@ function RenderBlock({ block }: { block: BlogContentBlock }) {
       return (
         <h3
           id={block.id}
-          className="text-xl md:text-2xl font-bold text-slate-900 mt-8 mb-4 scroll-mt-24"
+          className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 mt-6 sm:mt-8 mb-3 sm:mb-4 scroll-mt-24 break-words leading-snug"
         >
           {block.text}
         </h3>
       );
-    case "p":
+    case "p": {
+      const isBlockHtml =
+        block.text.trim().startsWith("<table") ||
+        block.text.trim().startsWith("<div");
+      if (isBlockHtml) {
+        return (
+          <div
+            className="my-6 overflow-x-auto max-w-full w-full"
+            dangerouslySetInnerHTML={{ __html: block.text }}
+          />
+        );
+      }
       return (
         <p
-          className="mb-6 text-lg leading-relaxed text-slate-700"
+          className="mb-5 sm:mb-6 text-base sm:text-lg leading-relaxed text-slate-700 break-words"
           dangerouslySetInnerHTML={{ __html: block.text }}
         />
       );
+    }
     case "ul":
       return (
-        <ul className="list-disc pl-6 mb-6 space-y-2 text-lg text-slate-700">
+        <ul className="list-disc pl-5 sm:pl-6 mb-6 space-y-2 text-base sm:text-lg text-slate-700 break-words">
           {block.items.map((item, i) => (
             <li key={i}>{item}</li>
           ))}
@@ -106,16 +118,17 @@ function RenderBlock({ block }: { block: BlogContentBlock }) {
       );
     case "img":
       return (
-        <figure className="my-10 relative w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+        <figure className="my-8 sm:my-10 relative w-full rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
           <Image
             src={block.url}
             alt={block.alt}
             width={800}
             height={450}
             className="w-full h-auto object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 860px"
           />
           {block.caption && (
-            <figcaption className="bg-slate-50 text-slate-500 text-sm p-3 text-center border-t border-slate-200">
+            <figcaption className="bg-slate-50 text-slate-500 text-xs sm:text-sm p-2.5 sm:p-3 text-center border-t border-slate-200">
               {block.caption}
             </figcaption>
           )}
@@ -188,8 +201,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="bg-white min-h-screen w-full pb-20">
-      <div className="relative bg-[#0b1b36] overflow-hidden pt-20 pb-24 px-4 text-center text-white border-b border-[#1a2d50]">
+    <div className="bg-white min-h-screen w-full pb-16 sm:pb-20">
+      {/* Hero Header */}
+      <div className="relative bg-[#0b1b36] overflow-hidden pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 text-center text-white border-b border-[#1a2d50]">
         <div className="absolute inset-0 z-0">
           {post.featureImage && (
             <Image
@@ -202,46 +216,105 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
           <div className="absolute inset-0 bg-[#0b1b36] opacity-90"></div>
         </div>
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="mb-8 flex justify-center text-xs sm:text-sm font-semibold tracking-wider text-slate-300 uppercase gap-3">
-            <Link href="/" className="hover:text-white transition-colors">
+        <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-6 sm:mb-8 flex flex-wrap items-center justify-center text-xs sm:text-sm font-semibold tracking-wider text-slate-300 uppercase gap-2 sm:gap-2.5"
+          >
+            <Link href="/" className="hover:text-orange-400 transition-colors">
               Home
             </Link>
-            <span className="text-slate-500">&gt;</span>
-            <Link href="/blog" className="hover:text-white transition-colors">
+            <span className="text-slate-500" aria-hidden="true">&gt;</span>
+            <Link href="/blog" className="hover:text-orange-400 transition-colors">
               Blog
             </Link>
-            <span className="text-slate-500">&gt;</span>
-            <span className="text-white truncate max-w-[200px] sm:max-w-xs">
+            <span className="text-slate-500" aria-hidden="true">&gt;</span>
+            <span className="text-slate-200 truncate max-w-[150px] sm:max-w-xs md:max-w-md">
               {post.title}
             </span>
-          </div>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+          </nav>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 sm:mb-8 break-words max-w-4xl mx-auto">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300 font-medium text-sm md:text-base">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-slate-300 font-medium text-xs sm:text-sm md:text-base">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="text-slate-400">BY</span>
               <span className="text-white font-bold tracking-wide uppercase">
                 {post.author || "Izhar Ul Haq"}
               </span>
             </div>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-500" aria-hidden="true">•</span>
             <span>{post.date}</span>
-            <span className="text-slate-500">•</span>
+            <span className="text-slate-500" aria-hidden="true">•</span>
             <span>{post.readMinutes || 5} min read</span>
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 flex flex-col lg:flex-row gap-12 items-start">
-        <article className="flex-1 w-full min-w-0 lg:max-w-[820px] xl:max-w-[860px]">
+
+      {/* Main Content Layout with Responsive TOC */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col lg:flex-row gap-8 lg:gap-12 items-start w-full min-w-0">
+        <article className="blog-prose flex-1 w-full min-w-0 lg:max-w-[800px] xl:max-w-[860px]">
+          {/* Mobile Collapsible Table of Contents */}
+          {toc.length > 0 && (
+            <details className="lg:hidden mb-8 border border-orange-200/70 rounded-2xl bg-orange-50/40 overflow-hidden shadow-sm group">
+              <summary className="px-4 py-3.5 flex items-center justify-between cursor-pointer font-bold text-slate-900 text-sm list-none select-none hover:bg-orange-50/80 transition-colors">
+                <span className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4 text-orange-600 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h7"
+                    />
+                  </svg>
+                  <span>Table of Contents ({toc.length} sections)</span>
+                </span>
+                <span className="text-xs font-semibold text-orange-600 group-open:hidden">
+                  Show ↓
+                </span>
+                <span className="text-xs font-semibold text-orange-600 hidden group-open:inline">
+                  Hide ↑
+                </span>
+              </summary>
+              <nav className="px-4 pb-4 pt-2 border-t border-orange-100 bg-white/95 space-y-1.5 max-h-[50vh] overflow-y-auto">
+                {toc.map((heading, i) => (
+                  <Link
+                    key={i}
+                    href={`#${heading.id}`}
+                    className={`block text-xs sm:text-sm py-1 transition-colors ${
+                      heading.type === "h3"
+                        ? "pl-4 text-slate-600 hover:text-orange-600"
+                        : "font-semibold text-slate-800 hover:text-orange-600"
+                    }`}
+                  >
+                    {heading.type === "h2" ? (
+                      <span className="flex gap-2 items-start">
+                        <span className="text-orange-600 font-bold">
+                          {i + 1}.
+                        </span>
+                        <span className="break-words">{heading.text}</span>
+                      </span>
+                    ) : (
+                      <span className="break-words">{heading.text}</span>
+                    )}
+                  </Link>
+                ))}
+              </nav>
+            </details>
+          )}
+
           {processedHtml ? (
             <div
-              className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-h2:text-2xl md:prose-h2:3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-lg prose-p:leading-relaxed prose-p:text-slate-700 prose-p:mb-6 prose-a:text-blue-600 prose-a:font-semibold prose-a:underline hover:prose-a:text-blue-800 prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 prose-img:shadow-sm prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-lg prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-slate-200 prose-th:bg-slate-50 prose-th:p-3 prose-td:border prose-td:border-slate-200 prose-td:p-3"
+              className="blog-prose max-w-none"
               dangerouslySetInnerHTML={{ __html: processedHtml }}
             />
           ) : post.content && post.content.length > 0 ? (
-            <div className="prose prose-slate max-w-none">
+            <div className="blog-prose max-w-none">
               {post.content.map((block, index) => (
                 <RenderBlock key={index} block={block} />
               ))}
@@ -254,29 +327,48 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <FaqAccordion items={post.faqs} />
           )}
         </article>
-        <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-24 space-y-8">
-          <div className="bg-slate-50 rounded-2xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-100">
-            <h4 className="text-lg font-bold text-slate-900 mb-4 pb-3 border-b border-slate-200">
-              Contents
-            </h4>
-            <nav className="space-y-3">
+
+        {/* Desktop Sticky Table of Contents */}
+        <aside className="hidden lg:block w-[300px] xl:w-[320px] shrink-0 sticky top-24 space-y-6">
+          <div className="bg-slate-50/90 rounded-2xl p-6 shadow-sm border border-slate-200/80 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-200">
+              <svg
+                className="w-4 h-4 text-orange-600 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+              <h4 className="text-base font-bold text-slate-900 tracking-wide uppercase">
+                Table of Contents
+              </h4>
+            </div>
+            <nav className="space-y-2.5 max-h-[calc(100vh-180px)] overflow-y-auto pr-1">
               {toc.map((heading, i) => (
                 <Link
                   key={i}
                   href={`#${heading.id}`}
-                  className={`block text-sm transition-colors ${
+                  className={`block text-sm transition-colors py-0.5 ${
                     heading.type === "h3"
-                      ? "pl-4 text-slate-500 hover:text-blue-600"
-                      : "font-bold text-slate-700 hover:text-blue-600"
+                      ? "pl-4 text-slate-500 hover:text-orange-600"
+                      : "font-semibold text-slate-700 hover:text-orange-600"
                   }`}
                 >
                   {heading.type === "h2" ? (
                     <span className="flex gap-2 items-start">
-                      <span className="text-blue-600 font-bold">{i + 1}.</span>
-                      <span>{heading.text}</span>
+                      <span className="text-orange-600 font-bold">
+                        {i + 1}.
+                      </span>
+                      <span className="break-words">{heading.text}</span>
                     </span>
                   ) : (
-                    heading.text
+                    <span className="break-words">{heading.text}</span>
                   )}
                 </Link>
               ))}
@@ -289,45 +381,55 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </aside>
       </div>
+
+      {/* Keep Reading Section */}
       {otherPosts.length > 0 && (
-        <div className="bg-slate-50 py-16 mt-12 border-t border-slate-200">
-          <div className="mx-auto max-w-7xl px-4">
-            <div className="flex items-center justify-between mb-10">
-              <h3 className="text-3xl font-bold text-slate-900">Keep Reading</h3>
+        <div className="bg-slate-50 py-10 sm:py-16 mt-8 sm:mt-12 border-t border-slate-200">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-10">
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                Keep Reading
+              </h3>
               <Link
                 href="/blog"
-                className="text-blue-600 font-bold hover:text-blue-700 hidden sm:block"
+                className="text-orange-600 font-bold hover:text-orange-700 hidden sm:inline-flex items-center gap-1 transition-colors"
               >
-                View all →
+                View all articles →
               </Link>
             </div>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               {otherPosts.map((other) => (
                 <article
                   key={other.slug}
-                  className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col"
+                  className="relative rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col min-w-0"
                 >
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 sm:mb-3">
                     {other.date} &nbsp;&bull;&nbsp; {other.readMinutes} min read
                   </p>
-                  <h4 className="text-2xl font-bold text-slate-900 leading-tight mb-4">
+                  <h4 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-3 break-words">
                     <Link
-                      className="group-hover:text-blue-600 transition-colors before:absolute before:inset-0"
+                      className="group-hover:text-orange-600 transition-colors before:absolute before:inset-0"
                       href={`/blog/${other.slug}`}
                     >
                       {other.title}
                     </Link>
                   </h4>
-                  <p className="text-slate-600 leading-relaxed flex-grow">
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed flex-grow line-clamp-3 mb-4 break-words">
                     {other.excerpt}
                   </p>
+                  <div className="mt-auto pt-3 border-t border-slate-100 text-xs sm:text-sm font-bold text-orange-600 group-hover:text-orange-700 flex items-center justify-between">
+                    <span>Read article</span>
+                    <span className="transition-transform group-hover:translate-x-1">
+                      →
+                    </span>
+                  </div>
                 </article>
               ))}
             </div>
             <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/blog"
-                className="text-blue-600 font-bold hover:text-blue-700"
+                className="inline-flex items-center gap-1 text-orange-600 font-bold hover:text-orange-700 text-sm"
               >
                 View all articles →
               </Link>

@@ -40,10 +40,12 @@ async function ensureDataFile(): Promise<BlogPost[]> {
     author: index % 2 === 0 ? "Izhar Ul Haq" : "ToTheWebPro Team",
     category:
       p.slug.includes("vitals")
-        ? "Web Performance"
+        ? "Dev Blogs"
+        : p.slug.includes("image")
+        ? "Images Blogs"
         : p.slug.includes("description")
-        ? "SEO & CTR"
-        : "SEO Guides",
+        ? "Text Blogs"
+        : "SEO Blogs",
     tags: ["SEO", "Web Optimization", "Digital Marketing"],
     metaTitle: p.title,
     metaDescription: p.excerpt,
@@ -95,13 +97,105 @@ export async function getPostBySlug(
 }
 
 /**
- * Saves all posts array to data/posts.json
+ * Saves all posts array to data/posts.json and synchronizes sitemap
  */
 async function persistPosts(posts: BlogPost[]): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(POSTS_FILE, JSON.stringify(posts, null, 2), "utf-8");
   memoryCache = posts;
   lastReadTime = Date.now();
+  await syncSitemapXml(posts);
+}
+
+/**
+ * Synchronizes public/sitemap.xml with all static pages, tools, and blog posts
+ */
+export async function syncSitemapXml(posts?: BlogPost[]): Promise<void> {
+  try {
+    const allPosts = posts || (await getAllPosts(false));
+    const publishedPosts = allPosts.filter(
+      (p) => p.status === "published" || !p.status
+    );
+    const now = new Date().toISOString();
+
+    const staticUrls = [
+      { loc: "https://tothewebpro.com", changefreq: "daily", priority: "1.0", lastmod: now },
+      { loc: "https://tothewebpro.com/blog", changefreq: "daily", priority: "0.9", lastmod: now },
+      { loc: "https://tothewebpro.com/seo-tools", changefreq: "weekly", priority: "0.9", lastmod: now },
+      { loc: "https://tothewebpro.com/text-tools", changefreq: "weekly", priority: "0.9", lastmod: now },
+      { loc: "https://tothewebpro.com/image-tools", changefreq: "weekly", priority: "0.9", lastmod: now },
+      { loc: "https://tothewebpro.com/developer-tools", changefreq: "weekly", priority: "0.9", lastmod: now },
+    ];
+
+    const tools = [
+      "meta-title-description-checker",
+      "word-counter",
+      "case-converter",
+      "image-compressor",
+      "image-resizer",
+      "image-converter",
+      "character-counter",
+      "password-generator",
+      "text-to-html",
+      "background-remover",
+      "website-seo-speed-checker",
+      "heading-tag-analyzer",
+      "schema-markup-validator",
+      "schema-markup-generator",
+      "pagespeed-performance-audit",
+      "image-alt-text-checker",
+    ];
+
+    const toolUrls = tools.map((slug) => ({
+      loc: `https://tothewebpro.com/tools/${slug}`,
+      changefreq: "weekly",
+      priority: "0.8",
+      lastmod: now,
+    }));
+
+    const blogUrls = publishedPosts.map((post) => {
+      let lastmod = now;
+      if (post.updatedAt) {
+        try {
+          lastmod = new Date(post.updatedAt).toISOString();
+        } catch {
+          lastmod = now;
+        }
+      } else if (post.date) {
+        try {
+          lastmod = new Date(post.date).toISOString();
+        } catch {
+          lastmod = now;
+        }
+      }
+      return {
+        loc: `https://tothewebpro.com/blog/${post.slug}`,
+        changefreq: "weekly",
+        priority: "0.8",
+        lastmod,
+      };
+    });
+
+    const otherUrls = [
+      { loc: "https://tothewebpro.com/about", changefreq: "monthly", priority: "0.5", lastmod: now },
+      { loc: "https://tothewebpro.com/contact", changefreq: "monthly", priority: "0.5", lastmod: now },
+      { loc: "https://tothewebpro.com/privacy-policy", changefreq: "monthly", priority: "0.3", lastmod: now },
+      { loc: "https://tothewebpro.com/terms", changefreq: "monthly", priority: "0.3", lastmod: now },
+    ];
+
+    const allUrls = [...staticUrls, ...toolUrls, ...blogUrls, ...otherUrls];
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+    for (const u of allUrls) {
+      xml += `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>\n`;
+    }
+    xml += `</urlset>\n`;
+
+    const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+    await fs.writeFile(sitemapPath, xml, "utf-8");
+  } catch (err) {
+    console.error("Failed to sync sitemap.xml:", err);
+  }
 }
 
 /**

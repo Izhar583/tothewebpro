@@ -427,7 +427,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Learn how to write compelling meta descriptions that boost your CTR in Google search results. Includes examples, tips, and character limits explained.",
     date: "2026-05-01",
     readMinutes: 6,
-    featureImage: "/blog/meta_description_hero.png",
+    featureImage: "/blog/md-pixel.png",
     content: [
       { type: "p", text: "Meta descriptions do not directly dictate rankings, but they shape whether searchers choose your result. In competitive English-speaking markets, a crisp promise, proof point, and aligned keyword phrase can lift click-through rate while reducing bounces caused by mismatched expectations." },
       { type: "p", text: "Start from the query intent behind your page. Informational pages should foreground the answer shape—steps, checklist, or definition—while commercial pages can highlight differentiators such as pricing transparency, guarantees, or speed of delivery. Mirror the language users type, but avoid repeating the title verbatim." },
@@ -442,7 +442,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Understand Core Web Vitals and how they affect your content rankings. A simple guide for non technical content teams to improve page experience scores.",
     date: "2026-05-02",
     readMinutes: 7,
-    featureImage: "/blog/core_web_vitals_hero.png",
+    featureImage: "/blog/md-ai.png",
     content: [
       { type: "p", text: "Core Web Vitals remain a practical quality bar for user experience and SEO. Largest Contentful Paint often traces back to hero media, so content teams should supply appropriately sized masters and avoid multi-megabyte PNGs for photographic heroes." },
       { type: "p", text: "Interaction to Next Paint reflects how quickly the page responds to taps and clicks. Third-party embeds—chat widgets, survey tools, and heavy ad containers—can starve the main thread. Sequence non-critical scripts and prefer lightweight embeds when demos require interactivity." },

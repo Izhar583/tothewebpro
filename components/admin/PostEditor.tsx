@@ -86,13 +86,10 @@ function extractHeadingsFromHtml(html: string): { type: "h2" | "h3"; text: strin
 }
 
 const DEFAULT_CATEGORIES = [
-  "SEO Guides",
-  "SEO & CTR",
-  "Web Performance",
-  "Content Strategy",
-  "Developer Tools",
-  "Image Optimization",
-  "Digital Marketing",
+  "SEO Blogs",
+  "Text Blogs",
+  "Images Blogs",
+  "Dev Blogs",
 ];
 
 export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
@@ -110,17 +107,17 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
   );
   const [author, setAuthor] = useState(initialPost?.author || "Izhar Ul Haq");
   const [category, setCategory] = useState(
-    initialPost?.category || "SEO Guides"
+    initialPost?.category || "SEO Blogs"
   );
   const [tags, setTags] = useState<string[]>(
-    initialPost?.tags || ["SEO", "Web Tools"]
+    initialPost?.tags || []
   );
   const [tagInput, setTagInput] = useState("");
   const [featureImage, setFeatureImage] = useState(
-    initialPost?.featureImage || "/blog/3blog-1.webp"
+    initialPost?.featureImage || ""
   );
   const [readMinutes, setReadMinutes] = useState(
-    initialPost?.readMinutes || 5
+    initialPost?.readMinutes || 3
   );
 
   const [metaTitle, setMetaTitle] = useState(
@@ -139,7 +136,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
     if (initialPost?.content && initialPost.content.length > 0) {
       return blocksToHtml(initialPost.content);
     }
-    return `<h2>Introduction</h2><p>Write or paste your article content here. Headings, bold text, links, and lists will automatically format...</p>`;
+    return "";
   });
 
   const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>(() => {
@@ -152,12 +149,7 @@ export function PostEditor({ initialPost, isNew = false }: PostEditorProps) {
         return faqBlock.items;
       }
     }
-    return [
-      {
-        question: "What is this guide about?",
-        answer: "This is an actionable FAQ answer explaining the core takeaway.",
-      },
-    ];
+    return [];
   });
 
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
